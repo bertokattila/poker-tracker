@@ -29,4 +29,5 @@ The application creates other useful numerical and visual statistics derived fro
 | 17  | Poker player | be able to register and log in                                                        | be sure no one else is able to access and modify my data            |
 | 18  | Poker player | add other poker players to my friend list                                             | get notifications about their sessions and see their results        |
 | 19  | Poker player | decide which of my sessions are private or public                                     | control what other players know about my performance                |
-| 20  | Poker player | be able to use different currencies (HUF, EUR, USD, etc.)                             | so I can add games played in different countries                    |
+| 20  | Poker player | be able to use different currencies (HUF, EUR, USD, etc.)                             | add games played in different countries                             |
+| 21  | Poker player | have bar charts about my sessions in weekly, monthly and yearly intervals             | can review my performance in different intervals                    |
