@@ -137,19 +137,19 @@ Most of the endpoints only respond if a valid access token is attached.
 
 ### Statisitcs service
 
-| Path                                              | Type | Request                                                            | Response                | Description                                                                   |
-| ------------------------------------------------- | ---- | ------------------------------------------------------------------ | ----------------------- | ----------------------------------------------------------------------------- |
-| `/statistics/update/{userId}`                     | POST | user id                                                            |                         | Refreshes its statistics data about the given user                            |
-| `/statistics/general/{userId}/{interval}`/        | GET  | user id, interval (month, year, all)                               | statistics data         | Gives general statistics data about the given user for the specified interval |
-| `/statistics/history/{userId}/{interval}/{type}`/ | GET  | user id, interval (month, year, all), type (cash, tournament, all) | list of statistics data | Gives statistics history data                                                 |
+| Path                                              | Type | Request                                                            | Response                | Description                                                                |
+| ------------------------------------------------- | ---- | ------------------------------------------------------------------ | ----------------------- | -------------------------------------------------------------------------- |
+| `/statistics/update/{userId}`                     | POST | user id                                                            |                         | Updates the given user's stats                                             |
+| `/statistics/general/{userId}/{interval}`/        | GET  | user id, interval (month, year, all)                               | statistics data         | Returns general statistics about the given user for the specified interval |
+| `/statistics/history/{userId}/{interval}/{type}`/ | GET  | user id, interval (month, year, all), type (cash, tournament, all) | list of statistics data | Returns statistics history data                                            |
 
 ### User service
 
-| Path                          | Type | Request                                       | Response             |
-| ----------------------------- | ---- | --------------------------------------------- | -------------------- |
-| `/registration`               | POST | email, password                               |                      |
-| `/login`                      | POST | email, password                               | access token         |
-| `/logout`                     | POST |                                               |                      |
-| `/addFriend/{userId}`         | POST | userId                                        |                      |
-| `/getNotifiations/{userId}`   | GET  | userId, filter data (last x)                  | list of notifiations |
-| `/addNotifiation/{sessionId}` | GET  | reating notifiations about a session activity |                      |
+| Path                          | Type | Request                                        | Response             |
+| ----------------------------- | ---- | ---------------------------------------------- | -------------------- |
+| `/registration`               | POST | email, password, name, default currency        |                      |
+| `/login`                      | POST | email, password                                | access token         |
+| `/logout`                     | POST |                                                |                      |
+| `/addFriend/{userId}`         | POST | userId                                         |                      |
+| `/getNotifiations/{userId}`   | GET  | userId, filter data (last x)                   | list of notifiations |
+| `/addNotifiation/{sessionId}` | POST | creating notifiations about a session activity |                      |
