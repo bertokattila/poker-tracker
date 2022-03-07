@@ -32,6 +32,11 @@ The application creates other useful numerical and visual statistics derived fro
 | 20  | Poker player | be able to use different currencies (HUF, EUR, USD, etc.)                             | add games played in different countries                             |
 | 21  | Poker player | have bar charts about my sessions in weekly, monthly and yearly intervals             | can review my performance in different intervals                    |
 
+## Architecture plan
+![arch drawio-3](https://user-images.githubusercontent.com/22593928/157098965-c7000ce8-68b6-4f92-8d37-5b5712524471.svg)
+
+
+
 ## Data model
 
 ### Session service
@@ -140,8 +145,8 @@ Most of the endpoints only respond if a valid access token is attached.
 | Path                                              | Type | Request                                                            | Response                | Description                                                                   |
 | ------------------------------------------------- | ---- | ------------------------------------------------------------------ | ----------------------- | ----------------------------------------------------------------------------- |
 | `/statistics/update/{userId}`                     | POST | user id                                                            |                         | Refreshes its statistics data about the given user                            |
-| `/statistics/general/{userId}/{interval}`/        | GET  | user id, interval (month, year, all)                               | statistics data         | Gives general statistics data about the given user for the specified interval |
-| `/statistics/history/{userId}/{interval}/{type}`/ | GET  | user id, interval (month, year, all), type (cash, tournament, all) | list of statistics data | Gives statistics history data                                                 |
+| `/statistics/general/{userId}/{interval}`        | GET  | user id, interval (month, year, all)                               | statistics data         | Gives general statistics data about the given user for the specified interval |
+| `/statistics/history/{userId}/{interval}/{type}` | GET  | user id, interval (month, year, all), type (cash, tournament, all) | list of statistics data | Gives statistics history data                                                 |
 
 ### User service
 
