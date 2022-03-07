@@ -144,8 +144,8 @@ Most of the endpoints only respond if a valid access token is attached.
 | Path                                              | Type | Request                                                            | Response                | Description                                                                |
 | ------------------------------------------------- | ---- | ------------------------------------------------------------------ | ----------------------- | -------------------------------------------------------------------------- |
 | `/statistics/update/{userId}`                     | POST | user id                                                            |                         | Updates the given user's stats                                             |
-| `/statistics/general/{userId}/{interval}`/        | GET  | user id, interval (month, year, all)                               | statistics data         | Returns general statistics about the given user for the specified interval |
-| `/statistics/history/{userId}/{interval}/{type}`/ | GET  | user id, interval (month, year, all), type (cash, tournament, all) | list of statistics data | Returns statistics history data                                            |
+| `/statistics/general/{userId}/{interval}`     | GET  | user id, interval (month, year, all)                               | statistics data         | Returns general statistics about the given user for the specified interval |
+| `/statistics/history/{userId}/{interval}/{type}` | GET  | user id, interval (month, year, all), type (cash, tournament, all) | list of statistics data | Returns statistics history data                                            |
 
 ### User service
 
