@@ -156,4 +156,4 @@ Most of the endpoints only respond if a valid access token is attached.
 | `/logout`                     | POST |                                                |                      |
 | `/addFriend/{userId}`         | POST | userId                                         |                      |
 | `/getNotifiations/{userId}`   | GET  | userId, filter data (last x)                   | list of notifiations |
-| `/addNotifiation/{sessionId}` | POST | creating notifiations about a session activity |                      |
+| `/addNotifiation/{sessionId}` | POST | creating notifications about a session activity |                      |
