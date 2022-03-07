@@ -32,6 +32,10 @@ The application creates other useful numerical and visual statistics derived fro
 | 20  | Poker player | be able to use different currencies (HUF, EUR, USD, etc.)                             | add games played in different countries                             |
 | 21  | Poker player | have bar charts about my sessions in weekly, monthly and yearly intervals             | can review my performance in different intervals                    |
 
+## Architecture plan
+
+![arch drawio-3](https://user-images.githubusercontent.com/22593928/157098965-c7000ce8-68b6-4f92-8d37-5b5712524471.svg)
+
 ## Data model
 
 ### Session service
