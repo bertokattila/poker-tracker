@@ -131,13 +131,13 @@ Most of the endpoints only respond if a valid access token is attached.
 
 | Path                     | Type   | Request                | Response      | Description                        |
 | ------------------------ | ------ | ---------------------- | ------------- | ---------------------------------- |
-| `/session/`              | POST   | session data           |               | Adding new session resource        |
+| `/session`              | POST   | session data           |               | Adding new session resource        |
 | `/session/user/{userId}` | GET    | user ID, filter params | session data  | Getting list of user's sessions    |
 | `/session/{sessionId}`   | GET    | session ID             | session data  | Getting session resource by its id |
 | `/session/{sessionId}`   | PUT    | session data           |               | Modifying session                  |
 | `/session/{sessionId}`   | DELETE | session ID             |               | Deleting session by its id         |
-| `/location/`             | POST   | location data          |               | Adding new location resource       |
-| `/location/`             | GET    | filter data            | location data | Getting list of locations          |
+| `/location`             | POST   | location data          |               | Adding new location resource       |
+| `/location`             | GET    | filter data            | location data | Getting list of locations          |
 
 ### Statisitcs service
 
