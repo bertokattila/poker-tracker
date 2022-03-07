@@ -118,8 +118,8 @@ The application creates other useful numerical and visual statistics derived fro
 ## API endpoints
 
 If response column is empty, only http status code is expected.
-Filter data payload generally contains limit, offset and other resource specific fields.
-Most of the endpoints only respond if a valid access token is attached.
+`Filter data` payload generally contains limit, offset and other resource specific fields.
+Most of the endpoints only respond to requests with a valid access token attached.
 
 ### Nginx static
 
