@@ -31,3 +31,125 @@ The application creates other useful numerical and visual statistics derived fro
 | 19  | Poker player | decide which of my sessions are private or public                                     | control what other players know about my performance                |
 | 20  | Poker player | be able to use different currencies (HUF, EUR, USD, etc.)                             | add games played in different countries                             |
 | 21  | Poker player | have bar charts about my sessions in weekly, monthly and yearly intervals             | can review my performance in different intervals                    |
+
+## Data model
+
+### Session service
+
+#### Session table
+
+| Column name | Type        | Description                                          | Nullable |
+| ----------- | ----------- | ---------------------------------------------------- | -------- |
+| ID          | Number      | Session ID, Primary Key, Auto Inc.                   | False    |
+| UserID      | Number      | Foreign Key: User Service / User table / ID          | False    |
+| Type        | Varchar     | Session type enum stored as Varchar                  | False    |
+| Currency    | Varchar (3) | Currency acronym like (HUF, EUR, etc.)               | False    |
+| BuyIn       | Number      | Amount of money used to buy in                       | False    |
+| CashOut     | Number      | Amount of money cashed out at the end of the session | False    |
+| Date        | Date        | Date of the session                                  | False    |
+| Comment     | Text        | Comment provided at the time of the administration   | True     |
+| LocationId  | Number      | Foreign Key: Session Service / Location table / ID   | True     |
+
+#### Location table
+
+| Column name | Type    | Description                                           | Nullable |
+| ----------- | ------- | ----------------------------------------------------- | -------- |
+| ID          | Number  | Location ID, Primary Key, Auto Inc.                   | False    |
+| Name        | Varchar | Location name, can be anything (e.g. Duna Poker Club) | False    |
+
+### Statisitcs service
+
+#### Generic_Statistics table
+
+| Column name         | Type   | Description                                | Nullable |
+| ------------------- | ------ | ------------------------------------------ | -------- |
+| UserID              | Number | User ID, Primary Key, Auto Inc.            | False    |
+| LastMonthResult     | Number | Profit/loss result in the last 30 days     | False    |
+| LastYearResult      | Number | Profit/loss result in the last 365 days    | False    |
+| AllTimeResult       | Number | Profit/loss result all time                | False    |
+| LastMonthPlayedTime | Number | Minutes spent playing in the last 30 days  | False    |
+| LastYearPlayedTime  | Number | Minutes spent playing in the last 365 days | False    |
+| AllTimePlayedTime   | Number | Minutes spent playing all time             | False    |
+
+#### Statistics_History table
+
+| Column name | Type    | Description                            | Nullable |
+| ----------- | ------- | -------------------------------------- | -------- |
+| ID          | Number  | Record ID, Primary Key, Auto Inc.      | False    |
+| UserID      | Number  | User ID, Foregin Key                   | False    |
+| Date        | Date    | Date of the session                    | False    |
+| Result      | Number  | Session type enum stored as Varchar    | False    |
+| PlayedTime  | Number  | Currency acronym like (HUF, EUR, etc.) | False    |
+| Type        | Varchar | Cash game or tournament                | False    |
+
+### User service
+
+#### User table
+
+| Column name     | Type             | Description                                                   | Nullable |
+| --------------- | ---------------- | ------------------------------------------------------------- | -------- |
+| ID              | Number           | User ID, Primary Key, Auto Inc.                               | False    |
+| Name            | Varchar          | Name of the player                                            | False    |
+| Email           | Varchar          | E-mail address of the player, used at login                   | False    |
+| Password        | Varchar (Hashed) | Hashed password, used at authentication                       | False    |
+| DefaultCurrency | Varchar (3)      | Default currency for the user (must be given at registration) | False    |
+
+#### Social table
+
+| Column name  | Type       | Description                                                              | Nullable |
+| ------------ | ---------- | ------------------------------------------------------------------------ | -------- |
+| UserIDMaster | Number     | User ID of the player who initiated the social connection, Foreign key   | False    |
+| UserIDSlave  | Number     | User ID of the player who did not initiate the connection, Foreign key   | False    |
+| Active       | Number (1) | Boolean value, true if slave accepted the request                        | False    |
+| Type         | Varchar    | Friend (Later can be used for other types of social connections as well) | False    |
+
+#### Notifications table
+
+| Column name | Type       | Description                                                                                    | Nullable |
+| ----------- | ---------- | ---------------------------------------------------------------------------------------------- | -------- |
+| UserID      | Number     | User ID of the player who is the receiver of the notification                                  | False    |
+| SessionId   | Number     | ID of the session this notification is about, Foreign key Session Service / Session table / ID | False    |
+| Seen        | Number (1) | False initially, true if seen                                                                  | False    |
+
+## API endpoints
+
+If response column is empty, only http status code is expected.
+Filter data payload generally contains limit, offset and other resource specific fields.
+Most of the endpoints only respond if a valid access token is attached.
+
+### Nginx static
+
+| Path | Type | Description         |
+| ---- | ---- | ------------------- |
+| `/`  | GET  | Serving Angular SPA |
+
+### Session service
+
+| Path                     | Type   | Request                | Response      | Description                        |
+| ------------------------ | ------ | ---------------------- | ------------- | ---------------------------------- |
+| `/session/`              | POST   | session data           |               | Adding new session resource        |
+| `/session/user/{userId}` | GET    | user ID, filter params | session data  | Getting list of user's sessions    |
+| `/session/{sessionId}`   | GET    | session ID             | session data  | Getting session resource by its id |
+| `/session/{sessionId}`   | PUT    | session data           |               | Modifying session                  |
+| `/session/{sessionId}`   | DELETE | session ID             |               | Deleting session by its id         |
+| `/location/`             | POST   | location data          |               | Adding new location resource       |
+| `/location/`             | GET    | filter data            | location data | Getting list of locations          |
+
+### Statisitcs service
+
+| Path                                              | Type | Request                                                            | Response                | Description                                                                   |
+| ------------------------------------------------- | ---- | ------------------------------------------------------------------ | ----------------------- | ----------------------------------------------------------------------------- |
+| `/statistics/update/{userId}`                     | POST | user id                                                            |                         | Refreshes its statistics data about the given user                            |
+| `/statistics/general/{userId}/{interval}`/        | GET  | user id, interval (month, year, all)                               | statistics data         | Gives general statistics data about the given user for the specified interval |
+| `/statistics/history/{userId}/{interval}/{type}`/ | GET  | user id, interval (month, year, all), type (cash, tournament, all) | list of statistics data | Gives statistics history data                                                 |
+
+### User service
+
+| Path                          | Type | Request                                       | Response             |
+| ----------------------------- | ---- | --------------------------------------------- | -------------------- |
+| `/registration`               | POST | email, password                               |                      |
+| `/login`                      | POST | email, password                               | access token         |
+| `/logout`                     | POST |                                               |                      |
+| `/addFriend/{userId}`         | POST | userId                                        |                      |
+| `/getNotifiations/{userId}`   | GET  | userId, filter data (last x)                  | list of notifiations |
+| `/addNotifiation/{sessionId}` | GET  | reating notifiations about a session activity |                      |
