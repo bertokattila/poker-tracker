@@ -67,7 +67,8 @@ The application creates other useful numerical and visual statistics derived fro
 
 | Column name         | Type   | Description                                | Nullable |
 | ------------------- | ------ | ------------------------------------------ | -------- |
-| UserID              | Number | User ID, Primary Key, Auto Inc.            | False    |
+| ID                  | Number | User ID, Primary Key, Auto Inc.            | False    |
+| UserID              | Number | User ID, Foreign Key                       | False    |
 | LastMonthResult     | Number | Profit/loss result in the last 30 days     | False    |
 | LastYearResult      | Number | Profit/loss result in the last 365 days    | False    |
 | AllTimeResult       | Number | Profit/loss result all time                | False    |
@@ -77,14 +78,15 @@ The application creates other useful numerical and visual statistics derived fro
 
 #### Statistics_History table
 
-| Column name | Type    | Description                            | Nullable |
-| ----------- | ------- | -------------------------------------- | -------- |
-| ID          | Number  | Record ID, Primary Key, Auto Inc.      | False    |
-| UserID      | Number  | User ID, Foregin Key                   | False    |
-| Date        | Date    | Date of the session                    | False    |
-| Result      | Number  | Session type enum stored as Varchar    | False    |
-| PlayedTime  | Number  | Currency acronym like (HUF, EUR, etc.) | False    |
-| Type        | Varchar | Cash game or tournament                | False    |
+| Column name | Type    | Description                              | Nullable |
+| ----------- | ------- | ---------------------------------------- | -------- |
+| ID          | Number  | Record ID, Primary Key, Auto Inc.        | False    |
+| UserID      | Number  | User ID, Foregin Key                     | False    |
+| StartDate   | Date    | Starting date of the statistics interval | False    |
+| EndDate     | Date    | Ending date of the statistics interval   | False    |
+| Result      | Number  | Session type enum stored as Varchar      | False    |
+| PlayedTime  | Number  | Currency acronym like (HUF, EUR, etc.)   | False    |
+| Type        | Varchar | Cash game or tournament                  | False    |
 
 ### User service
 
@@ -100,12 +102,11 @@ The application creates other useful numerical and visual statistics derived fro
 
 #### Social table
 
-| Column name  | Type       | Description                                                              | Nullable |
-| ------------ | ---------- | ------------------------------------------------------------------------ | -------- |
-| UserIDMaster | Number     | User ID of the player who initiated the social connection, Foreign key   | False    |
-| UserIDSlave  | Number     | User ID of the player who did not initiate the connection, Foreign key   | False    |
-| Active       | Number (1) | Boolean value, true if slave accepted the request                        | False    |
-| Type         | Varchar    | Friend (Later can be used for other types of social connections as well) | False    |
+| Column name  | Type       | Description                                                            | Nullable |
+| ------------ | ---------- | ---------------------------------------------------------------------- | -------- |
+| UserIDMaster | Number     | User ID of the player who initiated the social connection, Foreign key | False    |
+| UserIDSlave  | Number     | User ID of the player who did not initiate the connection, Foreign key | False    |
+| Active       | Number (1) | Boolean value, true if slave accepted the request                      | False    |
 
 #### Notifications table
 
@@ -129,31 +130,32 @@ Most of the endpoints only respond if a valid access token is attached.
 
 ### Session service
 
-| Path                     | Type   | Request                | Response      | Description                        |
-| ------------------------ | ------ | ---------------------- | ------------- | ---------------------------------- |
-| `/session/`              | POST   | session data           |               | Adding new session resource        |
-| `/session/user/{userId}` | GET    | user ID, filter params | session data  | Getting list of user's sessions    |
-| `/session/{sessionId}`   | GET    | session ID             | session data  | Getting session resource by its id |
-| `/session/{sessionId}`   | PUT    | session data           |               | Modifying session                  |
-| `/session/{sessionId}`   | DELETE | session ID             |               | Deleting session by its id         |
-| `/location/`             | POST   | location data          |               | Adding new location resource       |
-| `/location/`             | GET    | filter data            | location data | Getting list of locations          |
+| Path                   | Type   | Request                | Response      | Description                        |
+| ---------------------- | ------ | ---------------------- | ------------- | ---------------------------------- |
+| `/session/`            | POST   | session data           |               | Adding new session resource        |
+| `/session/?userid`     | GET    | user ID, filter params | session data  | Getting list of user's sessions    |
+| `/session/{sessionId}` | GET    | session ID             | session data  | Getting session resource by its id |
+| `/session/{sessionId}` | PUT    | session data           |               | Modifying session                  |
+| `/session/{sessionId}` | DELETE | session ID             |               | Deleting session by its id         |
+| `/location/`           | POST   | location data          |               | Adding new location resource       |
+| `/location/{id}`       | GET    | filter data            | location data | Getting list of locations          |
+| `/location/?sessionId` | GET    | filter data            | location data | Getting list of locations          |
 
 ### Statisitcs service
 
-| Path                                              | Type | Request                                                            | Response                | Description                                                                |
-| ------------------------------------------------- | ---- | ------------------------------------------------------------------ | ----------------------- | -------------------------------------------------------------------------- |
-| `/statistics/update/{userId}`                     | POST | user id                                                            |                         | Updates the given user's stats                                             |
-| `/statistics/general/{userId}/{interval}`/        | GET  | user id, interval (month, year, all)                               | statistics data         | Returns general statistics about the given user for the specified interval |
-| `/statistics/history/{userId}/{interval}/{type}`/ | GET  | user id, interval (month, year, all), type (cash, tournament, all) | list of statistics data | Returns statistics history data                                            |
+| Path                                         | Type | Request                                                            | Response                | Description                                                                |
+| -------------------------------------------- | ---- | ------------------------------------------------------------------ | ----------------------- | -------------------------------------------------------------------------- |
+| `/statistics/refresh/?userId`                | POST | user id                                                            |                         | Updates the given user's stats                                             |
+| `/statistics/general/?userId,interval`/      | GET  | user id, interval (month, year, all)                               | statistics data         | Returns general statistics about the given user for the specified interval |
+| `/statistics/history/?userId,interval,type`/ | GET  | user id, interval (month, year, all), type (cash, tournament, all) | list of statistics data | Returns statistics history data                                            |
 
 ### User service
 
-| Path                          | Type | Request                                        | Response             |
-| ----------------------------- | ---- | ---------------------------------------------- | -------------------- |
-| `/registration`               | POST | email, password, name, default currency        |                      |
-| `/login`                      | POST | email, password                                | access token         |
-| `/logout`                     | POST |                                                |                      |
-| `/addFriend/{userId}`         | POST | userId                                         |                      |
-| `/getNotifiations/{userId}`   | GET  | userId, filter data (last x)                   | list of notifiations |
-| `/addNotifiation/{sessionId}` | POST | creating notifiations about a session activity |                      |
+| Path                       | Type | Request                                        | Response             |
+| -------------------------- | ---- | ---------------------------------------------- | -------------------- |
+| `/registration`            | POST | email, password, name, default currency        |                      |
+| `/login`                   | POST | email, password                                | access token         |
+| `/logout`                  | POST |                                                |                      |
+| `/socialconnection/`       | POST | userId, userId2                                |                      |
+| `/notifiation/?userId`     | GET  | userId, filter data (last x)                   | list of notifiations |
+| `/notification/?sessionId` | POST | creating notifiations about a session activity |                      |
