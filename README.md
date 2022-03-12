@@ -61,7 +61,7 @@ The application creates other useful numerical and visual statistics derived fro
 | ID          | Number  | Location ID, Primary Key, Auto Inc.                   | False    |
 | Name        | Varchar | Location name, can be anything (e.g. Duna Poker Club) | False    |
 
-### Statisitcs service
+### Statistics service
 
 #### Generic_Statistics table
 
