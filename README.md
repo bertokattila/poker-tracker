@@ -153,7 +153,7 @@ Most of the endpoints only respond to requests with a valid access token attache
 
 | Path                       | Type | Request                                        | Response             |
 | -------------------------- | ---- | ---------------------------------------------- | -------------------- |
-| `/registration`            | POST | email, password, name, default currency        |                      |
+| `/registrate`            | POST | email, password, name, default currency        |                      |
 | `/login`                   | POST | email, password                                | access token         |
 | `/logout`                  | POST |                                                |                      |
 | `/socialconnection/`       | POST | userId, userId2                                |                      |
