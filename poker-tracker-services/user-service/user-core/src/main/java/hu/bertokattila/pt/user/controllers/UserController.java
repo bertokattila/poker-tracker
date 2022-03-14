@@ -2,6 +2,7 @@ package hu.bertokattila.pt.user.controllers;
 
 import hu.bertokattila.pt.user.LoginRequestDTO;
 import hu.bertokattila.pt.user.LoginResponseDTO;
+import hu.bertokattila.pt.user.auth.AuthUser;
 import hu.bertokattila.pt.user.auth.util.JwtUtil;
 import hu.bertokattila.pt.user.service.UserDetailsService;
 import hu.bertokattila.pt.user.service.UserService;
@@ -38,8 +39,8 @@ public class UserController {
   }
 
   @GetMapping("/hello")
-  public String hello(){
-    return SecurityContextHolder.getContext().getAuthentication().getName();
+  public int hello(){
+    return ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     //return "Hello";
   }
 

@@ -1,5 +1,6 @@
 package hu.bertokattila.pt.user.service;
 
+import hu.bertokattila.pt.user.auth.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,6 @@ public class UserDetailsService implements org.springframework.security.core.use
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     hu.bertokattila.pt.user.model.User user = userService.getUserByEmail(email);
-    return new User(user.getEmail(), user.getPassword(), new ArrayList<>());
+    return new AuthUser(user.getEmail(), user.getPassword(), new ArrayList<>(), user.getId());
   }
 }
