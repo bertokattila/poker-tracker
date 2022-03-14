@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/session")
 public class SessionController {
-
+  private final SessionService sessionService;
   @Autowired
-  private SessionService sessionService;
+  public SessionController(SessionService sessionService){
+    this.sessionService = sessionService;
+  }
 
   @PostMapping
   public void addSession(){

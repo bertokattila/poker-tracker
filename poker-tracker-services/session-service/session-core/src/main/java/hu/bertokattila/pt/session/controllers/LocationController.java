@@ -20,7 +20,7 @@ public class LocationController {
   }
 
   @PostMapping
-  public void addLocation(@RequestBody LocationDTO location){
-    locationService.hello(location);
+  public void saveLocation(@RequestBody LocationDTO location){
+    locationService.saveLocation(location);
   }
 }

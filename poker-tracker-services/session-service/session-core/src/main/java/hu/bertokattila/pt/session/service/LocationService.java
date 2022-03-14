@@ -6,17 +6,18 @@ import hu.bertokattila.pt.session.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class LocationService {
-  private LocationRepository repository;
+  private final LocationRepository repository;
   @Autowired
   public LocationService(LocationRepository locationRepository){
     repository = locationRepository;
   }
 
-  public void hello(LocationDTO location){
-
+  @Transactional
+  public void saveLocation(LocationDTO location){
     repository.save(new Location(location));
-    System.out.println(location.toString());
   }
 }
