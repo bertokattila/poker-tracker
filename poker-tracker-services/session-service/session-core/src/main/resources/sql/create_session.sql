@@ -6,7 +6,8 @@ CREATE table session
     Currency   varchar(3) not null,
     BuyIn      real,
     CashOut    real,
-    Date       date not null default current_date,
+    StartDate  timestamp not null default current_timestamp,
+    EndDate    timestamp not null default current_timestamp,
     Comment    text,
     LocationID integer
 );

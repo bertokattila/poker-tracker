@@ -33,7 +33,7 @@ public class UserController {
     this.jwtUtil = jwtUtil;
   }
 
-  @PostMapping("/register")
+  @PostMapping("/registrate")
   public void addSession(@Valid @RequestBody UserDTO user){
     userService.saveUser(user);
   }
