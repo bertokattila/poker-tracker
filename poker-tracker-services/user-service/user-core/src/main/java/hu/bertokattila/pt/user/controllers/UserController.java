@@ -2,8 +2,8 @@ package hu.bertokattila.pt.user.controllers;
 
 import hu.bertokattila.pt.user.LoginRequestDTO;
 import hu.bertokattila.pt.user.LoginResponseDTO;
-import hu.bertokattila.pt.user.auth.AuthUser;
-import hu.bertokattila.pt.user.auth.util.JwtUtil;
+import hu.bertokattila.pt.auth.AuthUser;
+import hu.bertokattila.pt.auth.util.JwtUtil;
 import hu.bertokattila.pt.user.service.UserDetailsService;
 import hu.bertokattila.pt.user.service.UserService;
 import hu.bertokattila.pt.user.UserDTO;
@@ -33,7 +33,7 @@ public class UserController {
     this.jwtUtil = jwtUtil;
   }
 
-  @PostMapping("/registrate")
+  @PostMapping("/register")
   public void addSession(@Valid @RequestBody UserDTO user){
     userService.saveUser(user);
   }
@@ -55,7 +55,7 @@ public class UserController {
     }
     UserDetails userDetails = userDetailsService
             .loadUserByUsername(loginDTO.getEmail());
-    String jwt = jwtUtil.generateToken(userDetails);
+    String jwt = jwtUtil.generateToken((AuthUser) userDetails);
     return ResponseEntity.ok(new LoginResponseDTO(jwt));
   }
 

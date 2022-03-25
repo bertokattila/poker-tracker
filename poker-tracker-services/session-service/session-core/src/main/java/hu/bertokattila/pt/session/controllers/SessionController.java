@@ -25,12 +25,7 @@ public class SessionController {
   @PostMapping
   @Valid
   public ResponseEntity<?> addSession(@Valid @RequestBody SessionDTO session) {
-    try {
-      sessionService.saveSession(session);
-    }
-    catch (Exception e){
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    sessionService.saveSession(session);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
@@ -44,9 +39,6 @@ public class SessionController {
     catch (NotFoundException e){
       return new ResponseEntity<>("Session with id " + id + " does not exists", HttpStatus.NOT_FOUND);
     }
-    catch (Exception e){
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
     return new ResponseEntity<>(res, HttpStatus.OK);
   }
 
@@ -57,9 +49,6 @@ public class SessionController {
     }
     catch (EmptyResultDataAccessException e){
       return new ResponseEntity<>("Session with id " + id + " does not exists", HttpStatus.NOT_FOUND);
-    }
-    catch (Exception e){
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return new ResponseEntity<>("Session deleted with id: " + id, HttpStatus.OK);
   }
@@ -75,9 +64,6 @@ public class SessionController {
     }
     catch (NotFoundException e){
       return new ResponseEntity<>("Session with id " + id + " does not exists", HttpStatus.NOT_FOUND);
-    }
-    catch (Exception e){
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return new ResponseEntity<>(HttpStatus.OK);
   }

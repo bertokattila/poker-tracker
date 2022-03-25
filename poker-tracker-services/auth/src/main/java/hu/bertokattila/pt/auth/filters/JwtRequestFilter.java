@@ -1,12 +1,10 @@
-package hu.bertokattila.pt.user.auth.filters;
+package hu.bertokattila.pt.auth.filters;
 
-import hu.bertokattila.pt.user.auth.util.JwtUtil;
-import hu.bertokattila.pt.user.service.UserDetailsService;
+import hu.bertokattila.pt.auth.AuthUser;
+import hu.bertokattila.pt.auth.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,8 +17,7 @@ import java.io.IOException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-  @Autowired
-  private UserDetailsService userDetailsService;
+
   @Autowired
   private JwtUtil jwtUtil;
 
@@ -35,10 +32,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       email = jwtUtil.extractUsername(jwt);
     }
     if(email != null && SecurityContextHolder.getContext().getAuthentication() == null){
-      UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
-      if(jwtUtil.validateToken(jwt, userDetails)){
+      AuthUser user = jwtUtil.validateToken(jwt).orElse(null);
+      if(user != null){
+
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities());
+        user, null, user.getAuthorities());
 
         usernamePasswordAuthenticationToken
                 .setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));

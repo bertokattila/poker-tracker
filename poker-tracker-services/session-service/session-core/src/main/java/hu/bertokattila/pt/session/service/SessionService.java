@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class SessionService {
   private final SessionRepository repository;
   @Autowired
@@ -17,21 +18,19 @@ public class SessionService {
     repository = sessionRepository;
   }
 
-  @Transactional
   public void saveSession(SessionDTO sessionDTO){
     Session session = new Session(sessionDTO, 1);
     repository.save(session);
   }
 
-  @Transactional
   public Optional<Session> getSession(int id){
     return repository.findById(id);
   }
-  @Transactional
+
   public void deleteSession(int id){
     repository.deleteById(id);
   }
-  @Transactional
+
   public void updateSession(Session session, SessionDTO update){
     session.setComment(update.getComment());
     session.setBuyIn(update.getBuyIn());

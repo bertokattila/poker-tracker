@@ -1,21 +1,21 @@
-package hu.bertokattila.pt.user.auth.util;
+package hu.bertokattila.pt.auth.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import hu.bertokattila.pt.auth.AuthUser;
+import io.jsonwebtoken.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.text.html.Option;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
 public class JwtUtil {
 
-  public String generateToken(UserDetails userDetails){
+  public String generateToken(AuthUser userDetails){
     Map<String, Object> claims = new HashMap<>();
+    claims.put("userId", userDetails.getId());
     return createToken(claims, userDetails.getUsername());
   }
   private String createToken(Map<String, Object> claims, String subject){
@@ -40,14 +40,23 @@ public class JwtUtil {
   public String extractUsername(String token){
     return extractClaim(token, Claims::getSubject);
   }
+
   public Date extractExpiration(String token){
     return extractClaim(token, Claims::getExpiration);
   }
+
+
   private Boolean isTokenExpired(String token){
     return extractExpiration(token).before(new Date());
   }
-  public Boolean validateToken(String token, UserDetails userDetails){
-    final String username = extractUsername(token);
-    return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+  public Optional<AuthUser> validateToken(String token){
+    try{
+      Claims claims = extractAllClaims(token);
+
+      return Optional.of(new AuthUser(claims.getSubject(), "", new ArrayList<>(),claims.get("userId", Integer.class)));
+    }catch (final SignatureException | ExpiredJwtException e) {
+      return Optional.empty();
+    }
   }
+
 }

@@ -18,6 +18,7 @@
         <module>user-service</module>
         <module>session-service</module>
         <module>statistics-service</module>
+        <module>auth</module>
     </modules>
 
     <dependencies>

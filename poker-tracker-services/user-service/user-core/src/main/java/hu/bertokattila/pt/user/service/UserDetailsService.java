@@ -1,8 +1,7 @@
 package hu.bertokattila.pt.user.service;
 
-import hu.bertokattila.pt.user.auth.AuthUser;
+import hu.bertokattila.pt.auth.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

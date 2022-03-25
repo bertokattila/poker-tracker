@@ -1,9 +1,10 @@
 package hu.bertokattila.pt.user.auth;
 
-import hu.bertokattila.pt.user.auth.filters.JwtRequestFilter;
+import hu.bertokattila.pt.auth.filters.JwtRequestFilter;
 import hu.bertokattila.pt.user.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

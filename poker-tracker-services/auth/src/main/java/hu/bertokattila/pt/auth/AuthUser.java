@@ -1,4 +1,4 @@
-package hu.bertokattila.pt.user.auth;
+package hu.bertokattila.pt.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
