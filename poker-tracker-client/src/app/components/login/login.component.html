@@ -1,0 +1,37 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center">
+  <h1>Poker tracker</h1>
+</div>
+<div class="container" fxLayout="row" fxLayoutAlign="center">
+  <mat-card
+    lass="container"
+    fxLayout="column"
+    fxLayoutGap="10px"
+    class="login-card"
+  >
+    <h3>Welcome!</h3>
+    <p>
+      <mat-form-field appearance="outline" fxFlex="100%">
+        <mat-label>E-mail Address</mat-label>
+        <input matInput placeholder="Placeholder" />
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline" fxFlex="100%">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+    </p>
+    <button mat-flat-button color="primary">Log In</button>
+
+    <button mat-button color="primary">Register</button>
+  </mat-card>
+</div>
