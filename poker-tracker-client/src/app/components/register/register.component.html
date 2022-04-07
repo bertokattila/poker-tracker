@@ -1,0 +1,93 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center">
+  <h1>Poker tracker</h1>
+</div>
+<div class="container" fxLayout="row" fxLayoutAlign="center">
+  <mat-card
+    class="container"
+    fxLayout="column"
+    fxLayoutGap="10px"
+    class="register-card"
+  >
+    <h3>Register!</h3>
+    <p>
+      <mat-form-field appearance="outline" fxFlex="100%">
+        <mat-label>E-mail Address</mat-label>
+        <input matInput [(ngModel)]="email" placeholder="Placeholder" />
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline" fxFlex="100%">
+        <mat-label>Full Name</mat-label>
+        <input matInput placeholder="Placeholder" />
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline" fxFlex="100%">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline" fxFlex="100%">
+        <mat-label>Enter your password again</mat-label>
+        <input matInput [type]="hideRepeat ? 'password' : 'text'" />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hideRepeat = !hideRepeat"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hideRepeat"
+        >
+          <mat-icon>{{
+            hideRepeat ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline" fxFlex="100%">
+        <mat-label>Default currency</mat-label>
+        <mat-select>
+          <mat-option value="huf">HUF</mat-option>
+          <mat-option value="eur">EUR</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+          <mat-option value="usd">USD</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+
+    <button (click)="register()" mat-flat-button color="primary">
+      Register
+    </button>
+
+    <button routerLink="/" mat-button color="primary">Log In</button>
+  </mat-card>
+</div>
