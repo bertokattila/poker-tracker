@@ -20,6 +20,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping()
+@CrossOrigin(origins = "*")
 public class UserController {
   private final AuthenticationManager authenticationManager;
   private final UserDetailsService userDetailsService;
@@ -39,8 +40,8 @@ public class UserController {
   }
 
   @GetMapping("/hello")
-  public int hello(){
-    return ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+  public String hello(){
+    return ((AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
     //return "Hello";
   }
 
