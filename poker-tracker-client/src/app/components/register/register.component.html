@@ -18,13 +18,17 @@
     <p>
       <mat-form-field appearance="outline" fxFlex="100%">
         <mat-label>Full Name</mat-label>
-        <input matInput placeholder="Placeholder" />
+        <input matInput [(ngModel)]="name" placeholder="Placeholder" />
       </mat-form-field>
     </p>
     <p>
       <mat-form-field appearance="outline" fxFlex="100%">
         <mat-label>Enter your password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" />
+        <input
+          matInput
+          [(ngModel)]="passw"
+          [type]="hide ? 'password' : 'text'"
+        />
         <button
           mat-icon-button
           matSuffix
@@ -39,7 +43,11 @@
     <p>
       <mat-form-field appearance="outline" fxFlex="100%">
         <mat-label>Enter your password again</mat-label>
-        <input matInput [type]="hideRepeat ? 'password' : 'text'" />
+        <input
+          matInput
+          [(ngModel)]="rePassw"
+          [type]="hideRepeat ? 'password' : 'text'"
+        />
         <button
           mat-icon-button
           matSuffix
@@ -56,7 +64,7 @@
     <p>
       <mat-form-field appearance="outline" fxFlex="100%">
         <mat-label>Default currency</mat-label>
-        <mat-select>
+        <mat-select [(ngModel)]="defCurr">
           <mat-option value="huf">HUF</mat-option>
           <mat-option value="eur">EUR</mat-option>
           <mat-option value="usd">USD</mat-option>

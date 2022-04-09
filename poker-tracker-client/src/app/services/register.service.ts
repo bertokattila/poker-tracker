@@ -1,10 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RegisterDTO } from '../model/registerDTO';
+import { serviceUrls } from './serviceUrls';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RegisterService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   register(
     email: string,
@@ -12,9 +15,11 @@ export class RegisterService {
     password: string,
     defaultCurrency: string
   ) {
-    console.log(email);
-    console.log(name);
-    console.log(password);
-    console.log(defaultCurrency);
+    const dto = new RegisterDTO(email, name, password, defaultCurrency);
+
+    return this.http.post<RegisterDTO>(
+      serviceUrls.userServiceUrl + '/register',
+      dto
+    );
   }
 }
