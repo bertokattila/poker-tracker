@@ -17,8 +17,19 @@ public class AuthUser extends User {
     this.id = id;
   }
 
-  public AuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities, int id) {
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  private String name;
+
+  public AuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities, int id, String name) {
     super(username, password, authorities);
     setId(id);
+    setName(name);
   }
 }

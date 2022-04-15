@@ -53,7 +53,7 @@ public class JwtUtil {
     try{
       Claims claims = extractAllClaims(token);
 
-      return Optional.of(new AuthUser(claims.getSubject(), "", new ArrayList<>(),claims.get("userId", Integer.class)));
+      return Optional.of(new AuthUser(claims.getSubject(), "", new ArrayList<>(),claims.get("userId", Integer.class), ""));
     }catch (final SignatureException | ExpiredJwtException e) {
       return Optional.empty();
     }

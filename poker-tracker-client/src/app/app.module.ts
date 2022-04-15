@@ -20,6 +20,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AuthInterceptor } from './utils/AuthInterceptor';
 import { HeaderComponent } from './components/header/header.component';
+import { AddSessionComponent } from './components/add-session/add-session.component';
+import { HistoryComponent } from './components/history/history.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { SocialComponent } from './components/social/social.component';
+import { MainPageComponent } from './components/main-page/main-page.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -29,6 +35,11 @@ import { HeaderComponent } from './components/header/header.component';
     DialogComponent,
     WelcomeComponent,
     HeaderComponent,
+    AddSessionComponent,
+    HistoryComponent,
+    StatisticsComponent,
+    SocialComponent,
+    MainPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +55,7 @@ import { HeaderComponent } from './components/header/header.component';
     FormsModule,
     HttpClientModule,
     MatDialogModule,
+    MatTabsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -1,4 +1,5 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class HeaderComponent implements OnInit {
   isLoggedIn: boolean;
 
   userName: string | null;
-  constructor(public loginservice: LoginService) {}
+  constructor(public loginservice: LoginService, private router: Router) {}
 
   ngOnInit(): void {
     if (this.isLoggedIn) {
@@ -27,5 +28,6 @@ export class HeaderComponent implements OnInit {
   }
   logOut() {
     this.loginservice.logout();
+    this.router.navigate(['/']);
   }
 }

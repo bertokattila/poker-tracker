@@ -46,7 +46,7 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> createToken(@Valid @RequestBody LoginRequestDTO loginDTO) throws Exception {
+  public ResponseEntity<LoginResponseDTO> createToken(@Valid @RequestBody LoginRequestDTO loginDTO) throws Exception {
     try {
       authenticationManager.authenticate(
               new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
@@ -57,7 +57,7 @@ public class UserController {
     UserDetails userDetails = userDetailsService
             .loadUserByUsername(loginDTO.getEmail());
     String jwt = jwtUtil.generateToken((AuthUser) userDetails);
-    return ResponseEntity.ok(new LoginResponseDTO(jwt));
+    return ResponseEntity.ok(new LoginResponseDTO(jwt, ((AuthUser) userDetails).getName()));
   }
 
 }

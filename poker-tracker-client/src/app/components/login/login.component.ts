@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { JwtDTO } from 'src/app/model/jwt';
+import { JwtDTO } from 'src/app/model/jwtDTO';
 import { LoginService } from 'src/app/services/login.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,11 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  constructor(public loginService: LoginService, public dialog: MatDialog) {}
+  constructor(
+    public loginService: LoginService,
+    public dialog: MatDialog,
+    private router: Router
+  ) {}
 
   isLoggedIn: boolean;
   hide = true;
@@ -20,7 +25,8 @@ export class LoginComponent implements OnInit {
   login() {
     this.loginService.login(this.email, this.passwd).subscribe({
       next: (resp: JwtDTO) => {
-        this.loginService.saveToken(resp.jwt);
+        this.loginService.saveToken(resp.jwt, resp.userName);
+        this.router.navigate(['/main']);
       },
       error: (e) => {
         if (e.error.status === 400) {

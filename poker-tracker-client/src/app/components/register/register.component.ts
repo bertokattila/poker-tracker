@@ -25,7 +25,9 @@ export class RegisterComponent implements OnInit {
     this.registerService
       .register(this.email, this.name, this.passw, this.defCurr)
       .subscribe({
-        next: (v) => console.log(v),
+        next: (v) => {
+          this.openDialog('Success', 'New user has beeen successfully created');
+        },
         error: (e) => {
           if (e.error.status === 400) {
             this.openDialog(

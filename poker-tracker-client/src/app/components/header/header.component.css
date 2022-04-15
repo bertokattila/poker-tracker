@@ -3,3 +3,6 @@
   flex-direction: row-reverse;
   padding: 15px;
 }
+.userNameLabel {
+  margin-right: 10px;
+}
