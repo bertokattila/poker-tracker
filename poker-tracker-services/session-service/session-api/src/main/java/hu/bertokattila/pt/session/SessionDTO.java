@@ -28,5 +28,5 @@ public class SessionDTO {
   private LocalDateTime endDate;
   private String comment;
 
-  private int locationId;
+  private String location;
 }

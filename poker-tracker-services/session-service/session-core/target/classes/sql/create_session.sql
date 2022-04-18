@@ -9,5 +9,5 @@ CREATE table session
     StartDate  timestamp not null default current_timestamp,
     EndDate    timestamp not null default current_timestamp,
     Comment    text,
-    LocationID integer
+    LocationID bigint
 );

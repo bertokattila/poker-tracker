@@ -15,6 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/session")
+@CrossOrigin(origins = "*")
 public class SessionController {
   private final SessionService sessionService;
   @Autowired

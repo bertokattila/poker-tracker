@@ -26,6 +26,8 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
 import { SocialComponent } from './components/social/social.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { OnlyNumber } from './utils/OnlyNumber';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     StatisticsComponent,
     SocialComponent,
     MainPageComponent,
+    OnlyNumber,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     HttpClientModule,
     MatDialogModule,
     MatTabsModule,
+    MatButtonToggleModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

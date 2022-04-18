@@ -14,7 +14,7 @@ import java.util.Calendar;
 public class Session {
 
   public Session() {}
-  public Session(SessionDTO sessionDTO, int userId){
+  public Session(SessionDTO sessionDTO, Long locationId, int userId){
     this.userId = userId;
     this.type = sessionDTO.getType();
     this.currency = sessionDTO.getCurrency();
@@ -23,7 +23,7 @@ public class Session {
     this.startDate = sessionDTO.getStartDate();
     this.endDate = sessionDTO.getEndDate();
     this.comment = sessionDTO.getComment();
-    this.locationId = sessionDTO.getLocationId();
+    this.locationId = locationId;
   }
 
   @Id
@@ -56,5 +56,5 @@ public class Session {
   private String comment;
 
   @Column(name = "locationid")
-  private int locationId;
+  private Long locationId;
 }

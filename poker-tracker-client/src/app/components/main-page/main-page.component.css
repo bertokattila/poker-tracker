@@ -1,3 +1,6 @@
 .navbar {
   align-items: center;
 }
+:host ::ng-deep .mat-tab-body-wrapper {
+  width: 100%;
+}
