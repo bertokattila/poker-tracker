@@ -1,5 +1,6 @@
 package hu.bertokattila.pt.session.controllers;
 
+import hu.bertokattila.pt.session.GetSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.session.model.Session;
 import hu.bertokattila.pt.session.service.SessionService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -67,5 +69,10 @@ public class SessionController {
       return new ResponseEntity<>("Session with id " + id + " does not exists", HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @GetMapping("/getAll")
+  public ResponseEntity<?> getSessions(@Valid @RequestBody GetSessionsDTO getSessionsDTO) {
+    return new ResponseEntity<>(sessionService.getSessionsForLoggedInUser(getSessionsDTO), HttpStatus.OK);
   }
 }
