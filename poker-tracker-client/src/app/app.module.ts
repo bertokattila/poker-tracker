@@ -28,6 +28,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { OnlyNumber } from './utils/OnlyNumber';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { OnlyNumber } from './utils/OnlyNumber';
     MatDialogModule,
     MatTabsModule,
     MatButtonToggleModule,
+    MatExpansionModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

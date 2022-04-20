@@ -1,0 +1,11 @@
+.containerHistory {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+.historyItem {
+  width: 850px;
+  max-width: 100%;
+  align-self: center;
+}
