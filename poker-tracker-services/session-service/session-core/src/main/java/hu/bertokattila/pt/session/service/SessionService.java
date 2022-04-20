@@ -1,12 +1,12 @@
 package hu.bertokattila.pt.session.service;
 
-import hu.bertokattila.pt.auth.AuthUser;
+
 import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.session.data.LocationRepository;
 import hu.bertokattila.pt.session.data.SessionRepository;
 import hu.bertokattila.pt.session.model.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
