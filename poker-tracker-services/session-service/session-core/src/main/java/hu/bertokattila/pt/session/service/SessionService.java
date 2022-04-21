@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,8 +59,25 @@ public class SessionService {
     repository.save(session);
   }
 
-  public List<Session> getSessionsForLoggedInUser(GetSessionsDTO getSessionsDTO){
+  public List<SessionDTO> getSessionsForLoggedInUser(GetSessionsDTO getSessionsDTO){
     int id = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-    return repository.findAllByUserId(id, getSessionsDTO.getLimit(), getSessionsDTO.getOffset());
+    List<SessionRepository.sessionQuery> res = repository.findAllByUserId(id, getSessionsDTO.getLimit(), getSessionsDTO.getOffset());
+    return convertSessionQuerytoSessionDto(res);
+  }
+  private static List<SessionDTO> convertSessionQuerytoSessionDto(List<SessionRepository.sessionQuery> res){
+    List<SessionDTO> sessionDTOs = new ArrayList<>();
+    for(SessionRepository.sessionQuery sessionQuery : res){
+      SessionDTO dto = new SessionDTO();
+      dto.setBuyIn(sessionQuery.getBuyIn());
+      dto.setCashOut(sessionQuery.getCashOut());
+      dto.setComment(sessionQuery.getComment());
+      dto.setCurrency(sessionQuery.getCurrency());
+      dto.setEndDate(sessionQuery.getEndDate());
+      dto.setLocation(sessionQuery.getLocation());
+      dto.setStartDate(sessionQuery.getStartDate());
+      dto.setType(sessionQuery.getType());
+      sessionDTOs.add(dto);
+    }
+    return sessionDTOs;
   }
 }

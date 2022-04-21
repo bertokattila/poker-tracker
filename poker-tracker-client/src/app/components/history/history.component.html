@@ -1,53 +1,66 @@
 <div class="containerHistory">
-  <mat-accordion class="historyItem">
-    <mat-expansion-panel hideToggle>
+  <mat-accordion multi="true" class="historyItem">
+    <mat-expansion-panel *ngFor="let session of sessions" hideToggle>
       <mat-expansion-panel-header>
-        <mat-panel-title> This is the expansion title </mat-panel-title>
-        <mat-panel-description>
-          This is a summary of the content
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>This is the primary content of the panel.</p>
-    </mat-expansion-panel>
+        <div class="title">
+          <div
+            class="amount"
+            [ngClass]="session.cashOut - session.buyIn > 0 ? 'green' : 'red'"
+          >
+            <div *ngIf="session.cashOut - session.buyIn > 0">+</div>
+            <div *ngIf="session.cashOut - session.buyIn < 0">-</div>
+            <b>
+              {{
+                (
+                  myMath.round(
+                    myMath.abs(session.cashOut - session.buyIn) * 100
+                  ) / 100
+                ).toFixed(2)
+              }}</b
+            >
+          </div>
+        </div>
 
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header>
-        <mat-panel-title> This is the expansion title </mat-panel-title>
-        <mat-panel-description>
-          This is a summary of the content
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>This is the primary content of the panel.</p>
-    </mat-expansion-panel>
+        <div class="currency">{{ session.currency }}</div>
 
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header>
-        <mat-panel-title> This is the expansion title </mat-panel-title>
-        <mat-panel-description>
-          This is a summary of the content
-        </mat-panel-description>
+        <div>
+          {{
+            this.datepipe.transform(session.startDate, "yyyy. MM. dd. hh:mm")
+          }}
+        </div>
       </mat-expansion-panel-header>
-      <p>This is the primary content of the panel.</p>
-    </mat-expansion-panel>
+      <div class="details">
+        <div class="money">
+          <p>Buy In: {{ session.buyIn + " " + session.currency }}</p>
+          <p>Cash Out: {{ session.cashOut + " " + session.currency }}</p>
+          <p>Comment: {{ session.comment === null ? "-" : session.comment }}</p>
+        </div>
 
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header>
-        <mat-panel-title> This is the expansion title </mat-panel-title>
-        <mat-panel-description>
-          This is a summary of the content
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>This is the primary content of the panel.</p>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header>
-        <mat-panel-title> This is the expansion title </mat-panel-title>
-        <mat-panel-description>
-          This is a summary of the content
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>This is the primary content of the panel.</p>
+        <div class="dates">
+          <p>
+            Starting date and time:
+            {{
+              this.datepipe.transform(session.startDate, "yyyy. MM. dd. hh:mm")
+            }}
+          </p>
+          <p>
+            Ending date and time:
+            {{
+              this.datepipe.transform(session.endDate, "yyyy. MM. dd. hh:mm")
+            }}
+          </p>
+          <p>Location: {{ session.location }}</p>
+        </div>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
+  <button
+    mat-flat-button
+    *ngIf="canLoadMore"
+    (click)="loadMore()"
+    class="loadMoreBtn"
+    color="primary"
+  >
+    Load More
+  </button>
 </div>

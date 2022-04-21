@@ -9,6 +9,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class SessionDTO {
@@ -29,4 +30,5 @@ public class SessionDTO {
   private String comment;
 
   private String location;
+
 }

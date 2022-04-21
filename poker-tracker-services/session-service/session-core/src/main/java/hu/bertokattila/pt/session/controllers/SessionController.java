@@ -12,11 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @RestController
-@RequestMapping("/session")
 @CrossOrigin(origins = "*")
 public class SessionController {
   private final SessionService sessionService;
@@ -25,14 +24,14 @@ public class SessionController {
     this.sessionService = sessionService;
   }
 
-  @PostMapping
+  @PostMapping("/session")
   @Valid
   public ResponseEntity<?> addSession(@Valid @RequestBody SessionDTO session) {
     sessionService.saveSession(session);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/session/{id}")
   public ResponseEntity<?> getSession(@PathVariable int id) {
     Session res;
     try {
@@ -45,7 +44,7 @@ public class SessionController {
     return new ResponseEntity<>(res, HttpStatus.OK);
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/session/{id}")
   public ResponseEntity<String> deleteSession(@PathVariable int id){
     try {
       sessionService.deleteSession(id);
@@ -56,7 +55,7 @@ public class SessionController {
     return new ResponseEntity<>("Session deleted with id: " + id, HttpStatus.OK);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/session/{id}")
   @Valid
   public ResponseEntity<?> updateSession(@Valid @RequestBody SessionDTO session, @PathVariable int id) {
     try {
@@ -71,8 +70,8 @@ public class SessionController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  @GetMapping("/getAll")
-  public ResponseEntity<?> getSessions(@Valid @RequestBody GetSessionsDTO getSessionsDTO) {
-    return new ResponseEntity<>(sessionService.getSessionsForLoggedInUser(getSessionsDTO), HttpStatus.OK);
+  @GetMapping("/sessions")
+  public ResponseEntity<?> getSessions(@Valid @Positive @RequestParam int limit, @Valid @PositiveOrZero @RequestParam int offset) {
+    return new ResponseEntity<>(sessionService.getSessionsForLoggedInUser(new GetSessionsDTO(limit, offset)), HttpStatus.OK);
   }
 }

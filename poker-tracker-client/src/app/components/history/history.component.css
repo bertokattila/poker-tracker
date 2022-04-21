@@ -9,3 +9,36 @@
   max-width: 100%;
   align-self: center;
 }
+.red {
+  color: red;
+}
+.green {
+  color: green;
+}
+span {
+  margin: 0;
+  padding: 0;
+}
+.amount {
+  margin-right: 0.5rem;
+  display: flex;
+  flex-direction: row;
+}
+.title {
+  width: 15%;
+  display: flex;
+  flex-flow: row-reverse;
+  margin-right: 5px;
+}
+.currency {
+  width: 300px;
+}
+.details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.loadMoreBtn {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

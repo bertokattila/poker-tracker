@@ -29,6 +29,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { OnlyNumber } from './utils/OnlyNumber';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })
