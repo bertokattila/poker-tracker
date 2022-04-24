@@ -30,6 +30,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { OnlyNumber } from './utils/OnlyNumber';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DatePipe } from '@angular/common';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { DatePipe } from '@angular/common';
     MatTabsModule,
     MatButtonToggleModule,
     MatExpansionModule,
+    NgxChartsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

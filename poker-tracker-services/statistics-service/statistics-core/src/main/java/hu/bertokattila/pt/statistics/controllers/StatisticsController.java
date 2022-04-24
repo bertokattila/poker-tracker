@@ -1,5 +1,6 @@
 package hu.bertokattila.pt.statistics.controllers;
 
+import hu.bertokattila.pt.statistics.model.GenericStatisticsRec;
 import hu.bertokattila.pt.statistics.service.GenericStatisticsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,22 @@ public class StatisticsController {
     this.statisticsService = statisticsService;
   }
 
+  /**
+   * Other services can call this
+   * Refreshes the statistics for the user
+   * @param userID
+   * @return
+   */
   @PostMapping("/refresh/{userID}")
   @Valid
   public ResponseEntity<?> addSession(@Valid @PositiveOrZero @PathVariable int userID){
     statisticsService.refreshStatistics(userID);
     return new ResponseEntity<>(HttpStatus.OK);
   }
+  /*@GetMapping("/generic")
+  @Valid
+  public ResponseEntity<GenericStatisticsRec> getGeneric(){
+    //return statisticsService.getGenericStatistics();
+  }*/
 
 }
