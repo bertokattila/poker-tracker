@@ -1,4 +1,4 @@
-package hu.bertokattila.pt.session.config;
+package hu.bertokattila.pt.statistics.config;
 
 import hu.bertokattila.pt.auth.filters.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     http.csrf()
             .disable()
             .authorizeRequests()
-            .antMatchers("/internal/sessions/**")
+            .antMatchers("/statistics/refresh/**")
             .permitAll()
             .anyRequest()
             .authenticated()

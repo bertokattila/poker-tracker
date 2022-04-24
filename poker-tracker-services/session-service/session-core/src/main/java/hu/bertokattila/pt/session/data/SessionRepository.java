@@ -19,6 +19,9 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
   @Query(value= "SELECT session.*, location.name as location FROM session left join location on session.locationid = location.id WHERE userId = ?1 ORDER BY enddate DESC LIMIT ?2 OFFSET ?3", nativeQuery = true)
   List<sessionQuery> findAllByUserId(int id, int limit, int offset);
 
+  @Query(value= "SELECT session.*, location.name as location FROM session left join location on session.locationid = location.id WHERE userId = ?1 ORDER BY enddate", nativeQuery = true)
+  List<sessionQuery> findAllByUserId(int id);
+
   public static interface sessionQuery {
      String getType();
      String getCurrency();

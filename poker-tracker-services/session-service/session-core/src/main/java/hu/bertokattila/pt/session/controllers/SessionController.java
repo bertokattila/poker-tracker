@@ -4,9 +4,9 @@ import hu.bertokattila.pt.session.GetSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.session.model.Session;
 import hu.bertokattila.pt.session.service.SessionService;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -36,9 +37,9 @@ public class SessionController {
     Session res;
     try {
       res = sessionService.getSession(id).orElse(null);
-      if(res == null) throw new NotFoundException("Session does not exists");
+      if(res == null) throw new Exception("Session does not exists");
     }
-    catch (NotFoundException e){
+    catch (Exception e){
       return new ResponseEntity<>("Session with id " + id + " does not exists", HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>(res, HttpStatus.OK);
@@ -60,11 +61,11 @@ public class SessionController {
   public ResponseEntity<?> updateSession(@Valid @RequestBody SessionDTO session, @PathVariable int id) {
     try {
       Session sessionToModify = sessionService.getSession(id).orElse(null);
-      if(sessionToModify == null) throw new NotFoundException("Session does not exists");
+      if(sessionToModify == null) throw new Exception("Session does not exists");
 
       sessionService.updateSession(sessionToModify, session);
     }
-    catch (NotFoundException e){
+    catch (Exception e){
       return new ResponseEntity<>("Session with id " + id + " does not exists", HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>(HttpStatus.OK);
@@ -73,5 +74,10 @@ public class SessionController {
   @GetMapping("/sessions")
   public ResponseEntity<?> getSessions(@Valid @Positive @RequestParam int limit, @Valid @PositiveOrZero @RequestParam int offset) {
     return new ResponseEntity<>(sessionService.getSessionsForLoggedInUser(new GetSessionsDTO(limit, offset)), HttpStatus.OK);
+  }
+  // TODO: majd message queue kene ide, hogy ne kelljen mindig elkerni az osszeset
+  @GetMapping("/internal/sessions/{userId}")
+  public ResponseEntity<SessionDTO[]> getSessionsForUSer(@Valid @PositiveOrZero @PathVariable int userId) {
+    return new ResponseEntity<>(sessionService.getSessionsForUser(userId), HttpStatus.OK);
   }
 }

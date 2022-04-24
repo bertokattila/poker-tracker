@@ -9,8 +9,11 @@ import hu.bertokattila.pt.session.data.SessionRepository;
 import hu.bertokattila.pt.session.model.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ public class SessionService {
     int id = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     Session session = new Session(sessionDTO, locationId, id);
     repository.save(session);
+    refreshStatistics(id);
   }
 
   public Optional<Session> getSession(int id){
@@ -45,6 +49,8 @@ public class SessionService {
 
   public void deleteSession(int id){
     repository.deleteById(id);
+    int userId= ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+    refreshStatistics(userId);
   }
 
   public void updateSession(Session session, SessionDTO update){
@@ -57,6 +63,8 @@ public class SessionService {
     session.setType(update.getType());
     session.setStartDate(update.getStartDate());
     repository.save(session);
+    int userId= ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+    refreshStatistics(userId);
   }
 
   public List<SessionDTO> getSessionsForLoggedInUser(GetSessionsDTO getSessionsDTO){
@@ -79,5 +87,34 @@ public class SessionService {
       sessionDTOs.add(dto);
     }
     return sessionDTOs;
+  }
+  private static SessionDTO[] convertSessionQuerytoSessionDtoArray(List<SessionRepository.sessionQuery> res){
+    List<SessionDTO> sessionDTOs = new ArrayList<>();
+    for(SessionRepository.sessionQuery sessionQuery : res){
+      SessionDTO dto = new SessionDTO();
+      dto.setBuyIn(sessionQuery.getBuyIn());
+      dto.setCashOut(sessionQuery.getCashOut());
+      dto.setComment(sessionQuery.getComment());
+      dto.setCurrency(sessionQuery.getCurrency());
+      dto.setEndDate(sessionQuery.getEndDate());
+      dto.setLocation(sessionQuery.getLocation());
+      dto.setStartDate(sessionQuery.getStartDate());
+      dto.setType(sessionQuery.getType());
+      sessionDTOs.add(dto);
+    }
+    return sessionDTOs.toArray(new SessionDTO[0]);
+  }
+  public SessionDTO[] getSessionsForUser(int userID){
+    List<SessionRepository.sessionQuery> res = repository.findAllByUserId(userID);
+    return convertSessionQuerytoSessionDtoArray(res);
+  }
+
+  public void refreshStatistics(int userId){
+    RestTemplate restTemplate = new RestTemplate();
+    String fooResourceUrl
+            = "http://localhost:5555/statistics/refresh/";
+    ResponseEntity<?> response
+            = restTemplate.postForObject(fooResourceUrl + userId, null, ResponseEntity.class);
+
   }
 }
