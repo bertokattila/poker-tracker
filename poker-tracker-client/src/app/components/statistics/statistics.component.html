@@ -1,9 +1,46 @@
-<ngx-charts-number-card
-  [view]="view"
-  [scheme]="colorScheme"
-  [results]="single"
-  [cardColor]="cardColor"
-  [animations]="true"
-  [valueFormatting]="valueFormatting"
->
-</ngx-charts-number-card>
+<div class="statsContainer" *ngIf="selectedTabIndex === 2">
+  <ngx-charts-number-card
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="wage"
+    [cardColor]="cardColor"
+    [animations]="true"
+    [valueFormatting]="resultsValueFormatting"
+  >
+  </ngx-charts-number-card>
+  <ngx-charts-number-card
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="results"
+    [cardColor]="cardColor"
+    [animations]="true"
+    [valueFormatting]="resultsValueFormatting"
+  >
+  </ngx-charts-number-card>
+  <ngx-charts-number-card
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="playedTimes"
+    [cardColor]="cardColor"
+    [animations]="true"
+    [valueFormatting]="playedTimeValueFormatting"
+  >
+  </ngx-charts-number-card>
+
+  <ngx-charts-bar-vertical-stacked
+    class="barChart"
+    [scheme]="colorScheme"
+    [results]="multi"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [animations]="animations"
+    [customColors]=""
+  >
+  </ngx-charts-bar-vertical-stacked>
+</div>

@@ -9,6 +9,7 @@ import { LoginService } from 'src/app/services/login.service';
 export class MainPageComponent implements OnInit {
   constructor(public loginService: LoginService) {}
   isLoggedIn: boolean;
+  selectedTabIndex: number;
 
   ngOnInit(): void {
     this.isLoggedIn = this.loginService.isLoggedIn();
