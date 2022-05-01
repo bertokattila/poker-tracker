@@ -33,10 +33,14 @@ public class StatisticsController {
     statisticsService.refreshStatistics(userID);
     return new ResponseEntity<>(HttpStatus.OK);
   }
-  /*@GetMapping("/generic")
+  @GetMapping("/generic")
   @Valid
   public ResponseEntity<GenericStatisticsRec> getGeneric(){
-    //return statisticsService.getGenericStatistics();
-  }*/
+    GenericStatisticsRec res = statisticsService.getGenericStatistics();
+    if(res == null){
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
 
 }

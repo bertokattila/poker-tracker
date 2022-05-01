@@ -1,6 +1,7 @@
 package hu.bertokattila.pt.statistics.service;
 
 
+import hu.bertokattila.pt.auth.AuthUser;
 import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.statistics.data.GenericStatisticsRepository;
 import hu.bertokattila.pt.statistics.model.GenericStatisticsRec;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -84,5 +86,10 @@ public class GenericStatisticsService {
     }
     rec.setLastMonthPlayedTime(minutesLast30Days);
     rec.setLastMonthResult(resultLast30Days);
+  }
+
+  public GenericStatisticsRec getGenericStatistics() {
+    int userID = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+    return repository.findByUserId(userID).orElse(null);
   }
 }

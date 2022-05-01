@@ -26,21 +26,94 @@
     [valueFormatting]="playedTimeValueFormatting"
   >
   </ngx-charts-number-card>
+  <div class="chartsContainer">
+    <div class="barChartContainerContainer">
+      <div class="barChartContainer">
+        <h3>Yearly Results</h3>
+        <ngx-charts-bar-vertical-stacked
+          class="barChart"
+          [scheme]="colorScheme"
+          [results]="multi"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [animations]="animations"
+          [customColors]=""
+        >
+        </ngx-charts-bar-vertical-stacked>
+      </div>
+    </div>
 
-  <ngx-charts-bar-vertical-stacked
-    class="barChart"
-    [scheme]="colorScheme"
-    [results]="multi"
-    [gradient]="gradient"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [legend]="showLegend"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [animations]="animations"
-    [customColors]=""
-  >
-  </ngx-charts-bar-vertical-stacked>
+    <div class="barChartContainerContainer">
+      <div class="barChartContainer">
+        <h3>Monthly Results</h3>
+        <ngx-charts-bar-vertical-stacked
+          class="barChart"
+          [scheme]="colorScheme"
+          [results]="monthly"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [animations]="animations"
+          [customColors]=""
+        >
+        </ngx-charts-bar-vertical-stacked>
+      </div>
+    </div>
+  </div>
+  <div class="chartsContainer">
+    <div class="barChartContainerContainer">
+      <div class="barChartContainer">
+        <h3>Yearly Results</h3>
+        <ngx-charts-bar-vertical-stacked
+          class="barChart"
+          [scheme]="colorScheme"
+          [results]="multi"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [animations]="animations"
+          [customColors]=""
+        >
+        </ngx-charts-bar-vertical-stacked>
+      </div>
+    </div>
+
+    <div class="barChartContainerContainer">
+      <div class="barChartContainer">
+        <h3>Monthly Results</h3>
+        <ngx-charts-bar-vertical-stacked
+          class="barChart"
+          [scheme]="colorScheme"
+          [results]="monthly"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [animations]="animations"
+          [customColors]=""
+        >
+        </ngx-charts-bar-vertical-stacked>
+      </div>
+    </div>
+  </div>
 </div>

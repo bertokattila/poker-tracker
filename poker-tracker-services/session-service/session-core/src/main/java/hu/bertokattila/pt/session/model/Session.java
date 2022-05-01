@@ -1,20 +1,26 @@
 package hu.bertokattila.pt.session.model;
 
 import hu.bertokattila.pt.session.SessionDTO;
+import hu.bertokattila.pt.session.util.entitylisteners.SessionListener;
 import lombok.Data;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 @Data
+@EntityListeners(SessionListener.class)
 @Entity(name = "session")
 @Table(name = "session")
 public class Session {
 
   public Session() {}
-  public Session(SessionDTO sessionDTO, Long locationId, int userId){
+  public Session(SessionDTO sessionDTO, Long locationId, int userId ) {
     this.userId = userId;
     this.type = sessionDTO.getType();
     this.currency = sessionDTO.getCurrency();
@@ -57,4 +63,5 @@ public class Session {
 
   @Column(name = "locationid")
   private Long locationId;
+
 }

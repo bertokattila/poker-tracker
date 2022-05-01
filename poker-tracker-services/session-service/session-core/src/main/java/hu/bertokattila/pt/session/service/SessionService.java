@@ -39,8 +39,7 @@ public class SessionService {
     }
     int id = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     Session session = new Session(sessionDTO, locationId, id);
-    repository.save(session);
-    refreshStatistics(id);
+    repository.saveAndFlush(session);
   }
 
   public Optional<Session> getSession(int id){
@@ -50,7 +49,6 @@ public class SessionService {
   public void deleteSession(int id){
     repository.deleteById(id);
     int userId= ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-    refreshStatistics(userId);
   }
 
   public void updateSession(Session session, SessionDTO update){
@@ -64,7 +62,6 @@ public class SessionService {
     session.setStartDate(update.getStartDate());
     repository.save(session);
     int userId= ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-    refreshStatistics(userId);
   }
 
   public List<SessionDTO> getSessionsForLoggedInUser(GetSessionsDTO getSessionsDTO){
@@ -109,12 +106,5 @@ public class SessionService {
     return convertSessionQuerytoSessionDtoArray(res);
   }
 
-  public void refreshStatistics(int userId){
-    RestTemplate restTemplate = new RestTemplate();
-    String fooResourceUrl
-            = "http://localhost:5555/statistics/refresh/";
-    ResponseEntity<?> response
-            = restTemplate.postForObject(fooResourceUrl + userId, null, ResponseEntity.class);
 
-  }
 }
