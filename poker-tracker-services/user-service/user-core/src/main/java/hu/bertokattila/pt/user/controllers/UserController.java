@@ -4,6 +4,8 @@ import hu.bertokattila.pt.user.LoginRequestDTO;
 import hu.bertokattila.pt.user.LoginResponseDTO;
 import hu.bertokattila.pt.auth.AuthUser;
 import hu.bertokattila.pt.auth.util.JwtUtil;
+import hu.bertokattila.pt.user.UserIdDTO;
+import hu.bertokattila.pt.user.model.User;
 import hu.bertokattila.pt.user.service.UserDetailsService;
 import hu.bertokattila.pt.user.service.UserService;
 import hu.bertokattila.pt.user.UserDTO;
@@ -59,5 +61,15 @@ public class UserController {
     String jwt = jwtUtil.generateToken((AuthUser) userDetails);
     return ResponseEntity.ok(new LoginResponseDTO(jwt, ((AuthUser) userDetails).getName()));
   }
-
+  @GetMapping("/id")
+  public ResponseEntity<UserIdDTO> getIdForEmail(@RequestParam String email) throws Exception {
+    UserIdDTO userIdDTO = new UserIdDTO();
+    User user = userService.getUserByEmail(email);
+    if (user == null) {
+      return ResponseEntity.notFound().build();
+    }
+    userIdDTO.setId(user.getId());
+    return ResponseEntity.ok(userIdDTO);
+  }
 }
+

@@ -19,6 +19,7 @@
         <module>session-service</module>
         <module>statistics-service</module>
         <module>auth</module>
+        <module>social-service</module>
     </modules>
 
     <dependencies>

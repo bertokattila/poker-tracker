@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>statistics-service</artifactId>
+        <artifactId>social-service</artifactId>
         <groupId>hu.bertokattila.poker-tracker-services</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>statistics-core</artifactId>
+    <artifactId>social-core</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -18,17 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>hu.bertokattila.poker-tracker-services</groupId>
-            <artifactId>statistics-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>hu.bertokattila.poker-tracker-services</groupId>
-            <artifactId>user-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>hu.bertokattila.poker-tracker-services</groupId>
-            <artifactId>session-api</artifactId>
+            <artifactId>social-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- Spring Boot -->
@@ -57,6 +47,17 @@
             <artifactId>auth</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>hu.bertokattila.poker-tracker-services</groupId>
+            <artifactId>user-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 </project>
