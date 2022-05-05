@@ -30,6 +30,7 @@ public class Session {
     this.endDate = sessionDTO.getEndDate();
     this.comment = sessionDTO.getComment();
     this.locationId = locationId;
+    this.access = sessionDTO.getAccess();
   }
 
   @Id
@@ -63,5 +64,8 @@ public class Session {
 
   @Column(name = "locationid")
   private Long locationId;
+
+  @Column(name = "access")
+  private String access;
 
 }

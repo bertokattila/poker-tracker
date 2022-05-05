@@ -7,12 +7,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="social-api" />
         <module name="user-api" />
         <module name="session-api" />
         <module name="user-core" />
         <module name="statistics-core" />
         <module name="auth" />
         <module name="session-core" />
+        <module name="social-core" />
         <module name="statistics-api" />
       </profile>
     </annotationProcessing>
@@ -22,6 +24,9 @@
       <module name="auth" options="-parameters" />
       <module name="session-api" options="-parameters" />
       <module name="session-core" options="-parameters" />
+      <module name="social-api" options="-parameters" />
+      <module name="social-core" options="-parameters" />
+      <module name="social-service" options="-parameters" />
       <module name="statistics-api" options="-parameters" />
       <module name="statistics-core" options="-parameters" />
       <module name="user-api" options="-parameters" />

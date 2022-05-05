@@ -12,3 +12,8 @@ p {
 .inputField {
   margin: 0px 30px 0px 30px;
 }
+.typeSwtiches {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

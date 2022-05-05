@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AddsessionDTO, GameType } from '../model/addSessionDto';
+import { AccessType, AddsessionDTO, GameType } from '../model/addSessionDto';
 import { serviceUrls } from './serviceUrls';
 
 @Injectable({
@@ -17,7 +17,8 @@ export class AddSessionService {
     startDate: string,
     endDate: string,
     comment: string,
-    location: string
+    location: string,
+    accessType: AccessType
   ) {
     const dto = new AddsessionDTO(
       type,
@@ -27,7 +28,8 @@ export class AddSessionService {
       startDate,
       endDate,
       comment,
-      location
+      location,
+      accessType
     );
 
     return this.http.post<AddsessionDTO>(

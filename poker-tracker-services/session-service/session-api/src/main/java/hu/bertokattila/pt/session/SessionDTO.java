@@ -28,7 +28,8 @@ public class SessionDTO {
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime endDate;
   private String comment;
-
   private String location;
+  @NotBlank
+  private String access;
 
 }

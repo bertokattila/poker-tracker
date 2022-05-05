@@ -2,6 +2,10 @@ export enum GameType {
   cash = 'cash',
   tournament = 'tournament',
 }
+export enum AccessType {
+  public = 'public',
+  private = 'private',
+}
 export class AddsessionDTO {
   constructor(
     public type: GameType,
@@ -11,6 +15,7 @@ export class AddsessionDTO {
     public startDate: string,
     public endDate: string,
     public comment: string,
-    public location: string
+    public location: string,
+    public access: AccessType
   ) {}
 }

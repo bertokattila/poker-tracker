@@ -9,5 +9,6 @@ CREATE table session
     StartDate  timestamp not null default current_timestamp,
     EndDate    timestamp not null default current_timestamp,
     Comment    text,
-    LocationID bigint
+    LocationID bigint,
+    Access    varchar(10) not null default 'public'
 );

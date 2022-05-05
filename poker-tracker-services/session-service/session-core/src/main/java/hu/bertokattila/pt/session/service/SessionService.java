@@ -60,6 +60,7 @@ public class SessionService {
     session.setEndDate(update.getEndDate());
     session.setType(update.getType());
     session.setStartDate(update.getStartDate());
+    session.setAccess(update.getAccess());
     repository.save(session);
     int userId= ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
   }
@@ -81,6 +82,7 @@ public class SessionService {
       dto.setLocation(sessionQuery.getLocation());
       dto.setStartDate(sessionQuery.getStartDate());
       dto.setType(sessionQuery.getType());
+      dto.setAccess(sessionQuery.getAccess());
       sessionDTOs.add(dto);
     }
     return sessionDTOs;
@@ -97,6 +99,7 @@ public class SessionService {
       dto.setLocation(sessionQuery.getLocation());
       dto.setStartDate(sessionQuery.getStartDate());
       dto.setType(sessionQuery.getType());
+      dto.setAccess(sessionQuery.getAccess());
       sessionDTOs.add(dto);
     }
     return sessionDTOs.toArray(new SessionDTO[0]);

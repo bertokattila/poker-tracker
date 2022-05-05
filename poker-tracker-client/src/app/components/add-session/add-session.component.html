@@ -5,15 +5,22 @@
   fxLayoutAlign="center"
 >
   <div class="container" fxLayout="column" fxLayoutGap="10px">
-    <p>
+    <p class="typeSwtiches">
       <mat-button-toggle-group
         name="gameType"
-        aria-label="Favorite Color"
         (change)="setGameType($event.value)"
         value="cash"
       >
         <mat-button-toggle value="cash">Cash game</mat-button-toggle>
         <mat-button-toggle value="tournament">Tournament</mat-button-toggle>
+      </mat-button-toggle-group>
+      <mat-button-toggle-group
+        name="accessType"
+        (change)="setAccessType($event.value)"
+        value="public"
+      >
+        <mat-button-toggle value="public">Public</mat-button-toggle>
+        <mat-button-toggle value="private">Private</mat-button-toggle>
       </mat-button-toggle-group>
     </p>
     <p>

@@ -23,7 +23,6 @@ public class SocialController {
   @PostMapping("/addfriend")
   @Valid
   public ResponseEntity<?> addSession(@Valid @RequestBody AddFriendDTO addFriendDTO) {
-    socialService.addFriend(addFriendDTO.getEmail());
-    return new ResponseEntity<>(HttpStatus.OK);
+    return socialService.addFriend(addFriendDTO.getEmail());
   }
 }

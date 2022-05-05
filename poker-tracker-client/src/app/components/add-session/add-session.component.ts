@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GameType } from 'src/app/model/addSessionDto';
+import { GameType, AccessType } from 'src/app/model/addSessionDto';
 import { AddSessionService } from 'src/app/services/add-session.service';
 import { DialogComponent } from '../dialog/dialog.component';
 
@@ -13,8 +13,12 @@ export class AddSessionComponent implements OnInit {
   startDate: string;
   endDate: string;
   gameType: GameType = GameType.cash;
+  accessType: AccessType = AccessType.public;
   setGameType(type: string) {
     this.gameType = type as GameType;
+  }
+  setAccessType(type: string) {
+    this.accessType = type as AccessType;
   }
   currency: string;
   buyIn: number;
@@ -42,7 +46,8 @@ export class AddSessionComponent implements OnInit {
         this.startDate,
         this.endDate,
         this.comment,
-        this.location
+        this.location,
+        this.accessType
       )
       .subscribe({
         next: (resp) => {

@@ -32,6 +32,7 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
      LocalDateTime getEndDate();
      String getComment();
      String getLocation();
+     String getAccess();
   }
 
 }
