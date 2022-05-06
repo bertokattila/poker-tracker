@@ -12,13 +12,8 @@ export class AddFriendComponent implements OnInit {
   email: string;
   constructor(private dialog: MatDialog) {}
 
-  openDialog(title: string, desc: string) {
-    this.dialog.open(AddFriendDialogComponent, {
-      data: {
-        title: title,
-        description: desc,
-      },
-    });
+  openDialog() {
+    this.dialog.open(AddFriendDialogComponent, {});
   }
 
   ngOnInit(): void {}

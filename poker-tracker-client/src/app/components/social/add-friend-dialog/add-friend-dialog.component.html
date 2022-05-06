@@ -1,11 +1,12 @@
-<h1 mat-dialog-title>Hi</h1>
+<h1 mat-dialog-title>Add new friend</h1>
 <div mat-dialog-content>
-  <p>What's your favorite animal?</p>
-  <mat-form-field appearance="fill">
-    <mat-label>Favorite Animal</mat-label>
-    <input matInput />
+  <p></p>
+  <mat-form-field appearance="outline">
+    <mat-label>E-mail</mat-label>
+    <input [(ngModel)]="email" matInput type="email" />
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button mat-button (click)="onAddClick()" cdkFocusInitial>Invite</button>
 </div>
