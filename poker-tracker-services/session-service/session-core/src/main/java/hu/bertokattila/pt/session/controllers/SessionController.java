@@ -28,7 +28,8 @@ public class SessionController {
   @PostMapping("/session")
   @Valid
   public ResponseEntity<?> addSession(@Valid @RequestBody SessionDTO session) {
-    sessionService.saveSession(session);
+    Session savedSess = sessionService.saveSession(session);
+    sessionService.refreshStatistics(savedSess.getUserId());
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 

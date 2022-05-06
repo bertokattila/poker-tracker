@@ -31,6 +31,9 @@ import { OnlyNumber } from './utils/OnlyNumber';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DatePipe } from '@angular/common';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AddFriendComponent } from './components/social/add-friend/add-friend.component';
+import { NotificationsComponent } from './components/social/notifications/notifications.component';
+import { AddFriendDialogComponent } from './components/social/add-friend-dialog/add-friend-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +49,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     SocialComponent,
     MainPageComponent,
     OnlyNumber,
+    AddFriendComponent,
+    NotificationsComponent,
+    AddFriendDialogComponent,
   ],
   imports: [
     BrowserModule,

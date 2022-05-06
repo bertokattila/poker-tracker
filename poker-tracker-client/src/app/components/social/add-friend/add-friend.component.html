@@ -1,0 +1,35 @@
+<div id="addFriendContainer" fxLayout="row">
+  <div class="container" fxLayout="column" fxLayoutGap="10px">
+    <h2>Friends</h2>
+    <div class="container" fxLayout="row" fxLayoutGap="10px">
+      <mat-accordion multi="true" class="historyItem">
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header class="firendsHeader">
+            <div class="title">You have 0 friends, 2 pending</div>
+          </mat-expansion-panel-header>
+          <div class="details">
+            <h4>Friends:</h4>
+            <p>Kis Pista - kispista@gmail.com</p>
+            <p>Kis Pista - kispista@gmail.com</p>
+            <p>Kis Pista - kispista@gmail.com</p>
+            <h4>Received requests:</h4>
+            <p>
+              Kis Pista - kispista@gmail.com
+              <button mat-flat-button color="primary">Accept</button>
+            </p>
+            <h4>Waiting for their response:</h4>
+            <p>Kis Pista - kispista@gmail.com</p>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <button
+        id="addFriendBtn"
+        (click)="openDialog('sad', 'asdas')"
+        mat-flat-button
+        color="primary"
+      >
+        Add New Friend
+      </button>
+    </div>
+  </div>
+</div>

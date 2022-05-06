@@ -4,12 +4,11 @@ package hu.bertokattila.pt.session.service;
 import hu.bertokattila.pt.auth.AuthUser;
 import hu.bertokattila.pt.session.GetSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
-import hu.bertokattila.pt.session.data.LocationRepository;
+import hu.bertokattila.pt.session.config.ServiceUrlProperties;
 import hu.bertokattila.pt.session.data.SessionRepository;
 import hu.bertokattila.pt.session.model.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,21 +24,23 @@ import java.util.Optional;
 public class SessionService {
   private final SessionRepository repository;
   private final LocationService locationService;
+  private final ServiceUrlProperties serviceUrlProperties;
 
   @Autowired
-  public SessionService(SessionRepository sessionRepository, LocationService locationService) {
+  public SessionService(SessionRepository sessionRepository, LocationService locationService, ServiceUrlProperties serviceUrlProperties) {
     repository = sessionRepository;
     this.locationService = locationService;
+    this.serviceUrlProperties = serviceUrlProperties;
   }
 
-  public void saveSession(SessionDTO sessionDTO){
+  public Session saveSession(SessionDTO sessionDTO){
     Long locationId = null;
     if(sessionDTO.getLocation() != null){
       locationId = locationService.getLocationIdByName(sessionDTO.getLocation());
     }
     int id = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     Session session = new Session(sessionDTO, locationId, id);
-    repository.saveAndFlush(session);
+    return repository.saveAndFlush(session);
   }
 
   public Optional<Session> getSession(int id){
@@ -108,6 +109,12 @@ public class SessionService {
     List<SessionRepository.sessionQuery> res = repository.findAllByUserId(userID);
     return convertSessionQuerytoSessionDtoArray(res);
   }
+  public void refreshStatistics(int userId){
+    RestTemplate restTemplate = new RestTemplate();
+    String url = serviceUrlProperties.getStatisticsServiceUrl();
+    ResponseEntity<?> response
+            = restTemplate.postForObject(url + "/statistics/refresh/" + userId, null, ResponseEntity.class);
 
+  }
 
 }

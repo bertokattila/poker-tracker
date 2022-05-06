@@ -3,11 +3,10 @@ package hu.bertokattila.pt.statistics.service;
 
 import hu.bertokattila.pt.auth.AuthUser;
 import hu.bertokattila.pt.session.SessionDTO;
+import hu.bertokattila.pt.statistics.config.ServiceUrlProperties;
 import hu.bertokattila.pt.statistics.data.GenericStatisticsRepository;
 import hu.bertokattila.pt.statistics.model.GenericStatisticsRec;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,16 +24,17 @@ import java.util.List;
 @Transactional
 public class GenericStatisticsService {
   private final GenericStatisticsRepository repository;
+  private final ServiceUrlProperties serviceUrlProperties;
   @Autowired
-  public GenericStatisticsService(GenericStatisticsRepository repository){
+  public GenericStatisticsService(GenericStatisticsRepository repository, ServiceUrlProperties serviceUrlProperties){
     this.repository = repository;
+    this.serviceUrlProperties = serviceUrlProperties;
   }
   public void refreshStatistics(int userID){
     RestTemplate restTemplate = new RestTemplate();
-    String fooResourceUrl
-            = "http://localhost:6969/internal/sessions/";
+    String url = serviceUrlProperties.getSessionServiceUrl();
     ResponseEntity<SessionDTO[]> response
-            = restTemplate.getForEntity(fooResourceUrl + userID, SessionDTO[].class);
+            = restTemplate.getForEntity(url + "/internal/sessions/" + userID, SessionDTO[].class);
     SessionDTO[] sessions = response.getBody();
 
     GenericStatisticsRec rec = repository.findByUserId(userID).orElse(null);

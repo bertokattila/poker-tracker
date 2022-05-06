@@ -1,0 +1,31 @@
+#addFriendContainer {
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  max-width: 100%;
+  align-items: flex-start;
+}
+.friendsHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.title {
+  display: flex;
+  flex-flow: row;
+  margin-right: 5px;
+}
+.historyItem {
+  width: 850px;
+  max-width: 70%;
+  align-self: center;
+}
+#addFriendBtn {
+  height: 48px;
+}

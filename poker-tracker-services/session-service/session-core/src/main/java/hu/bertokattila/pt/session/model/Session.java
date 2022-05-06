@@ -1,7 +1,6 @@
 package hu.bertokattila.pt.session.model;
 
 import hu.bertokattila.pt.session.SessionDTO;
-import hu.bertokattila.pt.session.util.entitylisteners.SessionListener;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -14,7 +13,6 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Data
-@EntityListeners(SessionListener.class)
 @Entity(name = "session")
 @Table(name = "session")
 public class Session {

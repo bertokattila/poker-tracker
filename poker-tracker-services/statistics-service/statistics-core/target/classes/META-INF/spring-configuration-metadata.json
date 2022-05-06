@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "services",
+      "type": "hu.bertokattila.pt.statistics.config.ServiceUrlProperties",
+      "sourceType": "hu.bertokattila.pt.statistics.config.ServiceUrlProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "services.session-service-url",
+      "type": "java.lang.String",
+      "sourceType": "hu.bertokattila.pt.statistics.config.ServiceUrlProperties"
+    }
+  ],
+  "hints": []
+}
