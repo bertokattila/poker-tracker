@@ -5,6 +5,7 @@ import hu.bertokattila.pt.user.LoginResponseDTO;
 import hu.bertokattila.pt.auth.AuthUser;
 import hu.bertokattila.pt.auth.util.JwtUtil;
 import hu.bertokattila.pt.user.UserIdDTO;
+import hu.bertokattila.pt.user.UserPublicDataDTO;
 import hu.bertokattila.pt.user.model.User;
 import hu.bertokattila.pt.user.service.UserDetailsService;
 import hu.bertokattila.pt.user.service.UserService;
@@ -61,6 +62,7 @@ public class UserController {
     String jwt = jwtUtil.generateToken((AuthUser) userDetails);
     return ResponseEntity.ok(new LoginResponseDTO(jwt, ((AuthUser) userDetails).getName()));
   }
+
   @GetMapping("/id")
   public ResponseEntity<UserIdDTO> getIdForEmail(@RequestParam String email) throws Exception {
     UserIdDTO userIdDTO = new UserIdDTO();
@@ -70,6 +72,20 @@ public class UserController {
     }
     userIdDTO.setId(user.getId());
     return ResponseEntity.ok(userIdDTO);
+  }
+
+  @GetMapping("/user/{id}")
+  public ResponseEntity<UserPublicDataDTO> getIdForEmail(@PathVariable int id) {
+    UserPublicDataDTO userDTO = new UserPublicDataDTO();
+    User user = userService.getUserById(id);
+    if (user == null) {
+      return ResponseEntity.notFound().build();
+    }
+    userDTO.setId(user.getId());
+    userDTO.setName(user.getName());
+    userDTO.setEmail(user.getEmail());
+    userDTO.setDefaultCurrency(user.getDefaultCurrency());
+    return ResponseEntity.ok(userDTO);
   }
 }
 

@@ -39,10 +39,20 @@ export class AddFriendDialogComponent implements OnInit {
         this.openDialog('Congratulations', 'Friend request sent');
       },
       error: (e) => {
-        if (e.error.status === 400) {
+        if (e.status === 400) {
           this.openDialog(
             'An error occured',
             'Validating the email was not successful'
+          );
+        } else if (e.status === 404) {
+          this.openDialog(
+            'An error occured',
+            'User not found with the given email'
+          );
+        } else if (e.status === 409) {
+          this.openDialog(
+            'An error occured',
+            'Invite already sent or you are already friends'
           );
         } else {
           this.openDialog('An error occured', 'Unknown error');
