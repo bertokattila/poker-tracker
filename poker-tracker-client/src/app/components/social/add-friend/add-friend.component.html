@@ -5,20 +5,26 @@
       <mat-accordion multi="true" class="historyItem">
         <mat-expansion-panel hideToggle>
           <mat-expansion-panel-header class="firendsHeader">
-            <div class="title">You have 0 friends, 2 pending</div>
+            <div class="title">
+              You have {{ friends.length }} friends,
+              {{ addedFriends.length }} pending,
+              {{ friendRequests.length }} requests
+            </div>
           </mat-expansion-panel-header>
           <div class="details">
             <h4>Friends:</h4>
-            <p>Kis Pista - kispista@gmail.com</p>
-            <p>Kis Pista - kispista@gmail.com</p>
-            <p>Kis Pista - kispista@gmail.com</p>
+            <p *ngFor="let friend of friends">
+              {{ friend.name }} - {{ friend.email }}
+            </p>
             <h4>Received requests:</h4>
-            <p>
-              Kis Pista - kispista@gmail.com
+            <p *ngFor="let friend of friendRequests">
+              {{ friend.name }} - {{ friend.email }}
               <button mat-flat-button color="primary">Accept</button>
             </p>
             <h4>Waiting for their response:</h4>
-            <p>Kis Pista - kispista@gmail.com</p>
+            <p *ngFor="let friend of addedFriends">
+              {{ friend.name }} - {{ friend.email }}
+            </p>
           </div>
         </mat-expansion-panel>
       </mat-accordion>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FriendDTO } from 'src/app/model/friendDTO';
+import { SocialService } from 'src/app/services/social-service.service';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { AddFriendDialogComponent } from '../add-friend-dialog/add-friend-dialog.component';
 
@@ -10,11 +12,51 @@ import { AddFriendDialogComponent } from '../add-friend-dialog/add-friend-dialog
 })
 export class AddFriendComponent implements OnInit {
   email: string;
-  constructor(private dialog: MatDialog) {}
+  friends: FriendDTO[] = [];
+  addedFriends: FriendDTO[] = [];
+  friendRequests: FriendDTO[] = [];
+  constructor(private dialog: MatDialog, private socialService: SocialService) {
+    this.fetchFriends();
+    this.fetchAddedFriends();
+    this.fetchFriendRequests();
+  }
 
   openDialog() {
     this.dialog.open(AddFriendDialogComponent, {});
   }
+
+  fetchFriends = () => {
+    this.socialService.getFriends().subscribe({
+      next: (friends) => {
+        if (friends != null) {
+          this.friends = friends as FriendDTO[];
+        }
+        console.log(this.friends);
+      },
+    });
+  };
+
+  fetchAddedFriends = () => {
+    this.socialService.getAddedFriends().subscribe({
+      next: (friends) => {
+        if (friends != null) {
+          this.addedFriends = friends as FriendDTO[];
+        }
+        console.log(this.addedFriends);
+      },
+    });
+  };
+
+  fetchFriendRequests = () => {
+    this.socialService.getFriendRequests().subscribe({
+      next: (friends) => {
+        if (friends != null) {
+          this.friendRequests = friends as FriendDTO[];
+        }
+        console.log(this.friendRequests);
+      },
+    });
+  };
 
   ngOnInit(): void {}
 }

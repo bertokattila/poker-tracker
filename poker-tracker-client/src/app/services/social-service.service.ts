@@ -16,4 +16,15 @@ export class SocialService {
       dto
     );
   }
+  getFriends() {
+    return this.http.get(serviceUrls.socialServiceUrl + '/social/friends');
+  }
+  getFriendRequests() {
+    return this.http.get(
+      serviceUrls.socialServiceUrl + '/social/friendrequests'
+    );
+  }
+  getAddedFriends() {
+    return this.http.get(serviceUrls.socialServiceUrl + '/social/addedfriends');
+  }
 }
