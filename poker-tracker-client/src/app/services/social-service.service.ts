@@ -27,4 +27,10 @@ export class SocialService {
   getAddedFriends() {
     return this.http.get(serviceUrls.socialServiceUrl + '/social/addedfriends');
   }
+  acceptFriendRequest(id: number) {
+    return this.http.post(
+      serviceUrls.socialServiceUrl + '/social/acceptfriend/' + id,
+      null
+    );
+  }
 }

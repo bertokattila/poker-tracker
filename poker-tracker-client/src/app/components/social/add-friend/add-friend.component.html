@@ -19,7 +19,13 @@
             <h4>Received requests:</h4>
             <p *ngFor="let friend of friendRequests">
               {{ friend.name }} - {{ friend.email }}
-              <button mat-flat-button color="primary">Accept</button>
+              <button
+                mat-flat-button
+                (click)="acceptFriendRequest(friend.socialId)"
+                color="primary"
+              >
+                Accept
+              </button>
             </p>
             <h4>Waiting for their response:</h4>
             <p *ngFor="let friend of addedFriends">

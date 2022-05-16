@@ -31,7 +31,7 @@ export class AddFriendComponent implements OnInit {
         if (friends != null) {
           this.friends = friends as FriendDTO[];
         }
-        console.log(this.friends);
+        //console.log(this.friends);
       },
     });
   };
@@ -41,8 +41,10 @@ export class AddFriendComponent implements OnInit {
       next: (friends) => {
         if (friends != null) {
           this.addedFriends = friends as FriendDTO[];
+        } else {
+          this.addedFriends = [];
         }
-        console.log(this.addedFriends);
+        //console.log(this.addedFriends);
       },
     });
   };
@@ -52,11 +54,26 @@ export class AddFriendComponent implements OnInit {
       next: (friends) => {
         if (friends != null) {
           this.friendRequests = friends as FriendDTO[];
+        } else {
+          this.friendRequests = [];
         }
-        console.log(this.friendRequests);
+        //console.log(this.friendRequests);
       },
     });
   };
+
+  acceptFriendRequest(id: number) {
+    this.socialService.acceptFriendRequest(id).subscribe({
+      next: (friend) => {
+        this.fetchAddedFriends();
+        this.fetchFriends();
+        this.fetchFriendRequests();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   ngOnInit(): void {}
 }
