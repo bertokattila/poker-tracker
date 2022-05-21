@@ -1,5 +1,6 @@
 package hu.bertokattila.pt.social.controllers;
 
+import hu.bertokattila.pt.session.PublicSessionsDTO;
 import hu.bertokattila.pt.social.AddFriendDTO;
 import hu.bertokattila.pt.social.FriendDTO;
 import hu.bertokattila.pt.social.service.SocialService;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -70,5 +73,10 @@ public class SocialController {
       return new ResponseEntity<>(HttpStatus.OK);
     }
     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+  }
+
+  @GetMapping("/notifications")
+  public ResponseEntity<?> getSessions(@Valid @Positive @RequestParam int limit, @Valid @PositiveOrZero @RequestParam int offset) {
+    return new ResponseEntity<>(socialService.getNotifications(limit, offset), HttpStatus.OK);
   }
 }

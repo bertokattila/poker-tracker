@@ -1,6 +1,7 @@
 package hu.bertokattila.pt.session.controllers;
 
 import hu.bertokattila.pt.session.GetSessionsDTO;
+import hu.bertokattila.pt.session.PublicSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.session.model.Session;
 import hu.bertokattila.pt.session.service.SessionService;
@@ -76,6 +77,12 @@ public class SessionController {
   public ResponseEntity<?> getSessions(@Valid @Positive @RequestParam int limit, @Valid @PositiveOrZero @RequestParam int offset) {
     return new ResponseEntity<>(sessionService.getSessionsForLoggedInUser(new GetSessionsDTO(limit, offset)), HttpStatus.OK);
   }
+
+  @GetMapping("/internal/publicsessions")
+  public ResponseEntity<?> getSessions(@RequestParam List<Integer> userIds, @Valid @Positive @RequestParam int limit, @Valid @PositiveOrZero @RequestParam int offset) {
+    return new ResponseEntity<>(sessionService.getPublicSessionsOfUsers(new PublicSessionsDTO(userIds, offset, limit)), HttpStatus.OK);
+  }
+
   // TODO: majd message queue kene ide, hogy ne kelljen mindig elkerni az osszeset
   @GetMapping("/internal/sessions/{userId}")
   public ResponseEntity<SessionDTO[]> getSessionsForUSer(@Valid @PositiveOrZero @PathVariable int userId) {

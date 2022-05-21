@@ -3,6 +3,7 @@ package hu.bertokattila.pt.session.service;
 
 import hu.bertokattila.pt.auth.AuthUser;
 import hu.bertokattila.pt.session.GetSessionsDTO;
+import hu.bertokattila.pt.session.PublicSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.session.config.ServiceUrlProperties;
 import hu.bertokattila.pt.session.data.SessionRepository;
@@ -71,6 +72,12 @@ public class SessionService {
     List<SessionRepository.sessionQuery> res = repository.findAllByUserId(id, getSessionsDTO.getLimit(), getSessionsDTO.getOffset());
     return convertSessionQuerytoSessionDto(res);
   }
+
+  public List<SessionDTO> getPublicSessionsOfUsers(PublicSessionsDTO dto){
+    List<SessionRepository.sessionQuery> res = repository.findAllByUserIdsAndAccess(dto.getUserIds(), dto.getLimit(), dto.getOffset(), "public");
+    return convertSessionQuerytoSessionDto(res);
+  }
+
   private static List<SessionDTO> convertSessionQuerytoSessionDto(List<SessionRepository.sessionQuery> res){
     List<SessionDTO> sessionDTOs = new ArrayList<>();
     for(SessionRepository.sessionQuery sessionQuery : res){

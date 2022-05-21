@@ -2,6 +2,8 @@ package hu.bertokattila.pt.social.service;
 
 
 import hu.bertokattila.pt.auth.AuthUser;
+import hu.bertokattila.pt.session.PublicSessionsDTO;
+import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.social.FriendDTO;
 import hu.bertokattila.pt.social.config.ServiceUrlProperties;
 import hu.bertokattila.pt.social.data.SocialConnectionRepository;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,6 +31,36 @@ public class SocialService {
   public SocialService(SocialConnectionRepository repository, ServiceUrlProperties serviceUrlProperties) {
     this.repository = repository;
     this.serviceUrlProperties = serviceUrlProperties;
+  }
+
+  public List<SessionDTO> getNotifications(int limit, int offset){
+    int currentId = getCurrentId();
+    List<Integer> friends = new ArrayList<Integer>();
+    List<SocialConnectionRec> connections = repository.findActiveSocialConnections(currentId).stream().toList();
+    for(SocialConnectionRec rec : connections){
+      if(rec.getMasterUserId() == currentId){
+        friends.add(rec.getSlaveUserId());
+      }else {
+        friends.add(rec.getMasterUserId());
+      }
+    }
+
+    RestTemplate restTemplate = new RestTemplate();
+    String url = serviceUrlProperties.getSessionServiceUrl();
+    // rosszul konvertalna magatol url formatumba
+    String userIdsUrl = "userIds=";
+    for (Integer id: friends) {
+      userIdsUrl += id.toString();
+      userIdsUrl += ",";
+    }
+    if(userIdsUrl.endsWith(",")) {
+      userIdsUrl = userIdsUrl.substring(0, userIdsUrl.length() - 1);
+    }
+    url += "/internal/publicsessions?" + userIdsUrl;
+    ResponseEntity<SessionDTO[]> response
+            = restTemplate.getForEntity(url + "&limit={limit}&offset={offset}", SessionDTO[].class, limit, offset);
+    SessionDTO[] sessions = response.getBody();
+    return Arrays.stream(sessions).toList();
   }
 
   public ResponseEntity<?> addFriend(String email){
@@ -84,6 +118,7 @@ public class SocialService {
       return dto;
     }).collect(java.util.stream.Collectors.toList());
   }
+
   public List<FriendDTO> getFriendRequestsForLoggedInUser(){
     int currentUserId = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     return repository.findBySlaveUserIdAndActive(currentUserId, false).stream().map(rec -> {
@@ -136,7 +171,6 @@ public class SocialService {
     return user;
   }
 
-
   public boolean acceptFriendRequest(int id){
     int currentUserId = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     SocialConnectionRec rec = repository.findById(id);
@@ -151,6 +185,7 @@ public class SocialService {
     return true;
   }
 
-
-
+  private int getCurrentId(){
+    return ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+  }
 }

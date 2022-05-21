@@ -13,4 +13,15 @@ public class ServiceUrlProperties {
   }
 
   private String userServiceUrl;
+
+  public String getSessionServiceUrl() {
+    return sessionServiceUrl;
+  }
+
+  public void setSessionServiceUrl(String sessionServiceUrl) {
+    this.sessionServiceUrl = sessionServiceUrl;
+  }
+
+  private String sessionServiceUrl;
+
 }
