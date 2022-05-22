@@ -2,9 +2,11 @@ package hu.bertokattila.pt.social.service;
 
 
 import hu.bertokattila.pt.auth.AuthUser;
+import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.PublicSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.social.FriendDTO;
+import hu.bertokattila.pt.social.SessionAndOwnerDTO;
 import hu.bertokattila.pt.social.config.ServiceUrlProperties;
 import hu.bertokattila.pt.social.data.SocialConnectionRepository;
 import hu.bertokattila.pt.social.model.SocialConnectionRec;
@@ -33,7 +35,7 @@ public class SocialService {
     this.serviceUrlProperties = serviceUrlProperties;
   }
 
-  public List<SessionDTO> getNotifications(int limit, int offset){
+  public List<SessionAndOwnerDTO> getNotifications(int limit, int offset){
     int currentId = getCurrentId();
     List<Integer> friends = new ArrayList<Integer>();
     List<SocialConnectionRec> connections = repository.findActiveSocialConnections(currentId).stream().toList();
@@ -57,10 +59,25 @@ public class SocialService {
       userIdsUrl = userIdsUrl.substring(0, userIdsUrl.length() - 1);
     }
     url += "/internal/publicsessions?" + userIdsUrl;
-    ResponseEntity<SessionDTO[]> response
-            = restTemplate.getForEntity(url + "&limit={limit}&offset={offset}", SessionDTO[].class, limit, offset);
-    SessionDTO[] sessions = response.getBody();
-    return Arrays.stream(sessions).toList();
+    ResponseEntity<ExtendedSessionDTO[]> response
+            = restTemplate.getForEntity(url + "&limit={limit}&offset={offset}", ExtendedSessionDTO[].class, limit, offset);
+    ExtendedSessionDTO[] sessions = response.getBody();
+    List<SessionAndOwnerDTO> result = new ArrayList<SessionAndOwnerDTO>();
+    for(ExtendedSessionDTO session : sessions){
+      SessionAndOwnerDTO sessionDTO = new SessionAndOwnerDTO();
+      sessionDTO.setAccess(session.getAccess());
+      sessionDTO.setLocation(session.getLocation());
+      sessionDTO.setComment(session.getComment());
+      sessionDTO.setEndDate(session.getEndDate());
+      sessionDTO.setStartDate(session.getStartDate());
+      sessionDTO.setCashOut(session.getCashOut());
+      sessionDTO.setBuyIn(session.getBuyIn());
+      sessionDTO.setCurrency(session.getCurrency());
+      sessionDTO.setType(session.getType());
+      sessionDTO.setOwnerEmail(getUserForId(session.getUserId()).getEmail());
+      result.add(sessionDTO);
+    }
+    return result;
   }
 
   public ResponseEntity<?> addFriend(String email){

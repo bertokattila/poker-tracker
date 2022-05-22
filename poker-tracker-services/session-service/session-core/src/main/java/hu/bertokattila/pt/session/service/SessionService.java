@@ -2,6 +2,7 @@ package hu.bertokattila.pt.session.service;
 
 
 import hu.bertokattila.pt.auth.AuthUser;
+import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.GetSessionsDTO;
 import hu.bertokattila.pt.session.PublicSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
@@ -73,9 +74,9 @@ public class SessionService {
     return convertSessionQuerytoSessionDto(res);
   }
 
-  public List<SessionDTO> getPublicSessionsOfUsers(PublicSessionsDTO dto){
+  public List<ExtendedSessionDTO> getPublicSessionsOfUsers(PublicSessionsDTO dto){
     List<SessionRepository.sessionQuery> res = repository.findAllByUserIdsAndAccess(dto.getUserIds(), dto.getLimit(), dto.getOffset(), "public");
-    return convertSessionQuerytoSessionDto(res);
+    return convertSessionQuerytoExtendedSessionDto(res);
   }
 
   private static List<SessionDTO> convertSessionQuerytoSessionDto(List<SessionRepository.sessionQuery> res){
@@ -95,6 +96,27 @@ public class SessionService {
     }
     return sessionDTOs;
   }
+
+  private static List<ExtendedSessionDTO> convertSessionQuerytoExtendedSessionDto(List<SessionRepository.sessionQuery> res){
+    List<ExtendedSessionDTO> sessionDTOs = new ArrayList<>();
+    for(SessionRepository.sessionQuery sessionQuery : res){
+      ExtendedSessionDTO dto = new ExtendedSessionDTO();
+      dto.setId(sessionQuery.getId());
+      dto.setUserId(sessionQuery.getUserId());
+      dto.setBuyIn(sessionQuery.getBuyIn());
+      dto.setCashOut(sessionQuery.getCashOut());
+      dto.setComment(sessionQuery.getComment());
+      dto.setCurrency(sessionQuery.getCurrency());
+      dto.setEndDate(sessionQuery.getEndDate());
+      dto.setLocation(sessionQuery.getLocation());
+      dto.setStartDate(sessionQuery.getStartDate());
+      dto.setType(sessionQuery.getType());
+      dto.setAccess(sessionQuery.getAccess());
+      sessionDTOs.add(dto);
+    }
+    return sessionDTOs;
+  }
+
   private static SessionDTO[] convertSessionQuerytoSessionDtoArray(List<SessionRepository.sessionQuery> res){
     List<SessionDTO> sessionDTOs = new ArrayList<>();
     for(SessionRepository.sessionQuery sessionQuery : res){

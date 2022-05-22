@@ -28,6 +28,8 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
   List<sessionQuery> findAllByUserIdsAndAccess(List<Integer> ids, int limit,  int offset, String access);
 
   public static interface sessionQuery {
+     int getId();
+     int getUserId();
      String getType();
      String getCurrency();
      double getBuyIn();
