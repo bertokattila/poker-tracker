@@ -2,6 +2,7 @@ package hu.bertokattila.pt.statistics.service;
 
 
 import hu.bertokattila.pt.auth.AuthUser;
+import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.social.DataPointDTO;
 import hu.bertokattila.pt.social.DataSeriesDTO;
@@ -9,6 +10,7 @@ import hu.bertokattila.pt.statistics.config.ServiceUrlProperties;
 import hu.bertokattila.pt.statistics.data.GenericStatisticsRepository;
 import hu.bertokattila.pt.statistics.data.StatisticsHistoryRepository;
 import hu.bertokattila.pt.statistics.model.GenericStatisticsRec;
+import hu.bertokattila.pt.statistics.model.StatisticsHistoryRec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,9 +42,9 @@ public class GenericStatisticsService {
   public void refreshStatistics(int userID){
     RestTemplate restTemplate = new RestTemplate();
     String url = serviceUrlProperties.getSessionServiceUrl();
-    ResponseEntity<SessionDTO[]> response
-            = restTemplate.getForEntity(url + "/internal/sessions/" + userID, SessionDTO[].class);
-    SessionDTO[] sessions = response.getBody();
+    ResponseEntity<ExtendedSessionDTO[]> response
+            = restTemplate.getForEntity(url + "/internal/sessions/" + userID, ExtendedSessionDTO[].class);
+    ExtendedSessionDTO[] sessions = response.getBody();
 
     GenericStatisticsRec rec = repository.findByUserId(userID).orElse(null);
     if(rec == null){
@@ -53,23 +55,42 @@ public class GenericStatisticsService {
       calculateStatistics(sessions, rec);
     }
     repository.save(rec);
+    refreshStatHistory(sessions, userID);
   }
 
+  /** nagyon nem optimalis, message queue majd segit... */
+  private void refreshStatHistory(ExtendedSessionDTO[] sessions, int userId){
+    List<StatisticsHistoryRec> recs = statRepo.getAllByUserId(userId);
+    for (ExtendedSessionDTO session : sessions) {
+      StatisticsHistoryRec rec = statRepo.getBySessionId(session.getId());
+      if(rec == null){
+        rec = new StatisticsHistoryRec();
+        rec.setUserId(userId);
+        rec.setSessionId(session.getId());
+        rec.setStartDate(session.getStartDate());
+        rec.setEndDate(session.getEndDate());
+        rec.setResult(session.getCashOut() - session.getBuyIn());
+        rec.setPlayedTime((int) ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate()));
+        rec.setType(session.getType());
+        statRepo.save(rec);
+      }
+    }
+  }
   /**
    * Calculating aggregated statistics for a user
    * @param sessions sessions of a user
    * @param rec statistics record
    */
-  private void calculateStatistics(SessionDTO[] sessions, GenericStatisticsRec rec) {
+  private void calculateStatistics(ExtendedSessionDTO[] sessions, GenericStatisticsRec rec) {
     ZoneId z = ZoneId.of("Europe/Budapest");
     LocalDateTime now = ZonedDateTime.now(z).toLocalDateTime();
-    List<SessionDTO> sessionDTOListAllTime = Arrays.stream(sessions).toList();
-    List<SessionDTO> sessionDTOListLast30Days = sessionDTOListAllTime.stream().filter(s -> s.getStartDate().isAfter(now.minusDays(30))).toList();
-    List<SessionDTO> sessionDTOListLastYear = sessionDTOListAllTime.stream().filter(s -> s.getStartDate().isAfter(now.minusDays(365))).toList();
+    List<ExtendedSessionDTO> sessionDTOListAllTime = Arrays.stream(sessions).toList();
+    List<ExtendedSessionDTO> sessionDTOListLast30Days = sessionDTOListAllTime.stream().filter(s -> s.getStartDate().isAfter(now.minusDays(30))).toList();
+    List<ExtendedSessionDTO> sessionDTOListLastYear = sessionDTOListAllTime.stream().filter(s -> s.getStartDate().isAfter(now.minusDays(365))).toList();
 
     long minutesAllTime = 0;
     long resultAllTime = 0;
-    for (SessionDTO session : sessionDTOListAllTime) {
+    for (ExtendedSessionDTO session : sessionDTOListAllTime) {
       minutesAllTime += ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate());
       resultAllTime += (session.getCashOut() - session.getBuyIn());
     }
@@ -78,7 +99,7 @@ public class GenericStatisticsService {
 
     long minutesLastYear = 0;
     long resultLastYear = 0;
-    for (SessionDTO session : sessionDTOListLastYear) {
+    for (ExtendedSessionDTO session : sessionDTOListLastYear) {
       minutesLastYear += ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate());
       resultLastYear += (session.getCashOut() - session.getBuyIn());
     }
@@ -87,7 +108,7 @@ public class GenericStatisticsService {
 
     long minutesLast30Days = 0;
     long resultLast30Days = 0;
-    for (SessionDTO session : sessionDTOListLast30Days) {
+    for (ExtendedSessionDTO session : sessionDTOListLast30Days) {
       minutesLast30Days += ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate());
       resultLast30Days += (session.getCashOut() - session.getBuyIn());
     }
@@ -96,7 +117,7 @@ public class GenericStatisticsService {
   }
 
   public GenericStatisticsRec getGenericStatistics() {
-    int userId = getUserId();
+    int userId= ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     return repository.findByUserId(userId).orElse(null);
   }
 

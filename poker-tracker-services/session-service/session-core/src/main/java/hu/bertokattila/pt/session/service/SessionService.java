@@ -134,9 +134,9 @@ public class SessionService {
     }
     return sessionDTOs.toArray(new SessionDTO[0]);
   }
-  public SessionDTO[] getSessionsForUser(int userID){
+  public ExtendedSessionDTO[] getSessionsForUser(int userID){
     List<SessionRepository.sessionQuery> res = repository.findAllByUserId(userID);
-    return convertSessionQuerytoSessionDtoArray(res);
+    return convertSessionQuerytoExtendedSessionDto(res).toArray(new ExtendedSessionDTO[0]);
   }
   public void refreshStatistics(int userId){
     RestTemplate restTemplate = new RestTemplate();

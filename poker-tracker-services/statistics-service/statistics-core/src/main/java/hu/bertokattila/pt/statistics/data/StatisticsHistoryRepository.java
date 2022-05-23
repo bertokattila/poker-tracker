@@ -21,6 +21,10 @@ public interface StatisticsHistoryRepository extends CrudRepository<StatisticsHi
   @Query(value= "SELECT SUM(result) as result, sum(playedtime) as palyedtime, to_char(startdate, 'Month') as month, type from statistics_history where userid = 1 AND statistics_history.startdate  > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year' group by to_char(startdate, 'Month'), type", nativeQuery = true)
   List<StatQueryMonthly> getMonthlyStats(int userId);
 
+  List<StatisticsHistoryRec> getAllByUserId(int userId);
+
+  StatisticsHistoryRec getBySessionId(int sessionId);
+
   public static interface StatQuery {
     int getResult();
     int getPlayedTime();

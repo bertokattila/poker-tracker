@@ -32,4 +32,7 @@ public class SessionDTO {
   @NotBlank
   private String access;
 
+  // optional
+  private Integer id;
+
 }

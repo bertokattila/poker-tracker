@@ -1,5 +1,6 @@
 package hu.bertokattila.pt.session.controllers;
 
+import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.GetSessionsDTO;
 import hu.bertokattila.pt.session.PublicSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
@@ -85,7 +86,7 @@ public class SessionController {
 
   // TODO: majd message queue kene ide, hogy ne kelljen mindig elkerni az osszeset
   @GetMapping("/internal/sessions/{userId}")
-  public ResponseEntity<SessionDTO[]> getSessionsForUSer(@Valid @PositiveOrZero @PathVariable int userId) {
+  public ResponseEntity<ExtendedSessionDTO[]> getSessionsForUSer(@Valid @PositiveOrZero @PathVariable int userId) {
     return new ResponseEntity<>(sessionService.getSessionsForUser(userId), HttpStatus.OK);
   }
 }

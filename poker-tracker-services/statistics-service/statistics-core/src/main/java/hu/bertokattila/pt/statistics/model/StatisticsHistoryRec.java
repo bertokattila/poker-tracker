@@ -25,6 +25,9 @@ public class StatisticsHistoryRec {
   @Column(name = "userid")
   private int userId;
 
+  @Column(name = "sessionid")
+  private int sessionId;
+
   @Column(name = "startdate")
   private LocalDateTime startDate;
 
