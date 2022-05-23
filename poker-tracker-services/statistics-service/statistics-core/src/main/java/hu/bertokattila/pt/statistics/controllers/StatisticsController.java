@@ -1,5 +1,6 @@
 package hu.bertokattila.pt.statistics.controllers;
 
+import hu.bertokattila.pt.social.DataSeriesDTO;
 import hu.bertokattila.pt.statistics.model.GenericStatisticsRec;
 import hu.bertokattila.pt.statistics.service.GenericStatisticsService;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -37,6 +39,26 @@ public class StatisticsController {
   @Valid
   public ResponseEntity<GenericStatisticsRec> getGeneric(){
     GenericStatisticsRec res = statisticsService.getGenericStatistics();
+    if(res == null){
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+
+  @GetMapping("/result/yearly")
+  @Valid
+  public ResponseEntity<List<DataSeriesDTO>> getYearlyResult(){
+    List<DataSeriesDTO> res = statisticsService.getYearlyResult();
+    if(res == null){
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+
+  @GetMapping("/result/monthly")
+  @Valid
+  public ResponseEntity<List<DataSeriesDTO>> getMonthlyResult(){
+    List<DataSeriesDTO> res = statisticsService.getMonthlyResult();
     if(res == null){
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

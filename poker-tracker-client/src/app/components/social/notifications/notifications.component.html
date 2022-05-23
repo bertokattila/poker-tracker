@@ -1,5 +1,87 @@
 <div id="notificationsContainer" fxLayout="row">
   <div class="container" fxLayout="column" fxLayoutGap="10px">
     <h2>Activity of your friends</h2>
+    <div class="containerHistory">
+      <mat-accordion multi="true" class="historyItem">
+        <mat-expansion-panel *ngFor="let session of notifications" hideToggle>
+          <mat-expansion-panel-header>
+            <div class="title">
+              <div
+                class="amount"
+                [ngClass]="
+                  session.cashOut - session.buyIn > 0 ? 'green' : 'red'
+                "
+              >
+                <div *ngIf="session.cashOut - session.buyIn > 0">+</div>
+                <div *ngIf="session.cashOut - session.buyIn < 0">-</div>
+                <b>
+                  {{
+                    (
+                      myMath.round(
+                        myMath.abs(session.cashOut - session.buyIn) * 100
+                      ) / 100
+                    ).toFixed(2)
+                  }}</b
+                >
+              </div>
+            </div>
+
+            <div class="currency">
+              {{ session.currency }}
+            </div>
+            <div class="currency">{{ session.ownerEmail }}</div>
+
+            <div>
+              {{
+                this.datepipe.transform(
+                  session.startDate,
+                  "yyyy. MM. dd. hh:mm"
+                )
+              }}
+            </div>
+          </mat-expansion-panel-header>
+          <div class="details">
+            <div class="money">
+              <p>Buy In: {{ session.buyIn + " " + session.currency }}</p>
+              <p>Cash Out: {{ session.cashOut + " " + session.currency }}</p>
+              <p>
+                Comment: {{ session.comment === null ? "-" : session.comment }}
+              </p>
+            </div>
+
+            <div class="dates">
+              <p>
+                Starting date and time:
+                {{
+                  this.datepipe.transform(
+                    session.startDate,
+                    "yyyy. MM. dd. hh:mm"
+                  )
+                }}
+              </p>
+              <p>
+                Ending date and time:
+                {{
+                  this.datepipe.transform(
+                    session.endDate,
+                    "yyyy. MM. dd. hh:mm"
+                  )
+                }}
+              </p>
+              <p>Location: {{ session.location }}</p>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <button
+        mat-flat-button
+        *ngIf="canLoadMore"
+        (click)="loadMore()"
+        class="loadMoreBtn"
+        color="primary"
+      >
+        Load More
+      </button>
+    </div>
   </div>
 </div>

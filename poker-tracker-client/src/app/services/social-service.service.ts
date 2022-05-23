@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AddFriendDto } from '../model/addFriendDto';
+import { Session } from '../model/session';
+import { SessionWithOwnerDTO } from '../model/sessionWithOwnerDTO';
 import { serviceUrls } from './serviceUrls';
 
 @Injectable({
@@ -31,6 +34,18 @@ export class SocialService {
     return this.http.post(
       serviceUrls.socialServiceUrl + '/social/acceptfriend/' + id,
       null
+    );
+  }
+  getNotifications(
+    limit: number,
+    offset: number
+  ): Observable<SessionWithOwnerDTO[]> {
+    return this.http.get<SessionWithOwnerDTO[]>(
+      serviceUrls.socialServiceUrl +
+        '/social/notifications?limit=' +
+        limit +
+        '&offset=' +
+        offset
     );
   }
 }
