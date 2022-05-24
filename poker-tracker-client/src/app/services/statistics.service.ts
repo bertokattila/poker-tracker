@@ -15,4 +15,14 @@ export class StatisticsService {
       serviceUrls.statisticsServiceUrl + '/statistics/generic/'
     );
   }
+  getYearlyResults(): Observable<any> {
+    return this.http.get<any>(
+      serviceUrls.statisticsServiceUrl + '/statistics/result/yearly'
+    );
+  }
+  getMonthlyResults(): Observable<any> {
+    return this.http.get<any>(
+      serviceUrls.statisticsServiceUrl + '/statistics/result/monthly'
+    );
+  }
 }

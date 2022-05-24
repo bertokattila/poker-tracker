@@ -281,6 +281,8 @@ export class StatisticsComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.loadGenericStats();
+    this.loadYearlyResultStats();
+    this.loadMonthlyResultStats();
   }
   loadGenericStats = () => {
     this.statisticsService.getGenericStats().subscribe({
@@ -288,6 +290,34 @@ export class StatisticsComponent implements OnInit {
         this.formatResult(stats);
         this.formatPlayedTimes(stats);
         this.calculateWages();
+      },
+      error: (e) => {
+        if (e.status === 400) {
+          this.openDialog('An error occured', 'Unknown error');
+        } else if (e.status === 404) {
+          this.formatNAs();
+        }
+      },
+    });
+  };
+  loadYearlyResultStats = () => {
+    this.statisticsService.getYearlyResults().subscribe({
+      next: (stats: any) => {
+        this.multi = stats;
+      },
+      error: (e) => {
+        if (e.status === 400) {
+          this.openDialog('An error occured', 'Unknown error');
+        } else if (e.status === 404) {
+          this.formatNAs();
+        }
+      },
+    });
+  };
+  loadMonthlyResultStats = () => {
+    this.statisticsService.getMonthlyResults().subscribe({
+      next: (stats: any) => {
+        this.monthly = stats;
       },
       error: (e) => {
         if (e.status === 400) {
