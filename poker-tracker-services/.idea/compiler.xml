@@ -26,7 +26,7 @@
       <module name="session-core" options="-parameters" />
       <module name="social-api" options="-parameters" />
       <module name="social-core" options="-parameters" />
-      <module name="social-service" options="-parameters" />
+      <module name="social-service" options="" />
       <module name="statistics-api" options="-parameters" />
       <module name="statistics-core" options="-parameters" />
       <module name="user-api" options="-parameters" />
