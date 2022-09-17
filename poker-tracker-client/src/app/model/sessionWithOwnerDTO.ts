@@ -1,4 +1,4 @@
-import { GameType } from './addSessionDto';
+import { GameType } from './addSessionDTO';
 
 export class SessionWithOwnerDTO {
   constructor(

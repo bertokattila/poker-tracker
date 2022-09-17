@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GameType, AccessType } from 'src/app/model/addSessionDto';
+import { GameType, AccessType } from 'src/app/model/addSessionDTO';
 import { AddSessionService } from 'src/app/services/add-session.service';
 import { DialogComponent } from '../dialog/dialog.component';
 

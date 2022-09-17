@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AccessType, AddsessionDTO, GameType } from '../model/addSessionDto';
+import { AccessType, AddsessionDTO, GameType } from '../model/addSessionDTO';
 import { serviceUrls } from './serviceUrls';
 
 @Injectable({
