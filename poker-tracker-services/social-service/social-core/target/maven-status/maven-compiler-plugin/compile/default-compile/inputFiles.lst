@@ -1,0 +1,10 @@
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/data/NotoficationRepository.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/config/Config.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/service/SocialService.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/config/ServiceUrlProperties.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/SocialServiceApplication.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/model/SocialConnectionRec.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/data/SocialConnectionRepository.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/config/SecurityConfigurer.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/controllers/SocialController.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/social-service/social-core/src/main/java/hu/bertokattila/pt/social/model/NotificationRec.java

@@ -1,0 +1,11 @@
+META-INF/spring-configuration-metadata.json
+hu/bertokattila/pt/social/SocialServiceApplication.class
+hu/bertokattila/pt/social/model/NotificationRec.class
+hu/bertokattila/pt/social/config/Config.class
+hu/bertokattila/pt/social/service/SocialService.class
+hu/bertokattila/pt/social/config/SecurityConfigurer.class
+hu/bertokattila/pt/social/config/ServiceUrlProperties.class
+hu/bertokattila/pt/social/controllers/SocialController.class
+hu/bertokattila/pt/social/data/NotoficationRepository.class
+hu/bertokattila/pt/social/model/SocialConnectionRec.class
+hu/bertokattila/pt/social/data/SocialConnectionRepository.class

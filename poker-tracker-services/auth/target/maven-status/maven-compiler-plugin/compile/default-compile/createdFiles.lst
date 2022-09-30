@@ -1,0 +1,3 @@
+hu/bertokattila/pt/auth/util/JwtUtil.class
+hu/bertokattila/pt/auth/AuthUser.class
+hu/bertokattila/pt/auth/filters/JwtRequestFilter.class

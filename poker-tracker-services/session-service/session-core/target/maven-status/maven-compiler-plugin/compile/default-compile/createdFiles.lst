@@ -1,0 +1,14 @@
+hu/bertokattila/pt/session/config/JwtInterceptor.class
+hu/bertokattila/pt/session/model/Session.class
+hu/bertokattila/pt/session/service/LocationService.class
+hu/bertokattila/pt/session/data/LocationRepository.class
+hu/bertokattila/pt/session/service/SessionService.class
+hu/bertokattila/pt/session/model/Location.class
+hu/bertokattila/pt/session/data/SessionRepository.class
+hu/bertokattila/pt/session/controllers/LocationController.class
+hu/bertokattila/pt/session/config/Config.class
+hu/bertokattila/pt/session/config/ServiceUrlProperties.class
+hu/bertokattila/pt/session/controllers/SessionController.class
+hu/bertokattila/pt/session/config/SecurityConfigurer.class
+hu/bertokattila/pt/session/data/SessionRepository$sessionQuery.class
+hu/bertokattila/pt/session/SessionServiceApplication.class

@@ -1,0 +1,11 @@
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/config/SecurityConfigurer.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/model/StatisticsHistoryRec.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/service/GenericStatisticsService.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/config/ServiceUrlProperties.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/StatisticsServiceApplication.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/controllers/StatisticsController.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/data/StatisticsHistoryRepository.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/model/GenericStatisticsRec.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/data/GenericStatisticsRepository.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/config/Config.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/statistics-service/statistics-core/src/main/java/hu/bertokattila/pt/statistics/util/CurrencyExchanger.java

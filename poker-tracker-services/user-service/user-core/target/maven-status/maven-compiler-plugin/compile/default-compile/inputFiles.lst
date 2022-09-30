@@ -1,0 +1,8 @@
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/user-service/user-core/src/main/java/hu/bertokattila/pt/user/auth/SecurityConfigurer.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/user-service/user-core/src/main/java/hu/bertokattila/pt/user/service/UserService.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/user-service/user-core/src/main/java/hu/bertokattila/pt/user/model/User.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/user-service/user-core/src/main/java/hu/bertokattila/pt/user/UserServiceApplication.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/user-service/user-core/src/main/java/hu/bertokattila/pt/user/data/UserRepository.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/user-service/user-core/src/main/java/hu/bertokattila/pt/user/config/Config.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/user-service/user-core/src/main/java/hu/bertokattila/pt/user/controllers/UserController.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/user-service/user-core/src/main/java/hu/bertokattila/pt/user/service/UserDetailsService.java
