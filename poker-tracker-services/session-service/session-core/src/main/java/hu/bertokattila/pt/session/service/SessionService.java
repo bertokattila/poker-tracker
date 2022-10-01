@@ -12,6 +12,7 @@ import hu.bertokattila.pt.session.model.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,11 +29,14 @@ public class SessionService {
   private final LocationService locationService;
   private final ServiceUrlProperties serviceUrlProperties;
 
+  private final KafkaTemplate<String, String> template;
+
   @Autowired
-  public SessionService(SessionRepository sessionRepository, LocationService locationService, ServiceUrlProperties serviceUrlProperties) {
+  public SessionService(SessionRepository sessionRepository, LocationService locationService, ServiceUrlProperties serviceUrlProperties, KafkaTemplate<String, String> template) {
     repository = sessionRepository;
     this.locationService = locationService;
     this.serviceUrlProperties = serviceUrlProperties;
+    this.template = template;
   }
 
   public Session saveSession(SessionDTO sessionDTO){
@@ -139,6 +143,7 @@ public class SessionService {
     return convertSessionQuerytoExtendedSessionDto(res).toArray(new ExtendedSessionDTO[0]);
   }
   public void refreshStatistics(int userId){
+    template.send("sessionReport", "asd");
     RestTemplate restTemplate = new RestTemplate();
     String url = serviceUrlProperties.getStatisticsServiceUrl();
     ResponseEntity<?> response
