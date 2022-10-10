@@ -13,4 +13,24 @@ public class ServiceUrlProperties {
   }
 
   private String statisticsServiceUrl;
+
+  public String getExchangeServiceUrl() {
+    return exchangeServiceUrl;
+  }
+
+  public void setExchangeServiceUrl(String exchangeServiceUrl) {
+    this.exchangeServiceUrl = exchangeServiceUrl;
+  }
+
+  private String exchangeServiceUrl;
+
+  public String getExchangeServiceToken() {
+    return exchangeServiceToken;
+  }
+
+  public void setExchangeServiceToken(String exchangeServiceToken) {
+    this.exchangeServiceToken = exchangeServiceToken;
+  }
+
+  private String exchangeServiceToken;
 }

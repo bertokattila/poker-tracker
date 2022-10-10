@@ -14,6 +14,16 @@ import java.time.LocalDateTime;
 @Entity(name = "GenericStatisticsRec")
 @Table(name = "generic_statistics")
 public class GenericStatisticsRec {
+
+  public GenericStatisticsRec(){
+    this.allTimeResult = 0;
+    this.allTimePlayedTime = 0;
+    this.lastMonthResult = 0;
+    this.lastMonthPlayedTime = 0;
+    this.lastYearResult = 0;
+    this.lastYearPlayedTime = 0;
+  }
+
   @Id
   @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)

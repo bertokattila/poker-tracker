@@ -16,6 +16,7 @@ public class JwtUtil {
   public String generateToken(AuthUser userDetails){
     Map<String, Object> claims = new HashMap<>();
     claims.put("userId", userDetails.getId());
+    claims.put("defaultCurrency", userDetails.getDefaultCurrency());
     return createToken(claims, userDetails.getUsername());
   }
   private String createToken(Map<String, Object> claims, String subject){
@@ -53,7 +54,7 @@ public class JwtUtil {
     try{
       Claims claims = extractAllClaims(token);
 
-      return Optional.of(new AuthUser(claims.getSubject(), "", new ArrayList<>(),claims.get("userId", Integer.class), ""));
+      return Optional.of(new AuthUser(claims.getSubject(), "", new ArrayList<>(),claims.get("userId", Integer.class), "", claims.get("defaultCurrency", String.class)));
     }catch (final SignatureException | ExpiredJwtException e) {
       return Optional.empty();
     }

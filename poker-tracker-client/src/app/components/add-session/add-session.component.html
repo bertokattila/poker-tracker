@@ -46,12 +46,44 @@
     </p>
     <p>
       <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
+        <mat-label>Game Type</mat-label>
+        <mat-select value="huf" [(ngModel)]="currency">
+          <mat-option value="huf">Hold'em</mat-option>
+          <mat-option value="eur">Omaha</mat-option>
+          <mat-option value="eur">Omaha High-Low</mat-option>
+          <mat-option value="usd">Seven Card Stud</mat-option>
+          <mat-option value="usd">Seven Card Stud High-Low</mat-option>
+          <mat-option value="usd">H.O.R.S.E</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
         <mat-label>Currency</mat-label>
         <mat-select value="huf" [(ngModel)]="currency">
           <mat-option value="huf">HUF</mat-option>
           <mat-option value="eur">EUR</mat-option>
           <mat-option value="usd">USD</mat-option>
         </mat-select>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
+        <mat-label>Ante</mat-label>
+        <input
+          [(ngModel)]="buyIn"
+          OnlyNumber
+          matInput
+          placeholder="Placeholder"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
+        <mat-label>Blinds</mat-label>
+        <input
+          [(ngModel)]="cashOut"
+          OnlyNumber
+          matInput
+          placeholder="Placeholder"
+        />
       </mat-form-field>
     </p>
     <p>

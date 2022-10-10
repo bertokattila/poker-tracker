@@ -1,5 +1,6 @@
 package hu.bertokattila.pt.statistics.kafka;
 
+import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -29,12 +30,13 @@ public class KafkaSessionReportConsumerConfig {
     Map<String, Object> props = new HashMap<>();
     props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
     props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, SessionReportDeSerializer.class);
+
     return props;
   }
 
   @Bean
-  public ConsumerFactory<String, String> consumerFactory() {
+  public ConsumerFactory<String, ExtendedSessionDTO> consumerFactory() {
     return new DefaultKafkaConsumerFactory<>(consumerConfig());
   }
 
@@ -43,7 +45,7 @@ public class KafkaSessionReportConsumerConfig {
   concurrentKafkaListenerContainerFactory()
   {
     ConcurrentKafkaListenerContainerFactory<
-            String, String> factory
+            String, ExtendedSessionDTO> factory
             = new ConcurrentKafkaListenerContainerFactory<>();
     factory.setConsumerFactory(consumerFactory());
     return factory;

@@ -1,5 +1,6 @@
 package hu.bertokattila.pt.session.model;
 
+import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.SessionDTO;
 import lombok.Data;
 
@@ -65,5 +66,20 @@ public class Session {
 
   @Column(name = "access")
   private String access;
+
+  public ExtendedSessionDTO toExtendedSessionDTO(){
+    ExtendedSessionDTO dto = new ExtendedSessionDTO();
+    dto.setId(id);
+    dto.setAccess(access);
+    dto.setComment(comment);
+    dto.setCurrency(currency);
+    dto.setType(type);
+    dto.setCashOut(cashOut);
+    dto.setBuyIn(buyIn);
+    dto.setStartDate(startDate);
+    dto.setEndDate(endDate);
+    dto.setUserId(userId);
+    return dto;
+  }
 
 }

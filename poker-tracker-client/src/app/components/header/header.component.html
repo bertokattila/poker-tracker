@@ -1,4 +1,11 @@
 <header *ngIf="isLoggedIn" class="appHeader">
-  <button (click)="logOut()" mat-flat-button color="primary">Log Out</button>
-  <p class="userNameLabel">{{ userName }}</p>
+  <div id="placeholder"></div>
+  <div class="title">
+    <img src="../../../assets/poker-chip.png" />
+    <h1>Poker Tracker</h1>
+  </div>
+  <div class="userDetails">
+    <p class="userNameLabel">{{ userName }}</p>
+    <button (click)="logOut()" mat-flat-button color="primary">Log Out</button>
+  </div>
 </header>

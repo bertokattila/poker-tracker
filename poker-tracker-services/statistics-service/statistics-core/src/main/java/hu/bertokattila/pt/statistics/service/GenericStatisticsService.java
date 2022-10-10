@@ -39,33 +39,30 @@ public class GenericStatisticsService {
     this.serviceUrlProperties = serviceUrlProperties;
     this.statRepo = statisticsHistoryRepository;
   }
-  public void refreshStatistics(int userID){
-    RestTemplate restTemplate = new RestTemplate();
-    String url = serviceUrlProperties.getSessionServiceUrl();
-    ResponseEntity<ExtendedSessionDTO[]> response
-            = restTemplate.getForEntity(url + "/internal/sessions/" + userID, ExtendedSessionDTO[].class);
-    ExtendedSessionDTO[] sessions = response.getBody();
+  public void refreshStatistics(ExtendedSessionDTO session){
+    //RestTemplate restTemplate = new RestTemplate();
+    //String url = serviceUrlProperties.getSessionServiceUrl();
+    //ResponseEntity<ExtendedSessionDTO[]> response
+     //       = restTemplate.getForEntity(url + "/internal/sessions/" + userID, ExtendedSessionDTO[].class);
+    //ExtendedSessionDTO session = response.getBody();
 
-    GenericStatisticsRec rec = repository.findByUserId(userID).orElse(null);
+    GenericStatisticsRec rec = repository.findByUserId(session.getUserId()).orElse(null);
     if(rec == null){
       rec = new GenericStatisticsRec();
-      rec.setUserId(userID);
-      calculateStatistics(sessions, rec);
+      rec.setUserId(session.getUserId());
+      calculateStatistics(session, rec);
     }else{
-      calculateStatistics(sessions, rec);
+      calculateStatistics(session, rec);
     }
     repository.save(rec);
-    refreshStatHistory(sessions, userID);
+    refreshStatHistory(session);
   }
 
-  /** nagyon nem optimalis, message queue majd segit... */
-  private void refreshStatHistory(ExtendedSessionDTO[] sessions, int userId){
-    List<StatisticsHistoryRec> recs = statRepo.getAllByUserId(userId);
-    for (ExtendedSessionDTO session : sessions) {
+  private void refreshStatHistory(ExtendedSessionDTO session){
       StatisticsHistoryRec rec = statRepo.getBySessionId(session.getId());
       if(rec == null){
         rec = new StatisticsHistoryRec();
-        rec.setUserId(userId);
+        rec.setUserId(session.getUserId());
         rec.setSessionId(session.getId());
         rec.setStartDate(session.getStartDate());
         rec.setEndDate(session.getEndDate());
@@ -74,46 +71,31 @@ public class GenericStatisticsService {
         rec.setType(session.getType());
         statRepo.save(rec);
       }
-    }
   }
+
   /**
-   * Calculating aggregated statistics for a user
-   * @param sessions sessions of a user
+   * Calculating aggregated statistics for a user when a session is added
+   * @param session new session added
    * @param rec statistics record
    */
-  private void calculateStatistics(ExtendedSessionDTO[] sessions, GenericStatisticsRec rec) {
+  private void calculateStatistics(ExtendedSessionDTO session, GenericStatisticsRec rec) {
     ZoneId z = ZoneId.of("Europe/Budapest");
     LocalDateTime now = ZonedDateTime.now(z).toLocalDateTime();
-    List<ExtendedSessionDTO> sessionDTOListAllTime = Arrays.stream(sessions).toList();
-    List<ExtendedSessionDTO> sessionDTOListLast30Days = sessionDTOListAllTime.stream().filter(s -> s.getStartDate().isAfter(now.minusDays(30))).toList();
-    List<ExtendedSessionDTO> sessionDTOListLastYear = sessionDTOListAllTime.stream().filter(s -> s.getStartDate().isAfter(now.minusDays(365))).toList();
 
-    long minutesAllTime = 0;
-    long resultAllTime = 0;
-    for (ExtendedSessionDTO session : sessionDTOListAllTime) {
-      minutesAllTime += ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate());
-      resultAllTime += (session.getCashOut() - session.getBuyIn());
-    }
-    rec.setAllTimePlayedTime(minutesAllTime);
-    rec.setAllTimeResult(resultAllTime);
+    long daysSinceSession = ChronoUnit.DAYS.between(session.getEndDate(), now);
 
-    long minutesLastYear = 0;
-    long resultLastYear = 0;
-    for (ExtendedSessionDTO session : sessionDTOListLastYear) {
-      minutesLastYear += ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate());
-      resultLastYear += (session.getCashOut() - session.getBuyIn());
-    }
-    rec.setLastYearPlayedTime(minutesLastYear);
-    rec.setLastYearResult(resultLastYear);
+    rec.setAllTimePlayedTime(rec.getAllTimePlayedTime() + ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate()));
+    rec.setAllTimeResult(rec.getAllTimeResult() + (session.getCashOut() - session.getBuyIn()));
 
-    long minutesLast30Days = 0;
-    long resultLast30Days = 0;
-    for (ExtendedSessionDTO session : sessionDTOListLast30Days) {
-      minutesLast30Days += ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate());
-      resultLast30Days += (session.getCashOut() - session.getBuyIn());
+    if(daysSinceSession <= 365) {
+      rec.setLastYearPlayedTime(rec.getLastYearPlayedTime() + ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate()));
+      rec.setLastYearResult(rec.getLastYearResult() + session.getCashOut() - session.getBuyIn());
     }
-    rec.setLastMonthPlayedTime(minutesLast30Days);
-    rec.setLastMonthResult(resultLast30Days);
+
+    if(daysSinceSession <= 30) {
+      rec.setLastMonthPlayedTime(rec.getLastMonthPlayedTime() + ChronoUnit.MINUTES.between(session.getStartDate(), session.getEndDate()));
+      rec.setLastMonthResult(rec.getLastMonthResult() + (session.getCashOut() - session.getBuyIn()));
+    }
   }
 
   public GenericStatisticsRec getGenericStatistics() {

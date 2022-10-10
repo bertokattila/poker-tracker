@@ -29,12 +29,12 @@ public class StatisticsController {
    * @param userID
    * @return
    */
-  @PostMapping("/refresh/{userID}")
+/*  @PostMapping("/refresh/{userID}")
   @Valid
   public ResponseEntity<?> addSession(@Valid @PositiveOrZero @PathVariable int userID){
     statisticsService.refreshStatistics(userID);
     return new ResponseEntity<>(HttpStatus.OK);
-  }
+  }*/
   @GetMapping("/generic")
   @Valid
   public ResponseEntity<GenericStatisticsRec> getGeneric(){

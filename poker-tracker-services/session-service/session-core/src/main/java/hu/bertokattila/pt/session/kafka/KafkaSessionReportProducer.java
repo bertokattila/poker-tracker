@@ -1,5 +1,6 @@
 package hu.bertokattila.pt.session.kafka;
 
+import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,24 +32,24 @@ public class KafkaSessionReportProducer {
     Map<String, Object> props = new HashMap<>();
     props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
     props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "hu.bertokattila.pt.session.kafka.SessionReportSerializer");
     return props;
   }
   @Bean
-  public ProducerFactory<String, String> producerFactory() {
+  public ProducerFactory<String, ExtendedSessionDTO> producerFactory() {
     return new DefaultKafkaProducerFactory<>(producerConfig());
   }
 
   @Bean
-  public KafkaTemplate<String, String> kafkaTemplate() {
-    return new KafkaTemplate<String, String>(producerFactory());
+  public KafkaTemplate<String, ExtendedSessionDTO> kafkaTemplate() {
+    return new KafkaTemplate<String, ExtendedSessionDTO>(producerFactory());
   }
 
-  @Bean
-  public ApplicationRunner runner(KafkaTemplate<String, String> template) {
-    return args -> {
-      template.send("sessionReport", "test");
-    };
-  }
+  //@Bean
+  //public ApplicationRunner runner(KafkaTemplate<String, String> template) {
+   // return args -> {
+    //  template.send("sessionReport", "test");
+    //};
+ // }
 
 }

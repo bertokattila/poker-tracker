@@ -6,9 +6,14 @@ CREATE table session
     Currency   varchar(3) not null,
     BuyIn      real,
     CashOut    real,
+    ExchangeRate real default 1,
     StartDate  timestamp not null default current_timestamp,
     EndDate    timestamp not null default current_timestamp,
     Comment    text,
     LocationID bigint,
-    Access    varchar(10) not null default 'public'
+    Access     varchar(10) not null default 'public',
+    Game       varchar(30) not null default 'Hold''em',
+    Ante       real,
+    Blinds     real,
+    TableSize  integer
 );

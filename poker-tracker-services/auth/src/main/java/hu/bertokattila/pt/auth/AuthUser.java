@@ -27,9 +27,20 @@ public class AuthUser extends User {
 
   private String name;
 
-  public AuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities, int id, String name) {
+  public String getDefaultCurrency() {
+    return defaultCurrency;
+  }
+
+  public void setDefaultCurrency(String defaultCurrency) {
+    this.defaultCurrency = defaultCurrency;
+  }
+
+  private String defaultCurrency;
+
+  public AuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities, int id, String name, String defaultCurrency) {
     super(username, password, authorities);
     setId(id);
     setName(name);
+    setDefaultCurrency(defaultCurrency);
   }
 }
