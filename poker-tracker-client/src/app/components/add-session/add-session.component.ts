@@ -25,6 +25,10 @@ export class AddSessionComponent implements OnInit {
   cashOut: number;
   comment: string;
   location: string;
+  specificGameType: string = "Hold'em";
+  ante: number | undefined;
+  blinds: number | undefined;
+  tableSize: number | undefined;
 
   constructor(
     private addSessionService: AddSessionService,
@@ -37,6 +41,10 @@ export class AddSessionComponent implements OnInit {
     this.currency = 'huf';
   }
   addSession() {
+    if (this.gameType === 'tournament') {
+      this.ante = undefined;
+      this.blinds = undefined;
+    }
     this.addSessionService
       .addSession(
         this.gameType,
@@ -47,7 +55,11 @@ export class AddSessionComponent implements OnInit {
         this.endDate,
         this.comment,
         this.location,
-        this.accessType
+        this.accessType,
+        this.specificGameType,
+        this.ante,
+        this.blinds,
+        this.tableSize
       )
       .subscribe({
         next: (resp) => {

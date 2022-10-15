@@ -4,7 +4,15 @@ import lombok.Data;
 
 @Data
 public class CurrencyExchangeResponse {
+
+  public static class Info {
+    double rate;
+    public double getRate() {
+      return rate;
+    }
+  }
   Boolean success;
-  Integer result;
+  Double result;
+  Info info;
 
 }

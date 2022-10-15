@@ -30,7 +30,7 @@
           [(ngModel)]="buyIn"
           OnlyNumber
           matInput
-          placeholder="Placeholder"
+          placeholder="Enter buy in here"
         />
       </mat-form-field>
 
@@ -40,20 +40,22 @@
           [(ngModel)]="cashOut"
           OnlyNumber
           matInput
-          placeholder="Placeholder"
+          placeholder="Enter cash out here"
         />
       </mat-form-field>
     </p>
     <p>
       <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
         <mat-label>Game Type</mat-label>
-        <mat-select value="huf" [(ngModel)]="currency">
-          <mat-option value="huf">Hold'em</mat-option>
-          <mat-option value="eur">Omaha</mat-option>
-          <mat-option value="eur">Omaha High-Low</mat-option>
-          <mat-option value="usd">Seven Card Stud</mat-option>
-          <mat-option value="usd">Seven Card Stud High-Low</mat-option>
-          <mat-option value="usd">H.O.R.S.E</mat-option>
+        <mat-select [(ngModel)]="specificGameType">
+          <mat-option value="Hold'em">Hold'em</mat-option>
+          <mat-option value="Omaha">Omaha</mat-option>
+          <mat-option value="Omaha High-Low">Omaha High-Low</mat-option>
+          <mat-option value="Seven Card Stud">Seven Card Stud</mat-option>
+          <mat-option value="Seven Card Stud High-Low"
+            >Seven Card Stud High-Low</mat-option
+          >
+          <mat-option value="H.O.R.S.E">H.O.R.S.E</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
@@ -65,25 +67,42 @@
         </mat-select>
       </mat-form-field>
     </p>
-    <p>
+    <p *ngIf="gameType === 'cash'">
       <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
         <mat-label>Ante</mat-label>
         <input
-          [(ngModel)]="buyIn"
+          [(ngModel)]="ante"
           OnlyNumber
           matInput
-          placeholder="Placeholder"
+          placeholder="Enter ante here"
         />
       </mat-form-field>
 
       <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
         <mat-label>Blinds</mat-label>
         <input
-          [(ngModel)]="cashOut"
+          [(ngModel)]="blinds"
           OnlyNumber
           matInput
-          placeholder="Placeholder"
+          placeholder="Enter blinds here"
         />
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
+        <mat-label>Table size</mat-label>
+        <mat-select [(ngModel)]="tableSize">
+          <mat-option value="2">Heads-up</mat-option>
+          <mat-option value="3">3-max</mat-option>
+          <mat-option value="4">4-max</mat-option>
+          <mat-option value="5">5-max</mat-option>
+          <mat-option value="6">6-max</mat-option>
+
+          <mat-option value="7">7-max</mat-option>
+          <mat-option value="8">8-max</mat-option>
+          <mat-option value="9">9-max</mat-option>
+          <mat-option value="10">10-max</mat-option>
+        </mat-select>
       </mat-form-field>
     </p>
     <p>

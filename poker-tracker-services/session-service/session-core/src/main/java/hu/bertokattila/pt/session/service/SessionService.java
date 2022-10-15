@@ -10,6 +10,7 @@ import hu.bertokattila.pt.session.SessionDTO;
 import hu.bertokattila.pt.session.config.ServiceUrlProperties;
 import hu.bertokattila.pt.session.data.SessionRepository;
 import hu.bertokattila.pt.session.model.Session;
+import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpEntity;
@@ -55,13 +56,15 @@ public class SessionService {
     Session session = new Session(sessionDTO, locationId, id);
     String defaultCurrency = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getDefaultCurrency();
     if(!defaultCurrency.equalsIgnoreCase(sessionDTO.getCurrency())){
-      Integer buyInInDefaultCurrency = exchangeCurrency(sessionDTO.getCurrency().toUpperCase(), defaultCurrency.toUpperCase(), sessionDTO.getBuyIn());
-      Integer cashOutInDefaultCurrency = exchangeCurrency(sessionDTO.getCurrency().toUpperCase(), defaultCurrency.toUpperCase(), sessionDTO.getCashOut());
-      if(buyInInDefaultCurrency == null || cashOutInDefaultCurrency == null){
+      String date = session.getEndDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+      Double[] buyInResult = exchangeCurrency(sessionDTO.getCurrency().toUpperCase(), defaultCurrency.toUpperCase(), sessionDTO.getBuyIn(), date);
+      Double[] cashOutResult = exchangeCurrency(sessionDTO.getCurrency().toUpperCase(), defaultCurrency.toUpperCase(), sessionDTO.getCashOut(), date);
+      if(buyInResult == null || cashOutResult == null){
         return null;
       }
-      session.setBuyIn(buyInInDefaultCurrency);
-      session.setCashOut(cashOutInDefaultCurrency);
+      session.setBuyIn(buyInResult[0]);
+      session.setCashOut(cashOutResult[0]);
+      session.setExchangeRate(cashOutResult[1]);
     }else {
       session.setBuyIn(session.getBuyIn());
       session.setCashOut(session.getCashOut());
@@ -70,7 +73,7 @@ public class SessionService {
     return repository.saveAndFlush(session);
   }
 
-  private Integer exchangeCurrency(String from, String to, double amount){
+  private Double[] exchangeCurrency(String from, String to, double amount, String date){
     RestTemplate restTemplate = new RestTemplate();
     String url = serviceUrlProperties.getExchangeServiceUrl();
     String token = serviceUrlProperties.getExchangeServiceToken();
@@ -80,7 +83,7 @@ public class SessionService {
     headers.add("apikey", token);
     try {
       response = restTemplate.exchange(
-              url + "?to=" + to + "&from=" + from + "&amount=" + amount, HttpMethod.GET, new HttpEntity<Object>(headers),
+              url + "?to=" + to + "&from=" + from + "&amount=" + amount + "&date=" + date, HttpMethod.GET, new HttpEntity<Object>(headers),
               CurrencyExchangeResponse.class);
     }catch (HttpClientErrorException e){
       if(e.getStatusCode().equals(HttpStatus.NOT_FOUND)){
@@ -92,7 +95,7 @@ public class SessionService {
     }
     CurrencyExchangeResponse resp = response.getBody();
     if(resp != null && resp.getSuccess()) {
-      return resp.getResult();
+      return new Double[]{resp.getResult(), resp.getInfo().getRate()};
     }
     return null;
   }

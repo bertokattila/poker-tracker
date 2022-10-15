@@ -31,8 +31,13 @@ public class SessionDTO {
   private String location;
   @NotBlank
   private String access;
+  @NotBlank
+  private String specificGameType;
 
   // optional
   private Integer id;
+  private Double ante;
+  private Double blinds;
+  private Integer tableSize;
 
 }

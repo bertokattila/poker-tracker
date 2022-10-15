@@ -32,7 +32,6 @@ public class SessionController {
   public ResponseEntity<?> addSession(@Valid @RequestBody SessionDTO session) {
     Session savedSess = sessionService.saveSession(session);
     sessionService.refreshStatistics(savedSess);
-
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 

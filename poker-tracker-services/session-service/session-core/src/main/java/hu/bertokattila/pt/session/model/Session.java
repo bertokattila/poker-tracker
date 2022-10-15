@@ -30,6 +30,10 @@ public class Session {
     this.comment = sessionDTO.getComment();
     this.locationId = locationId;
     this.access = sessionDTO.getAccess();
+    this.game = sessionDTO.getSpecificGameType();
+    this.ante = sessionDTO.getAnte();
+    this.blinds = sessionDTO.getBlinds();
+    this.tableSize = sessionDTO.getTableSize();
   }
 
   @Id
@@ -66,6 +70,21 @@ public class Session {
 
   @Column(name = "access")
   private String access;
+
+  @Column(name = "game")
+  private String game;
+
+  @Column(name = "ante")
+  private Double ante;
+
+  @Column(name = "blinds")
+  private Double blinds;
+
+  @Column(name = "tablesize")
+  private Integer tableSize;
+
+  @Column(name = "exchangerate")
+  private Double exchangeRate;
 
   public ExtendedSessionDTO toExtendedSessionDTO(){
     ExtendedSessionDTO dto = new ExtendedSessionDTO();
