@@ -4,7 +4,11 @@
   fxLayout="row"
   fxLayoutAlign="center"
 >
-  <div class="container" fxLayout="column" fxLayoutGap="10px">
+  <div
+    class="container addSessionInputContainer"
+    fxLayout="column"
+    fxLayoutGap="10px"
+  >
     <p class="typeSwtiches">
       <mat-button-toggle-group
         name="gameType"
@@ -31,6 +35,7 @@
           OnlyNumber
           matInput
           placeholder="Enter buy in here"
+          (keyup)="onBuyInChanges()"
         />
       </mat-form-field>
 
@@ -41,6 +46,7 @@
           OnlyNumber
           matInput
           placeholder="Enter cash out here"
+          (keyup)="onCashOutChanges()"
         />
       </mat-form-field>
     </p>
@@ -60,10 +66,14 @@
       </mat-form-field>
       <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
         <mat-label>Currency</mat-label>
-        <mat-select value="huf" [(ngModel)]="currency">
-          <mat-option value="huf">HUF</mat-option>
-          <mat-option value="eur">EUR</mat-option>
-          <mat-option value="usd">USD</mat-option>
+        <mat-select
+          value="HUF"
+          [(ngModel)]="currency"
+          (valueChange)="reLoadCurrencyExchange()"
+        >
+          <mat-option value="HUF">HUF</mat-option>
+          <mat-option value="EUR">EUR</mat-option>
+          <mat-option value="USD">USD</mat-option>
         </mat-select>
       </mat-form-field>
     </p>
@@ -124,6 +134,7 @@
           [(ngModel)]="endDate"
           type="datetime-local"
           placeholder="Placeholder"
+          (ngModelChange)="reLoadCurrencyExchange()"
         />
       </mat-form-field>
     </p>
@@ -151,5 +162,25 @@
     <button (click)="addSession()" mat-flat-button color="primary">
       Add Session
     </button>
+    <mat-card *ngIf="defaultyCurrency != currency" class="currencyCard">
+      <mat-card-subtitle
+        ><span class="liveBullet">•</span> Live currency exchange
+      </mat-card-subtitle>
+      <mat-card-title class="cardTitle"
+        >Exchange to your default currency</mat-card-title
+      >
+      <mat-card-content>
+        <p *ngIf="buyIn" class="cardContent">
+          • Buy in: {{ buyIn }} {{ currency }} =
+          {{ buyInDefaultCurrency || "loading..." }}
+          {{ defaultyCurrency }}
+        </p>
+        <p *ngIf="cashOut" class="cardContent">
+          • Cash out: {{ cashOut }} {{ currency }} =
+          {{ cashOutDefaultCurrency || "loading..." }}
+          {{ defaultyCurrency }}
+        </p>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

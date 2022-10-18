@@ -60,7 +60,7 @@ public class UserController {
     UserDetails userDetails = userDetailsService
             .loadUserByUsername(loginDTO.getEmail());
     String jwt = jwtUtil.generateToken((AuthUser) userDetails);
-    return ResponseEntity.ok(new LoginResponseDTO(jwt, ((AuthUser) userDetails).getName()));
+    return ResponseEntity.ok(new LoginResponseDTO(jwt, ((AuthUser) userDetails).getName(), ((AuthUser) userDetails).getDefaultCurrency()));
   }
 
   @GetMapping("/id")

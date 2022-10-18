@@ -15,14 +15,16 @@ export class LoginService {
     const dto = new LoginDTO(email, password);
     return this.http.post<JwtDTO>(serviceUrls.userServiceUrl + '/login', dto);
   }
-  saveToken(token: string, userName: string) {
+  saveToken(token: string, userName: string, defaultCurrency: string) {
     localStorage.setItem('poker_tracker_token', token);
     localStorage.setItem('poker_tracker_username', userName);
+    localStorage.setItem('poker_tracker_defaultcurrency', defaultCurrency);
     this.callChangeOccured();
   }
   logout() {
     localStorage.removeItem('poker_tracker_token');
     localStorage.removeItem('poker_tracker_username');
+    localStorage.removeItem('poker_tracker_defaultcurrency');
     this.callChangeOccured();
   }
   public isLoggedIn() {
@@ -31,6 +33,11 @@ export class LoginService {
   public getUsername() {
     return localStorage.getItem('poker_tracker_username') !== null
       ? localStorage.getItem('poker_tracker_username')
+      : '';
+  }
+  public getDefaultCurrency() {
+    return localStorage.getItem('poker_tracker_defaultcurrency') !== null
+      ? localStorage.getItem('poker_tracker_defaultcurrency')
       : '';
   }
 

@@ -25,7 +25,11 @@ export class LoginComponent implements OnInit {
   login() {
     this.loginService.login(this.email, this.passwd).subscribe({
       next: (resp: JwtDTO) => {
-        this.loginService.saveToken(resp.jwt, resp.userName);
+        this.loginService.saveToken(
+          resp.jwt,
+          resp.userName,
+          resp.defaultCurrency
+        );
         this.router.navigate(['/main']);
       },
       error: (e) => {

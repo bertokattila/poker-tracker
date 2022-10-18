@@ -2,21 +2,15 @@ package hu.bertokattila.pt.session.service;
 
 
 import hu.bertokattila.pt.auth.AuthUser;
-import hu.bertokattila.pt.session.CurrencyExchangeResponse;
 import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.GetSessionsDTO;
 import hu.bertokattila.pt.session.PublicSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
-import hu.bertokattila.pt.session.config.ServiceUrlProperties;
 import hu.bertokattila.pt.session.data.SessionRepository;
 import hu.bertokattila.pt.session.model.Session;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,26 +19,21 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @Transactional
 public class SessionService {
   private final SessionRepository repository;
   private final LocationService locationService;
-  private final ServiceUrlProperties serviceUrlProperties;
-
+  private final CurrencyExchangeService currencyExchangeService;
   private final KafkaTemplate<String, ExtendedSessionDTO> template;
 
   @Autowired
-  public SessionService(SessionRepository sessionRepository, LocationService locationService, ServiceUrlProperties serviceUrlProperties, KafkaTemplate<String, ExtendedSessionDTO> template) {
+  public SessionService(SessionRepository sessionRepository, LocationService locationService, KafkaTemplate<String, ExtendedSessionDTO> template, CurrencyExchangeService currencyExchangeService) {
     repository = sessionRepository;
     this.locationService = locationService;
-    this.serviceUrlProperties = serviceUrlProperties;
     this.template = template;
+    this.currencyExchangeService = currencyExchangeService;
   }
 
   public Session saveSession(SessionDTO sessionDTO){
@@ -56,9 +45,9 @@ public class SessionService {
     Session session = new Session(sessionDTO, locationId, id);
     String defaultCurrency = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getDefaultCurrency();
     if(!defaultCurrency.equalsIgnoreCase(sessionDTO.getCurrency())){
-      String date = session.getEndDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-      Double[] buyInResult = exchangeCurrency(sessionDTO.getCurrency().toUpperCase(), defaultCurrency.toUpperCase(), sessionDTO.getBuyIn(), date);
-      Double[] cashOutResult = exchangeCurrency(sessionDTO.getCurrency().toUpperCase(), defaultCurrency.toUpperCase(), sessionDTO.getCashOut(), date);
+      LocalDateTime date = session.getEndDate();
+      Double[] buyInResult = currencyExchangeService.exchangeCurrency(sessionDTO.getCurrency().toUpperCase(), defaultCurrency.toUpperCase(), sessionDTO.getBuyIn(), date);
+      Double[] cashOutResult = currencyExchangeService.exchangeCurrency(sessionDTO.getCurrency().toUpperCase(), defaultCurrency.toUpperCase(), sessionDTO.getCashOut(), date);
       if(buyInResult == null || cashOutResult == null){
         return null;
       }
@@ -71,33 +60,6 @@ public class SessionService {
     }
 
     return repository.saveAndFlush(session);
-  }
-
-  private Double[] exchangeCurrency(String from, String to, double amount, String date){
-    RestTemplate restTemplate = new RestTemplate();
-    String url = serviceUrlProperties.getExchangeServiceUrl();
-    String token = serviceUrlProperties.getExchangeServiceToken();
-    ResponseEntity<CurrencyExchangeResponse> response = null;
-    MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-    headers.add("Content-Type", "application/json");
-    headers.add("apikey", token);
-    try {
-      response = restTemplate.exchange(
-              url + "?to=" + to + "&from=" + from + "&amount=" + amount + "&date=" + date, HttpMethod.GET, new HttpEntity<Object>(headers),
-              CurrencyExchangeResponse.class);
-    }catch (HttpClientErrorException e){
-      if(e.getStatusCode().equals(HttpStatus.NOT_FOUND)){
-        return null;
-      }
-    }
-    if(response == null){
-      return null;
-    }
-    CurrencyExchangeResponse resp = response.getBody();
-    if(resp != null && resp.getSuccess()) {
-      return new Double[]{resp.getResult(), resp.getInfo().getRate()};
-    }
-    return null;
   }
 
   public Optional<Session> getSession(int id){

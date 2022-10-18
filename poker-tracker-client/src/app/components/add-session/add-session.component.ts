@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GameType, AccessType } from 'src/app/model/addSessionDTO';
 import { AddSessionService } from 'src/app/services/add-session.service';
+import { CurrencyService } from 'src/app/services/currency.service';
+import { LoginService } from 'src/app/services/login.service';
 import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
@@ -30,15 +32,24 @@ export class AddSessionComponent implements OnInit {
   blinds: number | undefined;
   tableSize: number | undefined;
 
+  defaultyCurrency: string;
+
+  buyInDefaultCurrency: number;
+  cashOutDefaultCurrency: number;
+
   constructor(
     private addSessionService: AddSessionService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private loginService: LoginService,
+    private currencyService: CurrencyService
   ) {
     this.startDate = new Date(new Date().getTime() - 60000 * 60)
       .toISOString()
       .slice(0, 16);
     this.endDate = new Date().toISOString().slice(0, 16);
-    this.currency = 'huf';
+
+    this.defaultyCurrency = loginService.getDefaultCurrency() || '';
+    this.currency = this.defaultyCurrency || 'huf';
   }
   addSession() {
     if (this.gameType === 'tournament') {
@@ -85,6 +96,54 @@ export class AddSessionComponent implements OnInit {
         description: desc,
       },
     });
+  }
+  onBuyInChanges() {
+    if (this.defaultyCurrency != this.currency && this.buyIn) {
+      this.currencyService
+        .exchangeCurrency(
+          this.currency,
+          this.defaultyCurrency,
+          this.buyIn,
+          this.endDate
+        )
+        .subscribe({
+          next: (resp) => {
+            this.buyInDefaultCurrency = resp.result;
+          },
+          error: (e) => {
+            this.openDialog(
+              'An error occured',
+              'Exchanging currency was not successful'
+            );
+          },
+        });
+    }
+  }
+  onCashOutChanges() {
+    if (this.defaultyCurrency != this.currency && this.cashOut) {
+      this.currencyService
+        .exchangeCurrency(
+          this.currency,
+          this.defaultyCurrency,
+          this.cashOut,
+          this.endDate
+        )
+        .subscribe({
+          next: (resp) => {
+            this.cashOutDefaultCurrency = resp.result;
+          },
+          error: (e) => {
+            this.openDialog(
+              'An error occured',
+              'Exchanging currency was not successful'
+            );
+          },
+        });
+    }
+  }
+  reLoadCurrencyExchange() {
+    this.onBuyInChanges();
+    this.onCashOutChanges();
   }
 
   ngOnInit(): void {}
