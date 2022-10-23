@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose -f ../../docker-compose.yml convert
+    kompose.version: 1.26.1 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: session-service
+  name: session-service
+spec:
+  ports:
+    - name: "6969"
+      port: 6969
+      targetPort: 6969
+  selector:
+    io.kompose.service: session-service
+status:
+  loadBalancer: {}

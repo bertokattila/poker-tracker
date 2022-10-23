@@ -134,7 +134,7 @@
           [(ngModel)]="endDate"
           type="datetime-local"
           placeholder="Placeholder"
-          (ngModelChange)="reLoadCurrencyExchange()"
+          (change)="reLoadCurrencyExchange()"
         />
       </mat-form-field>
     </p>
@@ -177,7 +177,7 @@
         </p>
         <p *ngIf="cashOut" class="cardContent">
           • Cash out: {{ cashOut }} {{ currency }} =
-          {{ cashOutDefaultCurrency || "loading..." }}
+          {{ myMath.round(cashOutDefaultCurrency).toFixed(2) || "loading..." }}
           {{ defaultyCurrency }}
         </p>
       </mat-card-content>

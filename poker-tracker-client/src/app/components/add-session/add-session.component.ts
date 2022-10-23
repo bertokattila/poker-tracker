@@ -37,6 +37,8 @@ export class AddSessionComponent implements OnInit {
   buyInDefaultCurrency: number;
   cashOutDefaultCurrency: number;
 
+  public myMath = Math;
+
   constructor(
     private addSessionService: AddSessionService,
     private dialog: MatDialog,
