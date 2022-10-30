@@ -1,6 +1,9 @@
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/kafka/KafkaSessionReportProducer.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/service/CurrencyExchangeService.java
 /Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/controllers/LocationController.java
 /Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/config/ServiceUrlProperties.java
 /Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/service/SessionService.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/kafka/SessionReportSerializer.java
 /Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/service/LocationService.java
 /Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/SessionServiceApplication.java
 /Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/data/LocationRepository.java
@@ -11,3 +14,4 @@
 /Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/model/Session.java
 /Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/config/Config.java
 /Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/config/SecurityConfigurer.java
+/Users/bertokattila/Documents/Egyetem/Onlab/poker-tracker/poker-tracker-services/session-service/session-core/src/main/java/hu/bertokattila/pt/session/controllers/CurrencyExchangeController.java

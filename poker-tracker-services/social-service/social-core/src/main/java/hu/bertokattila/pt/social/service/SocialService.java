@@ -156,6 +156,7 @@ public class SocialService {
     RestTemplate restTemplate = new RestTemplate();
     String url = serviceUrlProperties.getUserServiceUrl();
     ResponseEntity<UserIdDTO> response = null;
+    System.out.println(url);
     try {
       response = restTemplate.getForEntity(url + "/id?email=" + email, UserIdDTO.class);
     }catch (HttpClientErrorException e){

@@ -1,6 +1,8 @@
 hu/bertokattila/pt/session/config/JwtInterceptor.class
 hu/bertokattila/pt/session/model/Session.class
 hu/bertokattila/pt/session/service/LocationService.class
+hu/bertokattila/pt/session/kafka/KafkaSessionReportProducer.class
+hu/bertokattila/pt/session/service/CurrencyExchangeService.class
 hu/bertokattila/pt/session/data/LocationRepository.class
 hu/bertokattila/pt/session/service/SessionService.class
 hu/bertokattila/pt/session/model/Location.class
@@ -12,3 +14,5 @@ hu/bertokattila/pt/session/controllers/SessionController.class
 hu/bertokattila/pt/session/config/SecurityConfigurer.class
 hu/bertokattila/pt/session/data/SessionRepository$sessionQuery.class
 hu/bertokattila/pt/session/SessionServiceApplication.class
+hu/bertokattila/pt/session/kafka/SessionReportSerializer.class
+hu/bertokattila/pt/session/controllers/CurrencyExchangeController.class

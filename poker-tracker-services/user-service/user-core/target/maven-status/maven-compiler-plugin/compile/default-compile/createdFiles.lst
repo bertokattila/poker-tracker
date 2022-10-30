@@ -1,8 +1,1 @@
-hu/bertokattila/pt/user/model/User.class
 hu/bertokattila/pt/user/auth/SecurityConfigurer.class
-hu/bertokattila/pt/user/service/UserService.class
-hu/bertokattila/pt/user/config/Config.class
-hu/bertokattila/pt/user/data/UserRepository.class
-hu/bertokattila/pt/user/UserServiceApplication.class
-hu/bertokattila/pt/user/controllers/UserController.class
-hu/bertokattila/pt/user/service/UserDetailsService.class
