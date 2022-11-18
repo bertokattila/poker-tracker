@@ -1,5 +1,8 @@
 <div class="container" fxLayout="row" fxLayoutAlign="center">
-  <h1>Poker tracker</h1>
+  <div class="container title" fxLayout="row" fxLayoutAlign="center">
+    <img class="icon" src="../../../assets/poker-chip.png" />
+    <h1>Poker tracker</h1>
+  </div>
 </div>
 <div class="container" fxLayout="row" fxLayoutAlign="center">
   <mat-card
@@ -73,31 +76,21 @@
           <mat-option value="huf">HUF</mat-option>
           <mat-option value="eur">EUR</mat-option>
           <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
-          <mat-option value="usd">USD</mat-option>
         </mat-select>
       </mat-form-field>
     </p>
 
-    <button (click)="register()" mat-flat-button color="primary">
+    <button
+      [disabled]="
+        email.length == 0 ||
+        name.length == 0 ||
+        passw.length == 0 ||
+        defCurr.length == 0
+      "
+      (click)="register()"
+      mat-flat-button
+      color="primary"
+    >
       Register
     </button>
 

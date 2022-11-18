@@ -39,6 +39,12 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
      String getComment();
      String getLocation();
      String getAccess();
+     Double getAnte();
+     String getBlinds();
+     Integer getTableSize();
+     String getGame();
+     Double getExchangeRate();
+
   }
 
 }

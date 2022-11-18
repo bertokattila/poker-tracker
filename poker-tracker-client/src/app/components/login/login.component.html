@@ -41,7 +41,14 @@
           </button>
         </mat-form-field>
       </p>
-      <button (click)="login()" mat-flat-button color="primary">Log In</button>
+      <button
+        [disabled]="this.email.length == 0 || this.passwd.length == 0"
+        (click)="login()"
+        mat-flat-button
+        color="primary"
+      >
+        Log In
+      </button>
 
       <button routerLink="/register" mat-button color="primary">
         Register

@@ -14,6 +14,6 @@ CREATE table session
     Access     varchar(10) not null default 'public',
     Game       varchar(30) not null default 'Hold''em',
     Ante       real,
-    Blinds     real,
+    Blinds     varchar(10),
     TableSize  integer
 );

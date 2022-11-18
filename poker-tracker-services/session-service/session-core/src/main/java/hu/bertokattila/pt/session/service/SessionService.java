@@ -109,6 +109,11 @@ public class SessionService {
       dto.setStartDate(sessionQuery.getStartDate());
       dto.setType(sessionQuery.getType());
       dto.setAccess(sessionQuery.getAccess());
+      dto.setAnte(sessionQuery.getAnte());
+      dto.setBlinds(sessionQuery.getBlinds());
+      dto.setTableSize(sessionQuery.getTableSize());
+      dto.setSpecificGameType(sessionQuery.getGame());
+      dto.setExchangeRate(sessionQuery.getExchangeRate());
       sessionDTOs.add(dto);
     }
     return sessionDTOs;
@@ -129,6 +134,11 @@ public class SessionService {
       dto.setStartDate(sessionQuery.getStartDate());
       dto.setType(sessionQuery.getType());
       dto.setAccess(sessionQuery.getAccess());
+      dto.setAnte(sessionQuery.getAnte());
+      dto.setBlinds(sessionQuery.getBlinds());
+      dto.setTableSize(sessionQuery.getTableSize());
+      dto.setSpecificGameType(sessionQuery.getGame());
+      dto.setExchangeRate(sessionQuery.getExchangeRate());
       sessionDTOs.add(dto);
     }
     return sessionDTOs;

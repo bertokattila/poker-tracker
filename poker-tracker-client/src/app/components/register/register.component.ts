@@ -22,6 +22,10 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   register() {
+    if (this.passw != this.rePassw) {
+      this.openDialog('An error occured', 'The given passwords do not match');
+      return;
+    }
     this.registerService
       .register(this.email, this.name, this.passw, this.defCurr)
       .subscribe({

@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div class="currency">{{ session.currency }}</div>
+        <div class="currency">{{ this.loginService.getDefaultCurrency() }}</div>
 
         <div>
           {{
@@ -31,9 +31,55 @@
       </mat-expansion-panel-header>
       <div class="details">
         <div class="money">
-          <p>Buy In: {{ session.buyIn + " " + session.currency }}</p>
-          <p>Cash Out: {{ session.cashOut + " " + session.currency }}</p>
-          <p>Comment: {{ session.comment === null ? "-" : session.comment }}</p>
+          <p>
+            Buy In:
+            {{
+              (myMath.round(myMath.abs(session.buyIn) * 100) / 100).toFixed(2) +
+                " " +
+                this.loginService.getDefaultCurrency() +
+                (session.exchangeRate == null
+                  ? ""
+                  : " = " +
+                    (
+                      myMath.round(
+                        myMath.abs(session.buyIn / session.exchangeRate) * 100
+                      ) / 100
+                    ).toFixed(2)) +
+                " " +
+                (session.exchangeRate == null ? "" : session.currency)
+            }}
+          </p>
+          <p>
+            Cash Out:
+            {{
+              (myMath.round(myMath.abs(session.cashOut) * 100) / 100).toFixed(
+                2
+              ) +
+                " " +
+                this.loginService.getDefaultCurrency() +
+                (session.exchangeRate == null
+                  ? ""
+                  : " = " +
+                    (
+                      myMath.round(
+                        myMath.abs(session.cashOut / session.exchangeRate) * 100
+                      ) / 100
+                    ).toFixed(2)) +
+                " " +
+                (session.exchangeRate == null ? "" : session.currency)
+            }}
+          </p>
+          <p *ngIf="session.specificGameType">
+            Game type:
+            {{
+              session.specificGameType +
+                " " +
+                session.type[0].toUpperCase() +
+                session.type.slice(1)
+            }}
+          </p>
+          <p *ngIf="session.blinds">Blinds: {{ session.blinds }}</p>
+          <p *ngIf="session.comment">Comment: {{ session.comment }}</p>
         </div>
 
         <div class="dates">
@@ -49,7 +95,11 @@
               this.datepipe.transform(session.endDate, "yyyy. MM. dd. hh:mm")
             }}
           </p>
-          <p>Location: {{ session.location }}</p>
+          <p *ngIf="session.ante">Ante: {{ session.ante }}</p>
+          <p *ngIf="session.tableSize">
+            Max table size: {{ session.tableSize }}
+          </p>
+          <p *ngIf="session.location">Location: {{ session.location }}</p>
         </div>
       </div>
     </mat-expansion-panel>

@@ -28,14 +28,19 @@
       </mat-button-toggle-group>
     </p>
     <p>
-      <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
+      <mat-form-field
+        required
+        class="inputField"
+        appearance="outline"
+        fxFlex="100%"
+      >
         <mat-label>Buy In</mat-label>
         <input
           [(ngModel)]="buyIn"
           OnlyNumber
           matInput
           placeholder="Enter buy in here"
-          (keyup)="onBuyInChanges()"
+          (keyup)="onBuyInChanges(); validate()"
         />
       </mat-form-field>
 
@@ -46,7 +51,7 @@
           OnlyNumber
           matInput
           placeholder="Enter cash out here"
-          (keyup)="onCashOutChanges()"
+          (keyup)="onCashOutChanges(); validate()"
         />
       </mat-form-field>
     </p>
@@ -69,7 +74,7 @@
         <mat-select
           value="HUF"
           [(ngModel)]="currency"
-          (valueChange)="reLoadCurrencyExchange()"
+          (valueChange)="reLoadCurrencyExchange(); validate()"
         >
           <mat-option value="HUF">HUF</mat-option>
           <mat-option value="EUR">EUR</mat-option>
@@ -123,6 +128,7 @@
           [(ngModel)]="startDate"
           type="datetime-local"
           placeholder="Placeholder"
+          (change)="validate()"
         />
       </mat-form-field>
     </p>
@@ -134,7 +140,7 @@
           [(ngModel)]="endDate"
           type="datetime-local"
           placeholder="Placeholder"
-          (change)="reLoadCurrencyExchange()"
+          (change)="reLoadCurrencyExchange(); validate()"
         />
       </mat-form-field>
     </p>
@@ -159,7 +165,12 @@
         ></textarea>
       </mat-form-field>
     </p>
-    <button (click)="addSession()" mat-flat-button color="primary">
+    <button
+      [disabled]="!this.submitEnabled"
+      (click)="addSession()"
+      mat-flat-button
+      color="primary"
+    >
       Add Session
     </button>
     <mat-card *ngIf="defaultyCurrency != currency" class="currencyCard">

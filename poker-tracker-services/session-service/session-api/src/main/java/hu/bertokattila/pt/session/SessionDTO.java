@@ -37,7 +37,8 @@ public class SessionDTO {
   // optional
   private Integer id;
   private Double ante;
-  private Double blinds;
+  private String blinds;
   private Integer tableSize;
+  private Double exchangeRate;
 
 }

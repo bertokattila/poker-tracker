@@ -78,7 +78,7 @@ public class Session {
   private Double ante;
 
   @Column(name = "blinds")
-  private Double blinds;
+  private String blinds;
 
   @Column(name = "tablesize")
   private Integer tableSize;

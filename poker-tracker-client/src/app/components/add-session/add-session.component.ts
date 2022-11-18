@@ -16,6 +16,7 @@ export class AddSessionComponent implements OnInit {
   endDate: string;
   gameType: GameType = GameType.cash;
   accessType: AccessType = AccessType.public;
+  submitEnabled: any;
   setGameType(type: string) {
     this.gameType = type as GameType;
   }
@@ -147,6 +148,17 @@ export class AddSessionComponent implements OnInit {
     this.onBuyInChanges();
     this.onCashOutChanges();
   }
+  validate() {
+    this.submitEnabled =
+      this.buyIn &&
+      this.cashOut &&
+      this.gameType &&
+      this.currency &&
+      this.startDate &&
+      this.endDate;
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.validate();
+  }
 }

@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Session } from 'src/app/model/session';
+import { LoginService } from 'src/app/services/login.service';
 import { SessionService } from 'src/app/services/session.service';
 import { DialogComponent } from '../dialog/dialog.component';
 
@@ -14,7 +15,8 @@ export class HistoryComponent implements OnInit {
   constructor(
     private sessionService: SessionService,
     private dialog: MatDialog,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    public loginService: LoginService
   ) {
     this.limit = 10;
     this.offset = 0;
