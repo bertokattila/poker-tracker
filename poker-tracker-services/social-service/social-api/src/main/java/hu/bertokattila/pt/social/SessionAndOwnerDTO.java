@@ -31,4 +31,9 @@ public class SessionAndOwnerDTO {
   private String location;
   @NotBlank
   private String access;
+  private Double ante;
+  @NotBlank
+  private String specificGameType;
+  private String blinds;
+  private Integer tableSize;
 }

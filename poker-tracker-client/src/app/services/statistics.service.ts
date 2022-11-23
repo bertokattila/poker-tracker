@@ -10,8 +10,8 @@ import { serviceUrls } from './serviceUrls';
 export class StatisticsService {
   constructor(private http: HttpClient) {}
 
-  getGenericStats(): Observable<GenericStatDTO[]> {
-    return this.http.get<GenericStatDTO[]>(
+  getGenericStats(): Observable<GenericStatDTO> {
+    return this.http.get<GenericStatDTO>(
       serviceUrls.statisticsServiceUrl + '/statistics/generic/'
     );
   }

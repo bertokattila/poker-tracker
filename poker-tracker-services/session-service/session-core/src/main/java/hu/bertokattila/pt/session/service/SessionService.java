@@ -37,6 +37,9 @@ public class SessionService {
   }
 
   public Session saveSession(SessionDTO sessionDTO){
+    if(sessionDTO.getEndDate().isBefore(sessionDTO.getStartDate())){
+      return null;
+    }
     Long locationId = null;
     if(sessionDTO.getLocation() != null){
       locationId = locationService.getLocationIdByName(sessionDTO.getLocation());

@@ -44,9 +44,17 @@
             <div class="money">
               <p>Buy In: {{ session.buyIn + " " + session.currency }}</p>
               <p>Cash Out: {{ session.cashOut + " " + session.currency }}</p>
-              <p>
-                Comment: {{ session.comment === null ? "-" : session.comment }}
+              <p *ngIf="session.specificGameType">
+                Game type:
+                {{
+                  session.specificGameType +
+                    " " +
+                    session.type[0].toUpperCase() +
+                    session.type.slice(1)
+                }}
               </p>
+              <p *ngIf="session.blinds">Blinds: {{ session.blinds }}</p>
+              <p *ngIf="session.comment">Comment: {{ session.comment }}</p>
             </div>
 
             <div class="dates">
@@ -68,7 +76,11 @@
                   )
                 }}
               </p>
-              <p>Location: {{ session.location }}</p>
+              <p *ngIf="session.ante">Ante: {{ session.ante }}</p>
+              <p *ngIf="session.tableSize">
+                Max table size: {{ session.tableSize }}
+              </p>
+              <p *ngIf="session.location">Location: {{ session.location }}</p>
             </div>
           </div>
         </mat-expansion-panel>

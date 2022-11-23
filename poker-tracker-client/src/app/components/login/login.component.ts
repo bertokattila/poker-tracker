@@ -33,17 +33,19 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/main']);
       },
       error: (e) => {
-        if (e.error.status === 400) {
+        console.log(e);
+
+        if (e.status === 400) {
           this.openDialog(
             'An error occured',
             'Validating the form data was not successful'
           );
-        } else if (e.error.status === 500) {
+        } else if (e.status === 500) {
           this.openDialog(
             'An error occured',
             'Probably a user exists with the given e-mail address or other server side error'
           );
-        } else if (e.error.status === 403) {
+        } else if (e.status === 403) {
           this.openDialog(
             'Login not successful',
             'Login credentials are invalid'

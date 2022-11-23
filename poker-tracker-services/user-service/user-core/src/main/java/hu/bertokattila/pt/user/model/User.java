@@ -15,7 +15,7 @@ public class User {
     this.name = dto.getName();
     this.email = dto.getEmail();
     this.password = dto.getPassword();
-    this.defaultCurrency = dto.getDefaultCurrency();
+    this.defaultCurrency = dto.getDefaultCurrency().toUpperCase();
   }
 
   @Id

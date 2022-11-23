@@ -11,6 +11,10 @@ export class SessionWithOwnerDTO {
     public startDate: string,
     public endDate: string,
     public comment: string,
+    public specificGameType: string,
+    public ante: number,
+    public blinds: string,
+    public tableSize: number,
     public location: string
   ) {}
 }

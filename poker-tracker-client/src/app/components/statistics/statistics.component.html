@@ -1,4 +1,4 @@
-<div class="statsContainer" *ngIf="selectedTabIndex === 2">
+<div class="statsContainer dark" *ngIf="selectedTabIndex === 2">
   <ngx-charts-number-card
     [view]="view"
     [scheme]="colorScheme"
@@ -28,7 +28,7 @@
   </ngx-charts-number-card>
   <div class="chartsContainer">
     <div class="barChartContainerContainer">
-      <div class="barChartContainer">
+      <div class="barChartContainer dark">
         <h3>Yearly Results</h3>
         <ngx-charts-bar-vertical-stacked
           class="barChart"
@@ -50,8 +50,8 @@
     </div>
 
     <div class="barChartContainerContainer">
-      <div class="barChartContainer">
-        <h3>Monthly Results</h3>
+      <div class="barChartContainer dark">
+        <h3>Monthly Results (Last 12 months)</h3>
         <ngx-charts-bar-vertical-stacked
           class="barChart"
           [scheme]="colorScheme"
@@ -62,7 +62,7 @@
           [legend]="showLegend"
           [showXAxisLabel]="showXAxisLabel"
           [showYAxisLabel]="showYAxisLabel"
-          [xAxisLabel]="xAxisLabel"
+          [xAxisLabel]="xAxisLabelMonthly"
           [yAxisLabel]="yAxisLabel"
           [animations]="animations"
           [customColors]=""
@@ -71,9 +71,45 @@
       </div>
     </div>
   </div>
+  <div *ngIf="type[0].value != 0 || type[1].value != 0" class="chartsContainer">
+    <div class="barChartContainerContainer">
+      <div class="barChartContainer dark">
+        <h3>Game type distribution</h3>
+        <ngx-charts-pie-chart
+          class="barChart"
+          [scheme]="colorScheme"
+          [results]="type"
+          [gradient]="gradient"
+          [legend]="showLegend"
+          [labels]="showLabels"
+          [doughnut]="isDoughnut"
+          [legendPosition]="legendPosition"
+        >
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+    <div class="barChartContainerContainer">
+      <div class="barChartContainer dark">
+        <h3>Table size distribution</h3>
+        <ngx-charts-pie-chart
+          *ngIf="tables.length > 0"
+          class="barChart"
+          [scheme]="colorScheme"
+          [results]="tables"
+          [gradient]="gradient"
+          [legend]="showLegend"
+          [labels]="showLabels"
+          [doughnut]="isDoughnut"
+          [legendPosition]="legendPosition"
+        >
+        </ngx-charts-pie-chart>
+        <h2 *ngIf="tables.length == 0">No data to present</h2>
+      </div>
+    </div>
+  </div>
   <div *ngIf="false" class="chartsContainer">
     <div class="barChartContainerContainer">
-      <div class="barChartContainer">
+      <div class="barChartContainer dark">
         <h3>Yearly Results</h3>
         <ngx-charts-bar-vertical-stacked
           class="barChart"
@@ -95,7 +131,7 @@
     </div>
 
     <div *ngIf="false" class="barChartContainerContainer">
-      <div class="barChartContainer">
+      <div class="barChartContainer dark">
         <h3>Monthly Results</h3>
         <ngx-charts-bar-vertical-stacked
           class="barChart"

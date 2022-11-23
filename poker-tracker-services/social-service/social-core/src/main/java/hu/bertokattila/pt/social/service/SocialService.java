@@ -75,6 +75,10 @@ public class SocialService {
       sessionDTO.setCurrency(session.getCurrency());
       sessionDTO.setType(session.getType());
       sessionDTO.setOwnerEmail(getUserForId(session.getUserId()).getEmail());
+      sessionDTO.setAnte(session.getAnte());
+      sessionDTO.setBlinds(session.getBlinds());
+      sessionDTO.setTableSize(session.getTableSize());
+      sessionDTO.setSpecificGameType(session.getSpecificGameType());
       result.add(sessionDTO);
     }
     return result;

@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { StatisticsService } from 'src/app/services/statistics.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { LegendPosition } from '@swimlane/ngx-charts';
+import { GenericStatDTO } from 'src/app/model/genericStatDto';
 
 @Component({
   selector: 'app-statistics',
@@ -74,196 +76,21 @@ export class StatisticsComponent implements OnInit {
   }
 
   // vertical bar chart from here
-  multi: any[] = [
-    {
-      name: '2022',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 7300000,
-        },
-        {
-          name: 'Tournament',
-          value: 8940000,
-        },
-      ],
-    },
+  multi: any[] = [];
+  monthly: any[] = [];
 
+  type = [
     {
-      name: '2021',
-      series: [
-        {
-          name: 'Cash Game',
-          value: -7870000,
-        },
-        {
-          name: 'Tournament',
-          value: 8270000,
-        },
-      ],
+      name: 'Cash',
+      value: 0,
     },
-
     {
-      name: '2020',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 5000002,
-        },
-        {
-          name: 'Tournament',
-          value: 5800000,
-        },
-      ],
+      name: 'Tournament',
+      value: 0,
     },
   ];
-  monthly: any[] = [
-    {
-      name: 'June',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 7300000,
-        },
-        {
-          name: 'Tournament',
-          value: 8940000,
-        },
-      ],
-    },
 
-    {
-      name: 'July',
-      series: [
-        {
-          name: 'Cash Game',
-          value: -7870000,
-        },
-        {
-          name: 'Tournament',
-          value: 8270000,
-        },
-      ],
-    },
-
-    {
-      name: 'August',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 5000002,
-        },
-        {
-          name: 'Tournament',
-          value: 5800000,
-        },
-      ],
-    },
-    {
-      name: 'September',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 5000002,
-        },
-        {
-          name: 'Tournament',
-          value: 5800000,
-        },
-      ],
-    },
-    {
-      name: 'October',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 654645,
-        },
-        {
-          name: 'Tournament',
-          value: 456546,
-        },
-      ],
-    },
-    {
-      name: 'November',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 6546465,
-        },
-        {
-          name: 'Tournament',
-          value: 546456,
-        },
-      ],
-    },
-    {
-      name: 'December',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 5345345,
-        },
-        {
-          name: 'Tournament',
-          value: 54334,
-        },
-      ],
-    },
-    {
-      name: 'January',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 312312,
-        },
-        {
-          name: 'Tournament',
-          value: 321312,
-        },
-      ],
-    },
-    {
-      name: 'February',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 878,
-        },
-        {
-          name: 'Tournament',
-          value: 678678,
-        },
-      ],
-    },
-    {
-      name: 'March',
-      series: [
-        {
-          name: 'Cash Game',
-          value: 5000002,
-        },
-        {
-          name: 'Tournament',
-          value: 5800000,
-        },
-      ],
-    },
-    {
-      name: 'April',
-      series: [
-        {
-          name: 'Cash Game',
-          value: -660000,
-        },
-        {
-          name: 'Tournament',
-          value: 686,
-        },
-      ],
-    },
-  ];
+  tables: any = [];
 
   // options
   showXAxis: boolean = true;
@@ -272,9 +99,15 @@ export class StatisticsComponent implements OnInit {
   showLegend: boolean = true;
   showXAxisLabel: boolean = true;
   xAxisLabel: string = 'Year';
+  xAxisLabelMonthly: string = 'Month';
   showYAxisLabel: boolean = true;
   yAxisLabel: string = 'Result HUF';
   animations: boolean = true;
+
+  // options
+  showLabels: boolean = true;
+  isDoughnut: boolean = false;
+  legendPosition: LegendPosition = LegendPosition.Right;
 
   constructor(
     private statisticsService: StatisticsService,
@@ -290,6 +123,9 @@ export class StatisticsComponent implements OnInit {
         this.formatResult(stats);
         this.formatPlayedTimes(stats);
         this.calculateWages();
+        this.type[0].value = stats.numberOfCashGames;
+        this.type[1].value = stats.numberOfTournaments;
+        this.assignTableStat(stats);
       },
       error: (e) => {
         if (e.status === 400) {
@@ -318,6 +154,8 @@ export class StatisticsComponent implements OnInit {
     this.statisticsService.getMonthlyResults().subscribe({
       next: (stats: any) => {
         this.monthly = stats;
+        console.log(this.monthly);
+        this.sortByMonth(this.monthly);
       },
       error: (e) => {
         if (e.status === 400) {
@@ -367,5 +205,68 @@ export class StatisticsComponent implements OnInit {
     });
   }
 
+  assignTableStat(stat: GenericStatDTO) {
+    if (stat.numberOfTableSize2 > 0) {
+      this.tables.push({ name: 'Max-2', value: stat.numberOfTableSize2 });
+    }
+    if (stat.numberOfTableSize3 > 0) {
+      this.tables.push({ name: 'Max-3', value: stat.numberOfTableSize3 });
+    }
+    if (stat.numberOfTableSize4 > 0) {
+      this.tables.push({ name: 'Max-4', value: stat.numberOfTableSize4 });
+    }
+    if (stat.numberOfTableSize5 > 0) {
+      this.tables.push({ name: 'Max-5', value: stat.numberOfTableSize5 });
+    }
+    if (stat.numberOfTableSize6 > 0) {
+      this.tables.push({ name: 'Max-6', value: stat.numberOfTableSize6 });
+    }
+    if (stat.numberOfTableSize7 > 0) {
+      this.tables.push({ name: 'Max-7', value: stat.numberOfTableSize7 });
+    }
+    if (stat.numberOfTableSize8 > 0) {
+      this.tables.push({ name: 'Max-8', value: stat.numberOfTableSize8 });
+    }
+    if (stat.numberOfTableSize9 > 0) {
+      this.tables.push({ name: 'Max-9', value: stat.numberOfTableSize9 });
+    }
+    if (stat.numberOfTableSize10 > 0) {
+      this.tables.push({ name: 'Max-10', value: stat.numberOfTableSize10 });
+    }
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    setTimeout(() => {
+      let result = document.getElementsByClassName('value-text');
+
+      for (let i = 0; i < result.length; i++) {
+        result.item(i)?.setAttribute('y', '64');
+      }
+    }, 1000);
+  }
+
+  sortByMonth(arr: any[]) {
+    var months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    arr.sort((a: any, b: any) => {
+      return months.indexOf(b.name) - months.indexOf(a.name);
+    });
+
+    let shift = 11 - new Date().getMonth();
+    for (let i = 0; i < shift; i++) {
+      arr.push(arr.shift());
+    }
+  }
   ngOnInit(): void {}
 }

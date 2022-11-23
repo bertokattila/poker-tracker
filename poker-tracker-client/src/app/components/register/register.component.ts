@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
       .subscribe({
         next: (v) => {
           this.openDialog('Success', 'New user has beeen successfully created');
+          this.reset();
         },
         error: (e) => {
           if (e.error.status === 400) {
@@ -60,4 +61,12 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  reset() {
+    this.email = '';
+    this.defCurr = '';
+    this.passw = '';
+    this.rePassw = '';
+    this.name = '';
+  }
 }

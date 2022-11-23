@@ -24,10 +24,10 @@ export class AddSessionComponent implements OnInit {
     this.accessType = type as AccessType;
   }
   currency: string;
-  buyIn: number;
-  cashOut: number;
-  comment: string;
-  location: string;
+  buyIn: number | undefined;
+  cashOut: number | undefined;
+  comment: string | undefined;
+  location: string | undefined;
   specificGameType: string = "Hold'em";
   ante: number | undefined;
   blinds: number | undefined;
@@ -59,6 +59,13 @@ export class AddSessionComponent implements OnInit {
       this.ante = undefined;
       this.blinds = undefined;
     }
+    if (
+      typeof this.buyIn == 'undefined' ||
+      typeof this.cashOut == 'undefined'
+    ) {
+      return;
+    }
+    this.submitEnabled = false;
     this.addSessionService
       .addSession(
         this.gameType,
@@ -67,8 +74,8 @@ export class AddSessionComponent implements OnInit {
         this.cashOut,
         this.startDate,
         this.endDate,
-        this.comment,
-        this.location,
+        this.comment || '',
+        this.location || '',
         this.accessType,
         this.specificGameType,
         this.ante,
@@ -78,6 +85,7 @@ export class AddSessionComponent implements OnInit {
       .subscribe({
         next: (resp) => {
           this.openDialog('Congratulations', 'Session saved successfully ');
+          this.reset();
         },
         error: (e) => {
           if (e.error.status === 400) {
@@ -157,8 +165,29 @@ export class AddSessionComponent implements OnInit {
       this.startDate &&
       this.endDate;
   }
+  reset() {
+    this.startDate = new Date(new Date().getTime() - 60000 * 60)
+      .toISOString()
+      .slice(0, 16);
+    this.endDate = new Date().toISOString().slice(0, 16);
+
+    this.defaultyCurrency = this.loginService.getDefaultCurrency() || '';
+    this.currency = this.defaultyCurrency || 'huf';
+    this.gameType = GameType.cash;
+    this.accessType = AccessType.public;
+    this.specificGameType = "Hold'em";
+    this.buyIn = undefined;
+    this.cashOut = undefined;
+    this.ante = undefined;
+    this.blinds = undefined;
+    this.location = undefined;
+    this.comment = undefined;
+    this.tableSize = undefined;
+    this.validate();
+  }
 
   ngOnInit(): void {
     this.validate();
+    console.log(this.buyIn);
   }
 }

@@ -8,3 +8,93 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.value-text {
+  inline-size: 150px;
+  overflow-wrap: break-word;
+  font-size: 25px !important;
+}
+.trimmed-label p {
+  font-size: 15px !important;
+  line-height: 20px !important;
+}
+.ng-star-inserted text {
+  color: white !important;
+}
+/** * Backgrounds */
+.dark {
+  /** * Text */
+}
+.dark .ngx-charts text {
+  fill: #a0aabe;
+}
+.dark .ngx-charts .tooltip-anchor {
+  fill: #fff;
+}
+.dark .ngx-charts .gridline-path {
+  stroke: #a0aabe;
+}
+.dark .ngx-charts .refline-path {
+  stroke: #a0aabe;
+}
+.dark .ngx-charts .reference-area {
+  fill: #fff;
+}
+.dark .ngx-charts .grid-panel.odd rect {
+  fill: rgba(255, 255, 255, 0.05);
+}
+.dark .ngx-charts .force-directed-graph .edge {
+  stroke: #455066;
+}
+.dark .ngx-charts .number-card p {
+  color: #f0f1f6;
+}
+.dark .ngx-charts .gauge .background-arc path {
+  fill: #2f3646;
+}
+.dark .ngx-charts .gauge .gauge-tick path {
+  stroke: #a0aabe;
+}
+.dark .ngx-charts .gauge .gauge-tick text {
+  fill: #a0aabe;
+}
+.dark .ngx-charts .linear-gauge .background-bar path {
+  fill: #2f3646;
+}
+.dark .ngx-charts .linear-gauge .units {
+  fill: #72809b;
+}
+.dark .ngx-charts .timeline .brush-background {
+  fill: rgba(255, 255, 255, 0.05);
+}
+.dark .ngx-charts .timeline .brush .selection {
+  fill: rgba(255, 255, 255, 0.1);
+  stroke: #aaa;
+}
+.dark .ngx-charts .polar-chart .polar-chart-background {
+  fill: #1e222e;
+}
+.dark .chart-legend .legend-labels {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+.dark .chart-legend .legend-item:hover {
+  color: #fff;
+}
+.dark .chart-legend .legend-label:hover {
+  color: #fff !important;
+}
+.dark .chart-legend .legend-label .active .legend-label-text {
+  color: #fff !important;
+}
+.dark .chart-legend .scale-legend-label {
+  color: #a0aabe;
+}
+.dark .advanced-pie-legend {
+  color: #a0aabe;
+}
+.dark .advanced-pie-legend .legend-item:hover {
+  color: #fff !important;
+}
+.dark .number-card .number-card-label {
+  font-size: 0.8em;
+  color: #a0aabe;
+}

@@ -98,6 +98,7 @@ public class Session {
     dto.setStartDate(startDate);
     dto.setEndDate(endDate);
     dto.setUserId(userId);
+    dto.setTableSize(tableSize);
     return dto;
   }
 

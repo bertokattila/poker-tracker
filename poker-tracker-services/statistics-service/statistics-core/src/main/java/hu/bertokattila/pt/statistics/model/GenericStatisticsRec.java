@@ -42,11 +42,45 @@ public class GenericStatisticsRec {
   private double allTimeResult;
 
   @Column(name = "lastmonthplayedtime")
-  private long lastMonthPlayedTime;
+  private int lastMonthPlayedTime;
 
   @Column(name = "lastyearplayedtime")
-  private long lastYearPlayedTime;
+  private int lastYearPlayedTime;
 
   @Column(name = "alltimeplayedtime")
-  private long allTimePlayedTime;
+  private int allTimePlayedTime;
+
+  @Column(name = "numberofcashgames")
+  private int numberOfCashGames;
+
+  @Column(name = "numberoftournaments")
+  private int numberOfTournaments;
+
+  @Column(name = "numberoftablesize2")
+  private Integer numberOfTableSize2;
+
+  @Column(name = "numberoftablesize3")
+  private Integer numberOfTableSize3;
+
+  @Column(name = "numberoftablesize4")
+  private Integer numberOfTableSize4;
+
+  @Column(name = "numberoftablesize5")
+  private Integer numberOfTableSize5;
+
+  @Column(name = "numberoftablesize6")
+  private Integer numberOfTableSize6;
+
+  @Column(name = "numberoftablesize7")
+  private Integer numberOfTableSize7;
+
+  @Column(name = "numberoftablesize8")
+  private Integer numberOfTableSize8;
+
+  @Column(name = "numberoftablesize9")
+  private Integer numberOfTableSize9;
+
+  @Column(name = "numberoftablesize10")
+  private Integer numberOfTableSize10;
+
 }
