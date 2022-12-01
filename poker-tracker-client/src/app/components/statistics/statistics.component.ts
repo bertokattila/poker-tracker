@@ -1,9 +1,14 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { Color, ScaleType, LegendPosition } from '@swimlane/ngx-charts';
 import { StatisticsService } from 'src/app/services/statistics.service';
 import { DialogComponent } from '../dialog/dialog.component';
-import { LegendPosition } from '@swimlane/ngx-charts';
 import { GenericStatDTO } from 'src/app/model/genericStatDto';
 
 @Component({
@@ -14,6 +19,16 @@ import { GenericStatDTO } from 'src/app/model/genericStatDto';
 export class StatisticsComponent implements OnInit {
   @Input()
   public selectedTabIndex: number;
+  @Input()
+  public pageSelected: EventEmitter<string>;
+  constructor(
+    private statisticsService: StatisticsService,
+    private dialog: MatDialog
+  ) {
+    this.loadGenericStats();
+    this.loadYearlyResultStats();
+    this.loadMonthlyResultStats();
+  }
   results: any[] = [
     {
       name: 'All Time Result',
@@ -67,7 +82,17 @@ export class StatisticsComponent implements OnInit {
   cardColor: string = '#424242';
 
   resultsValueFormatting(value: any): string {
-    return Math.round(Math.abs(value.value) * 100) / 100 + ' HUF';
+    let defCurr =
+      localStorage.getItem('poker_tracker_defaultcurrency') !== null
+        ? localStorage.getItem('poker_tracker_defaultcurrency')
+        : '';
+
+    if (value.value < 0) {
+      return (
+        -1 * (Math.round(Math.abs(value.value) * 100) / 100) + ' ' + defCurr
+      );
+    }
+    return Math.round(Math.abs(value.value) * 100) / 100 + ' ' + defCurr;
   }
   playedTimeValueFormatting(value: any): string {
     const hours = Math.floor(value.value / 60);
@@ -109,14 +134,6 @@ export class StatisticsComponent implements OnInit {
   isDoughnut: boolean = false;
   legendPosition: LegendPosition = LegendPosition.Right;
 
-  constructor(
-    private statisticsService: StatisticsService,
-    private dialog: MatDialog
-  ) {
-    this.loadGenericStats();
-    this.loadYearlyResultStats();
-    this.loadMonthlyResultStats();
-  }
   loadGenericStats = () => {
     this.statisticsService.getGenericStats().subscribe({
       next: (stats) => {
@@ -177,12 +194,24 @@ export class StatisticsComponent implements OnInit {
     this.playedTimes[2].value = result.lastMonthPlayedTime;
   };
   calculateWages = () => {
-    this.wage[0].value =
-      this.results[0].value / (this.playedTimes[0].value / 60);
-    this.wage[1].value =
-      this.results[1].value / (this.playedTimes[1].value / 60);
-    this.wage[2].value =
-      this.results[2].value / (this.playedTimes[2].value / 60);
+    if (this.playedTimes[0].value > 0) {
+      this.wage[0].value =
+        this.results[0].value / (this.playedTimes[0].value / 60);
+    } else {
+      this.wage[0].value = 0;
+    }
+    if (this.playedTimes[1].value > 0) {
+      this.wage[1].value =
+        this.results[1].value / (this.playedTimes[1].value / 60);
+    } else {
+      this.wage[1].value = 0;
+    }
+    if (this.playedTimes[2].value > 0) {
+      this.wage[2].value =
+        this.results[2].value / (this.playedTimes[2].value / 60);
+    } else {
+      this.wage[2].value = 0;
+    }
   };
   formatNAs = () => {
     this.results[0].value = 0;
@@ -268,5 +297,30 @@ export class StatisticsComponent implements OnInit {
       arr.push(arr.shift());
     }
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.pageSelected.subscribe((e) => {
+      if (e === 'statistics') {
+        this.multi = [];
+        this.monthly = [];
+        this.tables = [];
+
+        this.type[0].value = 0;
+        this.type[1].value = 0;
+
+        this.results[0].value = 0;
+        this.results[1].value = 0;
+        this.results[2].value = 0;
+        this.playedTimes[0].value = 0;
+        this.playedTimes[1].value = 0;
+        this.playedTimes[2].value = 0;
+        this.wage[0].value = 0;
+        this.wage[1].value = 0;
+        this.wage[2].value = 0;
+
+        this.loadGenericStats();
+        this.loadYearlyResultStats();
+        this.loadMonthlyResultStats();
+      }
+    });
+  }
 }

@@ -19,7 +19,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 public class SessionController {
   private final SessionService sessionService;
   @Autowired
@@ -51,12 +51,14 @@ public class SessionController {
   @DeleteMapping("/session/{id}")
   public ResponseEntity<String> deleteSession(@PathVariable int id){
     try {
-      sessionService.deleteSession(id);
+      if(!sessionService.deleteSession(id)){
+        return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
+      }
     }
     catch (EmptyResultDataAccessException e){
       return new ResponseEntity<>("Session with id " + id + " does not exists", HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>("Session deleted with id: " + id, HttpStatus.OK);
+    return new ResponseEntity<>( HttpStatus.OK);
   }
 
   @PutMapping("/session/{id}")

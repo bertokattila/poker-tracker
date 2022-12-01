@@ -4,6 +4,7 @@ package hu.bertokattila.pt.statistics.service;
 import hu.bertokattila.pt.auth.AuthUser;
 import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.SessionDTO;
+import hu.bertokattila.pt.session.SessionRemovedDTO;
 import hu.bertokattila.pt.social.DataPointDTO;
 import hu.bertokattila.pt.social.DataSeriesDTO;
 import hu.bertokattila.pt.statistics.config.ServiceUrlProperties;
@@ -191,5 +192,59 @@ public class GenericStatisticsService {
 
   public int getUserId(){
     return ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+  }
+
+  public void sessionDeleted(SessionRemovedDTO dto){
+    StatisticsHistoryRec rec = statRepo.getBySessionId(dto.getSessionId());
+    if(rec != null){
+      substractSessionFromStats(dto, rec);
+    }
+  }
+
+  private void substractSessionFromStats(SessionRemovedDTO dto, StatisticsHistoryRec histRec){
+    ZoneId z = ZoneId.of("Europe/Budapest");
+    LocalDateTime now = ZonedDateTime.now(z).toLocalDateTime();
+    GenericStatisticsRec rec = repository.findByUserId(histRec.getUserId()).orElse(null);
+    if(rec == null ){
+      return;
+    }
+    long daysSinceSession = ChronoUnit.DAYS.between(histRec.getEndDate(), now);
+
+    rec.setAllTimePlayedTime(rec.getAllTimePlayedTime() - (int) ChronoUnit.MINUTES.between(histRec.getStartDate(), histRec.getEndDate()));
+    rec.setAllTimeResult(rec.getAllTimeResult() - (histRec.getResult()));
+
+    if(daysSinceSession <= 365) {
+      rec.setLastYearPlayedTime(rec.getLastYearPlayedTime() - (int) ChronoUnit.MINUTES.between(histRec.getStartDate(), histRec.getEndDate()));
+      rec.setLastYearResult(rec.getLastYearResult() - histRec.getResult());
+    }
+
+    if(daysSinceSession <= 30) {
+      rec.setLastMonthPlayedTime(rec.getLastMonthPlayedTime() - (int) ChronoUnit.MINUTES.between(histRec.getStartDate(), histRec.getEndDate()));
+      rec.setLastMonthResult(rec.getLastMonthResult() - (histRec.getResult()));
+    }
+
+    if(histRec.getType().equals("cash")) {
+      rec.setNumberOfCashGames(rec.getNumberOfCashGames() - 1);
+    }else {
+      rec.setNumberOfTournaments(rec.getNumberOfTournaments() - 1);
+    }
+    if (dto.getTableSize() != null){
+
+      try{
+        Class<?> c = Class.forName("hu.bertokattila.pt.statistics.model.GenericStatisticsRec");
+        Method getter = c.getDeclaredMethod("getNumberOfTableSize" + dto.getTableSize(), null);
+        Method setter = c.getDeclaredMethod("setNumberOfTableSize" + dto.getTableSize(), Integer.class);
+        Integer prev = (Integer) getter.invoke(rec);
+        if(prev == null){
+          prev = 0;
+        }
+        if(prev > 0) {
+          setter.invoke(rec, prev - 1);
+        }
+      } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
+      }
+    }
+    repository.save(rec);
+    statRepo.delete(histRec);
   }
 }

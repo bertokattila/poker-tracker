@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./main-page.component.css'],
 })
 export class MainPageComponent implements OnInit {
+  @Output() pageSelected = new EventEmitter<string>();
   constructor(public loginService: LoginService) {}
   isLoggedIn: boolean;
   selectedTabIndex: number;
@@ -16,5 +17,12 @@ export class MainPageComponent implements OnInit {
     this.loginService.changeOccured$.subscribe((isLoggedIn: boolean) => {
       this.isLoggedIn = isLoggedIn;
     });
+  }
+  aleret(e: any) {
+    if (e.index == 0) {
+      this.pageSelected.emit('history');
+    } else if (e.index == 2) {
+      this.pageSelected.emit('statistics');
+    }
   }
 }

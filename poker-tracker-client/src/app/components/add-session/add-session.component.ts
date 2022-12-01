@@ -33,7 +33,7 @@ export class AddSessionComponent implements OnInit {
   blinds: number | undefined;
   tableSize: number | undefined;
 
-  defaultyCurrency: string;
+  defaultCurrency: string;
 
   buyInDefaultCurrency: number;
   cashOutDefaultCurrency: number;
@@ -51,8 +51,8 @@ export class AddSessionComponent implements OnInit {
       .slice(0, 16);
     this.endDate = new Date().toISOString().slice(0, 16);
 
-    this.defaultyCurrency = loginService.getDefaultCurrency() || '';
-    this.currency = this.defaultyCurrency || 'huf';
+    this.defaultCurrency = loginService.getDefaultCurrency() || '';
+    this.currency = this.defaultCurrency || 'huf';
   }
   addSession() {
     if (this.gameType === 'tournament') {
@@ -109,11 +109,11 @@ export class AddSessionComponent implements OnInit {
     });
   }
   onBuyInChanges() {
-    if (this.defaultyCurrency != this.currency && this.buyIn) {
+    if (this.defaultCurrency != this.currency && this.buyIn) {
       this.currencyService
         .exchangeCurrency(
           this.currency,
-          this.defaultyCurrency,
+          this.defaultCurrency,
           this.buyIn,
           this.endDate
         )
@@ -131,11 +131,11 @@ export class AddSessionComponent implements OnInit {
     }
   }
   onCashOutChanges() {
-    if (this.defaultyCurrency != this.currency && this.cashOut) {
+    if (this.defaultCurrency != this.currency && this.cashOut) {
       this.currencyService
         .exchangeCurrency(
           this.currency,
-          this.defaultyCurrency,
+          this.defaultCurrency,
           this.cashOut,
           this.endDate
         )
@@ -171,8 +171,8 @@ export class AddSessionComponent implements OnInit {
       .slice(0, 16);
     this.endDate = new Date().toISOString().slice(0, 16);
 
-    this.defaultyCurrency = this.loginService.getDefaultCurrency() || '';
-    this.currency = this.defaultyCurrency || 'huf';
+    this.defaultCurrency = this.loginService.getDefaultCurrency() || '';
+    this.currency = this.defaultCurrency || 'huf';
     this.gameType = GameType.cash;
     this.accessType = AccessType.public;
     this.specificGameType = "Hold'em";

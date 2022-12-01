@@ -7,8 +7,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class KafkaSessionRepostConsumer {
-
+public class KafkaSessionReportConsumer {
   @Autowired
   private GenericStatisticsService genericStatisticsService;
 

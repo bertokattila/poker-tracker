@@ -95,12 +95,7 @@
 
       <mat-form-field class="inputField" appearance="outline" fxFlex="100%">
         <mat-label>Blinds</mat-label>
-        <input
-          [(ngModel)]="blinds"
-          OnlyNumber
-          matInput
-          placeholder="Enter blinds here"
-        />
+        <input [(ngModel)]="blinds" matInput placeholder="Enter blinds here" />
       </mat-form-field>
     </p>
     <p>
@@ -173,7 +168,7 @@
     >
       Add Session
     </button>
-    <mat-card *ngIf="defaultyCurrency != currency" class="currencyCard">
+    <mat-card *ngIf="defaultCurrency != currency" class="currencyCard">
       <mat-card-subtitle
         ><span class="liveBullet">•</span> Live currency exchange
       </mat-card-subtitle>
@@ -184,12 +179,12 @@
         <p *ngIf="buyIn" class="cardContent">
           • Buy in: {{ buyIn }} {{ currency }} =
           {{ buyInDefaultCurrency || "loading..." }}
-          {{ defaultyCurrency }}
+          {{ defaultCurrency }}
         </p>
         <p *ngIf="cashOut" class="cardContent">
           • Cash out: {{ cashOut }} {{ currency }} =
           {{ myMath.round(cashOutDefaultCurrency).toFixed(2) || "loading..." }}
-          {{ defaultyCurrency }}
+          {{ defaultCurrency }}
         </p>
       </mat-card-content>
     </mat-card>

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetSessionsDTO } from '../model/getSessionsDTO';
 import { Session } from '../model/session';
 import { serviceUrls } from './serviceUrls';
 
@@ -19,5 +18,8 @@ export class SessionService {
         '&offset=' +
         offset
     );
+  }
+  deleteSession(id: number) {
+    return this.http.delete(serviceUrls.sessionServiceUrl + '/session/' + id);
   }
 }

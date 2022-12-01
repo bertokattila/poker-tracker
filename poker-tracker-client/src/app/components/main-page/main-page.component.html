@@ -2,13 +2,19 @@
   [(selectedIndex)]="selectedTabIndex"
   *ngIf="isLoggedIn"
   class="navbar"
+  (selectedTabChange)="aleret($event)"
 >
-  <mat-tab label="History"><app-history></app-history></mat-tab>
+  <mat-tab label="History"
+    ><app-history [pageSelected]="pageSelected"></app-history
+  ></mat-tab>
   <mat-tab label="Add new session"
     ><app-add-session></app-add-session>
   </mat-tab>
   <mat-tab label="Statistics"
-    ><app-statistics [selectedTabIndex]="selectedTabIndex"></app-statistics>
+    ><app-statistics
+      [pageSelected]="pageSelected"
+      [selectedTabIndex]="selectedTabIndex"
+    ></app-statistics>
   </mat-tab>
   <mat-tab label="Social"><app-social></app-social> </mat-tab>
 </mat-tab-group>

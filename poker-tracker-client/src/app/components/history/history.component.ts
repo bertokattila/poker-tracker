@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Session } from 'src/app/model/session';
 import { LoginService } from 'src/app/services/login.service';
 import { SessionService } from 'src/app/services/session.service';
+
 import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
@@ -12,6 +13,8 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./history.component.css'],
 })
 export class HistoryComponent implements OnInit {
+  @Input()
+  public pageSelected: EventEmitter<string>;
   constructor(
     private sessionService: SessionService,
     private dialog: MatDialog,
@@ -56,6 +59,34 @@ export class HistoryComponent implements OnInit {
     this.offset += this.limit;
     this.fetchMoreSessions();
   }
+  delete(id: number) {
+    this.sessionService.deleteSession(id).subscribe({
+      next: (resp: any) => {
+        this.sessions = [];
+        this.limit = 10;
+        this.offset = 0;
+        this.canLoadMore = true;
+        this.fetchMoreSessions();
+      },
+      error: (e) => {
+        console.log(e);
 
-  ngOnInit(): void {}
+        if (e.error.status === 400) {
+          this.openDialog('An error occured', 'Unknown error');
+        }
+      },
+    });
+  }
+
+  ngOnInit(): void {
+    this.pageSelected.subscribe((e) => {
+      if (e === 'history') {
+        this.sessions = [];
+        this.limit = 10;
+        this.offset = 0;
+        this.canLoadMore = true;
+        this.fetchMoreSessions();
+      }
+    });
+  }
 }

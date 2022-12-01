@@ -102,6 +102,9 @@
           <p *ngIf="session.location">Location: {{ session.location }}</p>
         </div>
       </div>
+      <button mat-flat-button color="primary" (click)="delete(session.id)">
+        Remove
+      </button>
     </mat-expansion-panel>
   </mat-accordion>
   <button

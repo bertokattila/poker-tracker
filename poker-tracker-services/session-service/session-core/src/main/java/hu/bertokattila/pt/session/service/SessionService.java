@@ -6,11 +6,12 @@ import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.GetSessionsDTO;
 import hu.bertokattila.pt.session.PublicSessionsDTO;
 import hu.bertokattila.pt.session.SessionDTO;
+import hu.bertokattila.pt.session.SessionRemovedDTO;
 import hu.bertokattila.pt.session.data.SessionRepository;
 import hu.bertokattila.pt.session.model.Session;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,17 @@ public class SessionService {
   private final LocationService locationService;
   private final CurrencyExchangeService currencyExchangeService;
   private final KafkaTemplate<String, ExtendedSessionDTO> template;
+  private final KafkaTemplate<String, SessionRemovedDTO> sessionRemovedKafkaTemplate;
 
   @Autowired
-  public SessionService(SessionRepository sessionRepository, LocationService locationService, KafkaTemplate<String, ExtendedSessionDTO> template, CurrencyExchangeService currencyExchangeService) {
+  public SessionService(SessionRepository sessionRepository, LocationService locationService,
+                        @Qualifier("sessionTemplate") KafkaTemplate<String, ExtendedSessionDTO> template,
+                        @Qualifier("removeTemplate") KafkaTemplate<String, SessionRemovedDTO> sessionRemovedKafkaTemplate,
+                        CurrencyExchangeService currencyExchangeService) {
     repository = sessionRepository;
     this.locationService = locationService;
     this.template = template;
+    this.sessionRemovedKafkaTemplate = sessionRemovedKafkaTemplate;
     this.currencyExchangeService = currencyExchangeService;
   }
 
@@ -61,7 +67,6 @@ public class SessionService {
       session.setBuyIn(session.getBuyIn());
       session.setCashOut(session.getCashOut());
     }
-
     return repository.saveAndFlush(session);
   }
 
@@ -69,9 +74,15 @@ public class SessionService {
     return repository.findById(id);
   }
 
-  public void deleteSession(int id){
-    repository.deleteById(id);
-    int userId= ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+  public boolean deleteSession(int id){
+    int userId = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+    Session session = getSession(id).orElse(null);
+    if(session != null && session.getUserId() == userId){
+      repository.deleteById(id);
+      refreshStatisticsSessionRemoved(session);
+      return true;
+    }
+    return false;
   }
 
   public void updateSession(Session session, SessionDTO update){
@@ -103,6 +114,7 @@ public class SessionService {
     List<SessionDTO> sessionDTOs = new ArrayList<>();
     for(SessionRepository.sessionQuery sessionQuery : res){
       SessionDTO dto = new SessionDTO();
+      dto.setId(sessionQuery.getId());
       dto.setBuyIn(sessionQuery.getBuyIn());
       dto.setCashOut(sessionQuery.getCashOut());
       dto.setComment(sessionQuery.getComment());
@@ -170,6 +182,12 @@ public class SessionService {
   }
   public void refreshStatistics(Session session){
     template.send("sessionReport", session.toExtendedSessionDTO());
+  }
+  public void refreshStatisticsSessionRemoved(Session session){
+    SessionRemovedDTO dto = new SessionRemovedDTO();
+    dto.setSessionId(session.getId());
+    dto.setTableSize(session.getTableSize());
+    sessionRemovedKafkaTemplate.send("sessionRemovedReport", dto);
   }
 
 }
