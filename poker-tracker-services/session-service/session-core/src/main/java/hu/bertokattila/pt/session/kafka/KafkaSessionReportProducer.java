@@ -3,7 +3,6 @@ package hu.bertokattila.pt.session.kafka;
 import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -22,8 +21,7 @@ public class KafkaSessionReportProducer {
 
   @Bean
   public NewTopic topic() {
-    return TopicBuilder.name("sessionReport")
-            .build();
+    return TopicBuilder.name("sessionReport").build();
   }
 
   @Bean
@@ -34,6 +32,7 @@ public class KafkaSessionReportProducer {
     props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "hu.bertokattila.pt.session.kafka.SessionReportSerializer");
     return props;
   }
+
   @Bean
   public ProducerFactory<String, ExtendedSessionDTO> producerFactory() {
     return new DefaultKafkaProducerFactory<>(producerConfig());
@@ -43,5 +42,4 @@ public class KafkaSessionReportProducer {
   public KafkaTemplate<String, ExtendedSessionDTO> kafkaTemplate() {
     return new KafkaTemplate<String, ExtendedSessionDTO>(producerFactory());
   }
-
 }

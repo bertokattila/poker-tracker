@@ -1,11 +1,10 @@
 package hu.bertokattila.pt.social;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class DataSeriesDTO {
-    private String name;
-    private List<DataPointDTO> series;
+  private String name;
+  private List<DataPointDTO> series;
 }

@@ -1,14 +1,11 @@
 package hu.bertokattila.pt.session.controllers;
 
 import hu.bertokattila.pt.session.CurrencyExchangeDTO;
-import hu.bertokattila.pt.session.CurrencyExchangeResponse;
-import hu.bertokattila.pt.session.GetSessionsDTO;
 import hu.bertokattila.pt.session.service.CurrencyExchangeService;
 import java.time.LocalDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -22,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/currency")
 public class CurrencyExchangeController {
   CurrencyExchangeService currencyExchangeService;
-  public CurrencyExchangeController(CurrencyExchangeService currencyExchangeService){
+
+  public CurrencyExchangeController(CurrencyExchangeService currencyExchangeService) {
     this.currencyExchangeService = currencyExchangeService;
   }
 
@@ -30,7 +28,7 @@ public class CurrencyExchangeController {
   public ResponseEntity<CurrencyExchangeDTO> exhange(@Valid @NotEmpty @RequestParam String from,
                                                      @Valid @NotEmpty @RequestParam String to,
                                                      @Valid @PositiveOrZero @RequestParam Double amount,
-                                                     @NotNull @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime date){
+                                                     @NotNull @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime date) {
 
     Double[] result = currencyExchangeService.exchangeCurrency(from, to, amount, date);
     CurrencyExchangeDTO currencyExchangeDTO = new CurrencyExchangeDTO();

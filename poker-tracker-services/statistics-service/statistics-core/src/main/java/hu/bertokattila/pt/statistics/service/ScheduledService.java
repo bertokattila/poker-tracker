@@ -9,7 +9,7 @@ public class ScheduledService {
   GenericStatisticsService genericStatisticsService;
 
   @Autowired
-  public ScheduledService(GenericStatisticsService genericStatisticsService){
+  public ScheduledService(GenericStatisticsService genericStatisticsService) {
     this.genericStatisticsService = genericStatisticsService;
   }
 

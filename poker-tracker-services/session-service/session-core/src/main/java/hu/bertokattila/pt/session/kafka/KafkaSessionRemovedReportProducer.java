@@ -1,6 +1,5 @@
 package hu.bertokattila.pt.session.kafka;
 
-import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.SessionRemovedDTO;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,15 +33,14 @@ public class KafkaSessionRemovedReportProducer {
     props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "hu.bertokattila.pt.session.kafka.SessionRemovedReportSerializer");
     return props;
   }
+
   @Bean
   public ProducerFactory<String, SessionRemovedDTO> producerFactory2() {
     return new DefaultKafkaProducerFactory<>(producerConfig2());
   }
 
-
   @Bean(name = "removeTemplate")
   public KafkaTemplate<String, SessionRemovedDTO> kafkaTemplate() {
     return new KafkaTemplate<String, SessionRemovedDTO>(producerFactory2());
   }
-
 }

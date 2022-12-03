@@ -21,8 +21,7 @@ public class KafkaSessionReportConsumerConfig {
 
   @Bean
   public NewTopic topic() {
-    return TopicBuilder.name("sessionReport")
-            .build();
+    return TopicBuilder.name("sessionReport").build();
   }
 
   @Bean
@@ -41,12 +40,8 @@ public class KafkaSessionReportConsumerConfig {
   }
 
   // Creating a Listener
-  public ConcurrentKafkaListenerContainerFactory
-  concurrentKafkaListenerContainerFactory()
-  {
-    ConcurrentKafkaListenerContainerFactory<
-            String, ExtendedSessionDTO> factory
-            = new ConcurrentKafkaListenerContainerFactory<>();
+  public ConcurrentKafkaListenerContainerFactory concurrentKafkaListenerContainerFactory() {
+    ConcurrentKafkaListenerContainerFactory<String, ExtendedSessionDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
     factory.setConsumerFactory(consumerFactory());
     return factory;
   }

@@ -4,6 +4,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("services")
 public class ServiceUrlProperties {
+  private String userServiceUrl;
+  private String sessionServiceUrl;
+
   public String getUserServiceUrl() {
     return userServiceUrl;
   }
@@ -12,8 +15,6 @@ public class ServiceUrlProperties {
     this.userServiceUrl = userServiceUrl;
   }
 
-  private String userServiceUrl;
-
   public String getSessionServiceUrl() {
     return sessionServiceUrl;
   }
@@ -21,7 +22,5 @@ public class ServiceUrlProperties {
   public void setSessionServiceUrl(String sessionServiceUrl) {
     this.sessionServiceUrl = sessionServiceUrl;
   }
-
-  private String sessionServiceUrl;
 
 }

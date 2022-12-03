@@ -1,6 +1,5 @@
 package hu.bertokattila.pt.statistics.kafka;
 
-import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.SessionRemovedDTO;
 import hu.bertokattila.pt.statistics.service.GenericStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;

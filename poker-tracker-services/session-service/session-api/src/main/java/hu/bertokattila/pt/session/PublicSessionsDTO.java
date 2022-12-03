@@ -1,10 +1,9 @@
 package hu.bertokattila.pt.session;
 
-import lombok.Data;
-
+import java.util.List;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.List;
+import lombok.Data;
 
 @Data
 public class PublicSessionsDTO {

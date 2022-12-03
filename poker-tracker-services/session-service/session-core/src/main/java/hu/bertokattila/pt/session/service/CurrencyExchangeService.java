@@ -2,7 +2,6 @@ package hu.bertokattila.pt.session.service;
 
 import hu.bertokattila.pt.session.CurrencyExchangeResponse;
 import hu.bertokattila.pt.session.config.ServiceUrlProperties;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,11 @@ public class CurrencyExchangeService {
   ServiceUrlProperties serviceUrlProperties;
 
   @Autowired
-  public CurrencyExchangeService(ServiceUrlProperties serviceUrlProperties){
+  public CurrencyExchangeService(ServiceUrlProperties serviceUrlProperties) {
     this.serviceUrlProperties = serviceUrlProperties;
   }
-  public Double[] exchangeCurrency(String from, String to, double amount, LocalDateTime date){
+
+  public Double[] exchangeCurrency(String from, String to, double amount, LocalDateTime date) {
     RestTemplate restTemplate = new RestTemplate();
     String url = serviceUrlProperties.getExchangeServiceUrl();
     String token = serviceUrlProperties.getExchangeServiceToken();
@@ -37,16 +37,16 @@ public class CurrencyExchangeService {
       response = restTemplate.exchange(
               url + "?to=" + to + "&from=" + from + "&amount=" + amount + "&date=" + dateStr, HttpMethod.GET, new HttpEntity<Object>(headers),
               CurrencyExchangeResponse.class);
-    }catch (HttpClientErrorException e){
-      if(e.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+    } catch (HttpClientErrorException e) {
+      if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
         return null;
       }
     }
-    if(response == null){
+    if (response == null) {
       return null;
     }
     CurrencyExchangeResponse resp = response.getBody();
-    if(resp != null && resp.getSuccess()) {
+    if (resp != null && resp.getSuccess()) {
       return new Double[]{resp.getResult(), resp.getInfo().getRate()};
     }
     return null;

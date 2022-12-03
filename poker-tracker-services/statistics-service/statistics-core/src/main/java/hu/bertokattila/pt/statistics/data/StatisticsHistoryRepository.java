@@ -1,24 +1,19 @@
 package hu.bertokattila.pt.statistics.data;
 
 
-import hu.bertokattila.pt.social.DataSeriesDTO;
-import hu.bertokattila.pt.statistics.model.GenericStatisticsRec;
 import hu.bertokattila.pt.statistics.model.StatisticsHistoryRec;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
 
 @Repository
 public interface StatisticsHistoryRepository extends CrudRepository<StatisticsHistoryRec, Integer> {
-  @Query(value= "SELECT SUM(result) AS result, SUM(playedtime) AS palyedtime, to_char(startdate, 'YYYY') AS year, type from statistics_history where userid = ?1 group by to_char(startdate, 'YYYY'), type ORDER BY year ASC", nativeQuery = true)
+  @Query(value = "SELECT SUM(result) AS result, SUM(playedtime) AS palyedtime, to_char(startdate, 'YYYY') AS year, type from statistics_history where userid = ?1 group by to_char(startdate, 'YYYY'), type ORDER BY year ASC", nativeQuery = true)
   List<StatQuery> getYearlyStats(int userId);
 
-  @Query(value= "SELECT SUM(result) as result, sum(playedtime) as palyedtime, to_char(startdate, 'Month') as month, type from statistics_history where userid = ?1 AND statistics_history.startdate  > date_trunc('month', CURRENT_DATE) - INTERVAL '11 months' group by to_char(startdate, 'Month'), type", nativeQuery = true)
+  @Query(value = "SELECT SUM(result) as result, sum(playedtime) as palyedtime, to_char(startdate, 'Month') as month, type from statistics_history where userid = ?1 AND statistics_history.startdate  > date_trunc('month', CURRENT_DATE) - INTERVAL '11 months' group by to_char(startdate, 'Month'), type", nativeQuery = true)
   List<StatQueryMonthly> getMonthlyStats(int userId);
 
   List<StatisticsHistoryRec> getAllByUserId(int userId);
@@ -34,23 +29,31 @@ public interface StatisticsHistoryRepository extends CrudRepository<StatisticsHi
   @Query(nativeQuery = true, value = "SELECT SUM(result) as result, SUM(playedtime) as playedtime, userid as userid FROM statistics_history GROUP BY userid")
   List<AggrQuery> getAggrResultAndPlayedTimeAllTime();
 
-  public static interface StatQuery {
+  interface StatQuery {
     int getResult();
+
     int getPlayedTime();
+
     String getYear();
+
     String getType();
   }
 
-  public static interface StatQueryMonthly {
+  interface StatQueryMonthly {
     int getResult();
+
     int getPlayedTime();
+
     String getMonth();
+
     String getType();
   }
 
-  public static interface AggrQuery{
+  interface AggrQuery {
     int getResult();
+
     int getPlayedTime();
+
     int getUserId();
   }
 }

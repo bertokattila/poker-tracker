@@ -2,24 +2,59 @@ package hu.bertokattila.pt.session.model;
 
 import hu.bertokattila.pt.session.ExtendedSessionDTO;
 import hu.bertokattila.pt.session.SessionDTO;
-import lombok.Data;
-
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 @Entity(name = "session")
 @Table(name = "session")
 public class Session {
 
-  public Session() {}
-  public Session(SessionDTO sessionDTO, Long locationId, int userId ) {
+  @Id
+  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  @Column(name = "userid")
+  private int userId;
+  @Column(name = "type")
+  private String type;
+  @Column(name = "currency")
+  private String currency;
+  @Column(name = "buyin")
+  private double buyIn;
+  @Column(name = "cashout")
+  private double cashOut;
+  @Column(name = "startdate")
+  private LocalDateTime startDate;
+  @Column(name = "enddate")
+  private LocalDateTime endDate;
+  @Column(name = "comment")
+  private String comment;
+  @Column(name = "locationid")
+  private Long locationId;
+  @Column(name = "access")
+  private String access;
+  @Column(name = "game")
+  private String game;
+  @Column(name = "ante")
+  private Double ante;
+  @Column(name = "blinds")
+  private String blinds;
+  @Column(name = "tablesize")
+  private Integer tableSize;
+  @Column(name = "exchangerate")
+  private Double exchangeRate;
+
+  public Session() {
+  }
+
+  public Session(SessionDTO sessionDTO, Long locationId, int userId) {
     this.userId = userId;
     this.type = sessionDTO.getType();
     this.currency = sessionDTO.getCurrency();
@@ -36,57 +71,7 @@ public class Session {
     this.tableSize = sessionDTO.getTableSize();
   }
 
-  @Id
-  @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-
-  @Column(name = "userid")
-  private int userId;
-
-  @Column(name = "type")
-  private String type;
-
-  @Column(name = "currency")
-  private String currency;
-
-  @Column(name = "buyin")
-  private double buyIn;
-
-  @Column(name = "cashout")
-  private double cashOut;
-
-  @Column(name = "startdate")
-  private LocalDateTime startDate;
-
-  @Column(name = "enddate")
-  private LocalDateTime endDate;
-
-  @Column(name = "comment")
-  private String comment;
-
-  @Column(name = "locationid")
-  private Long locationId;
-
-  @Column(name = "access")
-  private String access;
-
-  @Column(name = "game")
-  private String game;
-
-  @Column(name = "ante")
-  private Double ante;
-
-  @Column(name = "blinds")
-  private String blinds;
-
-  @Column(name = "tablesize")
-  private Integer tableSize;
-
-  @Column(name = "exchangerate")
-  private Double exchangeRate;
-
-  public ExtendedSessionDTO toExtendedSessionDTO(){
+  public ExtendedSessionDTO toExtendedSessionDTO() {
     ExtendedSessionDTO dto = new ExtendedSessionDTO();
     dto.setId(id);
     dto.setAccess(access);

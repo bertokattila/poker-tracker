@@ -4,6 +4,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("services")
 public class ServiceUrlProperties {
+  private String statisticsServiceUrl;
+  private String exchangeServiceUrl;
+  private String exchangeServiceToken;
+
   public String getStatisticsServiceUrl() {
     return statisticsServiceUrl;
   }
@@ -11,8 +15,6 @@ public class ServiceUrlProperties {
   public void setStatisticsServiceUrl(String statisticsServiceUrl) {
     this.statisticsServiceUrl = statisticsServiceUrl;
   }
-
-  private String statisticsServiceUrl;
 
   public String getExchangeServiceUrl() {
     return exchangeServiceUrl;
@@ -22,8 +24,6 @@ public class ServiceUrlProperties {
     this.exchangeServiceUrl = exchangeServiceUrl;
   }
 
-  private String exchangeServiceUrl;
-
   public String getExchangeServiceToken() {
     return exchangeServiceToken;
   }
@@ -31,6 +31,4 @@ public class ServiceUrlProperties {
   public void setExchangeServiceToken(String exchangeServiceToken) {
     this.exchangeServiceToken = exchangeServiceToken;
   }
-
-  private String exchangeServiceToken;
 }

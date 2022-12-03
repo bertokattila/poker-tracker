@@ -4,7 +4,6 @@ import hu.bertokattila.pt.auth.filters.JwtRequestFilter;
 import hu.bertokattila.pt.user.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,17 +19,16 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
   @Autowired
   private UserDetailsService userDetailsService;
-
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-    auth.userDetailsService(userDetailsService);
-  }
-
   @Autowired
   private JwtRequestFilter jwtRequestFilter;
 
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService);
+  }
+
   @Bean
-  public PasswordEncoder passwordEncoder(){
+  public PasswordEncoder passwordEncoder() {
     return NoOpPasswordEncoder.getInstance();
   }
 
@@ -41,7 +39,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
   }
 
   @Override
-  protected void configure(HttpSecurity http) throws Exception{
+  protected void configure(HttpSecurity http) throws Exception {
     http.csrf()
             .disable()
             .authorizeRequests()

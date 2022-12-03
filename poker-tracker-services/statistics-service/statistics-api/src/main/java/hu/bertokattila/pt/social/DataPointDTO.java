@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class DataPointDTO {
-    private String name;
-    private int value;
+  private String name;
+  private int value;
 }

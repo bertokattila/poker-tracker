@@ -8,11 +8,12 @@ import org.apache.kafka.common.serialization.Serializer;
 
 public class SessionReportSerializer implements Serializer<ExtendedSessionDTO> {
 
-  public SessionReportSerializer(){
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
+  public SessionReportSerializer() {
     super();
     objectMapper.findAndRegisterModules();
   }
-  private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Override
   public void configure(Map<String, ?> configs, boolean isKey) {
@@ -21,7 +22,7 @@ public class SessionReportSerializer implements Serializer<ExtendedSessionDTO> {
   @Override
   public byte[] serialize(String topic, ExtendedSessionDTO data) {
     try {
-      if (data == null){
+      if (data == null) {
         System.out.println("Null received at serializing");
         return null;
       }

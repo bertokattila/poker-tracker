@@ -1,13 +1,12 @@
 package hu.bertokattila.pt.social;
 
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-import java.time.LocalDateTime;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 public class SessionAndOwnerDTO {

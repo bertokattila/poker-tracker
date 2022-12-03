@@ -1,18 +1,18 @@
 package hu.bertokattila.pt.user.service;
 
 import hu.bertokattila.pt.auth.AuthUser;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
   private final UserService userService;
+
   @Autowired
-   public UserDetailsService(UserService userService) {
+  public UserDetailsService(UserService userService) {
     this.userService = userService;
   }
 

@@ -1,26 +1,32 @@
 package hu.bertokattila.pt.social.controllers;
 
-import hu.bertokattila.pt.session.PublicSessionsDTO;
 import hu.bertokattila.pt.social.AddFriendDTO;
 import hu.bertokattila.pt.social.FriendDTO;
 import hu.bertokattila.pt.social.service.SocialService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/social")
 public class SocialController {
   private final SocialService socialService;
+
   @Autowired
-  public SocialController(SocialService socialService){
+  public SocialController(SocialService socialService) {
     this.socialService = socialService;
   }
 
@@ -33,7 +39,7 @@ public class SocialController {
   @GetMapping("/friends")
   public ResponseEntity<List<FriendDTO>> friends() {
     List<FriendDTO> friends = socialService.getFriendsForLoggedInUser();
-    if(friends == null || friends.isEmpty()){
+    if (friends == null || friends.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     return new ResponseEntity<>(friends, HttpStatus.OK);
@@ -41,12 +47,11 @@ public class SocialController {
 
   /**
    * Friends you added, not yet accepted
-   * @return
    */
   @GetMapping("/addedfriends")
   public ResponseEntity<List<FriendDTO>> addedFriends() {
     List<FriendDTO> friends = socialService.getAddedFriendsForLoggedInUser();
-    if(friends == null || friends.isEmpty()){
+    if (friends == null || friends.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     return new ResponseEntity<>(friends, HttpStatus.OK);
@@ -54,7 +59,6 @@ public class SocialController {
 
   /**
    * Users who requested to be your friend, not yet accepted
-   * @return
    */
   @GetMapping("/friendrequests")
   public ResponseEntity<List<FriendDTO>> friendRequests() {
@@ -69,7 +73,7 @@ public class SocialController {
   @PostMapping("/acceptfriend/{socialConnectionId}")
   @Valid
   public ResponseEntity<?> acceptFriend(@Valid @PathVariable int socialConnectionId) {
-    if(socialService.acceptFriendRequest(socialConnectionId)){
+    if (socialService.acceptFriendRequest(socialConnectionId)) {
       return new ResponseEntity<>(HttpStatus.OK);
     }
     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
