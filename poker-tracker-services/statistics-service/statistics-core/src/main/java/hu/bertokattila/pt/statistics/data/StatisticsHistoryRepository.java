@@ -25,6 +25,15 @@ public interface StatisticsHistoryRepository extends CrudRepository<StatisticsHi
 
   StatisticsHistoryRec getBySessionId(int sessionId);
 
+  @Query(nativeQuery = true, value = "SELECT SUM(result) as result, SUM(playedtime) as playedtime, userid as userid FROM statistics_history WHERE enddate > CURRENT_DATE - INTERVAL '30' DAY GROUP BY userid")
+  List<AggrQuery> getAggrResultAndPlayedTimeLastMonth();
+
+  @Query(nativeQuery = true, value = "SELECT SUM(result) as result, SUM(playedtime) as playedtime, userid as userid FROM statistics_history WHERE enddate > CURRENT_DATE - INTERVAL '365' DAY GROUP BY userid")
+  List<AggrQuery> getAggrResultAndPlayedTimeLastYear();
+
+  @Query(nativeQuery = true, value = "SELECT SUM(result) as result, SUM(playedtime) as playedtime, userid as userid FROM statistics_history GROUP BY userid")
+  List<AggrQuery> getAggrResultAndPlayedTimeAllTime();
+
   public static interface StatQuery {
     int getResult();
     int getPlayedTime();
@@ -37,5 +46,11 @@ public interface StatisticsHistoryRepository extends CrudRepository<StatisticsHi
     int getPlayedTime();
     String getMonth();
     String getType();
+  }
+
+  public static interface AggrQuery{
+    int getResult();
+    int getPlayedTime();
+    int getUserId();
   }
 }

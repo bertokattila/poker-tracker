@@ -35,20 +35,12 @@ import java.util.List;
 public class GenericStatisticsService {
   private final GenericStatisticsRepository repository;
   private final StatisticsHistoryRepository statRepo;
-  private final ServiceUrlProperties serviceUrlProperties;
   @Autowired
-  public GenericStatisticsService(GenericStatisticsRepository repository,StatisticsHistoryRepository statisticsHistoryRepository , ServiceUrlProperties serviceUrlProperties){
+  public GenericStatisticsService(GenericStatisticsRepository repository,StatisticsHistoryRepository statisticsHistoryRepository){
     this.repository = repository;
-    this.serviceUrlProperties = serviceUrlProperties;
     this.statRepo = statisticsHistoryRepository;
   }
   public void refreshStatistics(ExtendedSessionDTO session){
-    //RestTemplate restTemplate = new RestTemplate();
-    //String url = serviceUrlProperties.getSessionServiceUrl();
-    //ResponseEntity<ExtendedSessionDTO[]> response
-     //       = restTemplate.getForEntity(url + "/internal/sessions/" + userID, ExtendedSessionDTO[].class);
-    //ExtendedSessionDTO session = response.getBody();
-
     GenericStatisticsRec rec = repository.findByUserId(session.getUserId()).orElse(null);
     if(rec == null){
       rec = new GenericStatisticsRec();
@@ -246,5 +238,32 @@ public class GenericStatisticsService {
     }
     repository.save(rec);
     statRepo.delete(histRec);
+  }
+
+  public void midnightJob(){
+    List<StatisticsHistoryRepository.AggrQuery> aggrQueriesLastMonth = statRepo.getAggrResultAndPlayedTimeLastMonth();
+    List<StatisticsHistoryRepository.AggrQuery> aggrQueriesLastYear = statRepo.getAggrResultAndPlayedTimeLastYear();
+
+    for (StatisticsHistoryRepository.AggrQuery aggrQuery : aggrQueriesLastMonth){
+      GenericStatisticsRec rec = repository.findByUserId(aggrQuery.getUserId()).orElse(null);
+      if(rec != null){
+        if(rec.getLastMonthPlayedTime() != aggrQuery.getPlayedTime() || rec.getLastMonthResult() != aggrQuery.getResult()){
+          rec.setLastMonthResult(aggrQuery.getResult());
+          rec.setLastMonthPlayedTime(aggrQuery.getPlayedTime());
+          repository.save(rec);
+        }
+      }
+    }
+    for (StatisticsHistoryRepository.AggrQuery aggrQuery : aggrQueriesLastYear){
+      GenericStatisticsRec rec = repository.findByUserId(aggrQuery.getUserId()).orElse(null);
+      if(rec != null){
+        if(rec.getLastYearPlayedTime() != aggrQuery.getPlayedTime() || rec.getLastYearResult() != aggrQuery.getResult()){
+          rec.setLastYearResult(aggrQuery.getResult());
+          rec.setLastYearPlayedTime(aggrQuery.getPlayedTime());
+          repository.save(rec);
+        }
+      }
+    }
+
   }
 }
